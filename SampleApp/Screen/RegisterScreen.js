@@ -23,6 +23,8 @@ const RegisterScreen = (props) => {
   const [userAge, setUserAge] = useState('');
   const [userAddress, setUserAddress] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [userHeight, setUserHeight] = useState('');
+  const [userWeight, setUserWeight] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const [
@@ -34,37 +36,42 @@ const RegisterScreen = (props) => {
   const ageInputRef = createRef();
   const addressInputRef = createRef();
   const passwordInputRef = createRef();
+  const weightInputRef = createRef();
+  const heightInputRef = createRef();
 
   const handleSubmitButton = () => {
     setErrortext('');
     if (!userName) {
-      alert('Please fill Name');
+      alert('성함을 입력해주세요.');
       return;
     }
     if (!userEmail) {
-      alert('Please fill Email');
+      alert('이메일을 입력해주세요.');
       return;
     }
     if (!userAge) {
-      alert('Please fill Age');
+      alert('나이를 입력해주세요');
       return;
     }
     if (!userAddress) {
-      alert('Please fill Address');
+      alert('주소를 입력해주세요');
       return;
     }
     if (!userPassword) {
-      alert('Please fill Password');
+      alert('비밀번호를 입력해주세요');
       return;
     }
+
     //Show Loader
     setLoading(true);
     var dataToSend = {
       name: userName,
       email: userEmail,
       age: userAge,
-      address: userAddress,
-      password: userPassword,
+      height: userHeight,
+      weight: userWeight,
+      password: userPassword
+      ,
     };
     var formBody = [];
     for (var key in dataToSend) {
@@ -144,7 +151,7 @@ const RegisterScreen = (props) => {
         }}>
         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../Image/aboutreact.png')}
+            source={require('../Image/logo_white.png')}
             style={{
               width: '50%',
               height: 100,
@@ -159,7 +166,7 @@ const RegisterScreen = (props) => {
               style={styles.inputStyle}
               onChangeText={(UserName) => setUserName(UserName)}
               underlineColorAndroid="#f000"
-              placeholder="Enter Name"
+              placeholder="이름을 입력해 주세요."
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               returnKeyType="next"
@@ -225,14 +232,31 @@ const RegisterScreen = (props) => {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserAddress) =>
-                setUserAddress(UserAddress)
+              onChangeText={(UserHeight) =>
+                setUserHeight(UserHeight)
               }
               underlineColorAndroid="#f000"
-              placeholder="주소를 입력해 주세요."
+              placeholder="키를 입력해 주세요."
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
-              ref={addressInputRef}
+              ref={heightInputRef}
+              returnKeyType="next"
+              onSubmitEditing={  weightInputRef.current &&
+                weightInputRef.current.focus()}
+              blurOnSubmit={false}
+            />
+          </View>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserWeight) =>
+                setUserWeight(UserWeight)
+              }
+              underlineColorAndroid="#f000"
+              placeholder="몸무게를 입력해 주세요."
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              ref={weightInputRef}
               returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}

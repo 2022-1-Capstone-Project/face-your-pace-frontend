@@ -30,11 +30,15 @@ const LoginScreen = ({navigation}) => {
   const handleSubmitPress = () => {
     setErrortext('');
     if (!userEmail) {
-      alert('Please fill Email');
+      alert('이메일을 입력해주시기 바랍니다.');
+      return;
+    }
+    if(!validateEmail(userEmail)){
+      alert('이메일 형식이 잘못 입력되었습니다. 다시 입력해주시기 바랍니다.');
       return;
     }
     if (!userPassword) {
-      alert('Please fill Password');
+      alert('비밀번호를 입력해주시기 바랍니다!');
       return;
     }
     setLoading(true);
@@ -68,7 +72,7 @@ const LoginScreen = ({navigation}) => {
           navigation.replace('DrawerNavigationRoutes');
         } else {
           setErrortext(responseJson.msg);
-          console.log('Please check your email id or password');
+          console.log('이메일 ID와 비밀번호를 확인해주시기 바랍니다!');
         }
       })
       .catch((error) => {
@@ -92,12 +96,12 @@ const LoginScreen = ({navigation}) => {
           <KeyboardAvoidingView enabled>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../Image/aboutreact.png')}
+                source={require('../Image/logo_white.png')}
                 style={{
-                  width: '50%',
-                  height: 100,
+                  width: '60%',
+                  height: 200,
                   resizeMode: 'contain',
-                  margin: 30,
+            
                 }}
               />
             </View>
@@ -107,7 +111,7 @@ const LoginScreen = ({navigation}) => {
                 onChangeText={(UserEmail) =>
                   setUserEmail(UserEmail)
                 }
-                placeholder="Enter Email" //dummy@abc.com
+                placeholder="이메일을 입력하세요." //dummy@abc.com
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
                 keyboardType="email-address"
@@ -126,7 +130,7 @@ const LoginScreen = ({navigation}) => {
                 onChangeText={(UserPassword) =>
                   setUserPassword(UserPassword)
                 }
-                placeholder="Enter Password" //12345
+                placeholder="비밀번호를 입력하세요." //12345
                 placeholderTextColor="#8b9cb5"
                 keyboardType="default"
                 ref={passwordInputRef}
@@ -150,8 +154,13 @@ const LoginScreen = ({navigation}) => {
             </TouchableOpacity>
             <Text
               style={styles.registerTextStyle}
+              >
+              처음이신가요? 
+            </Text>
+            <Text
+              style={styles.registerTextStyle2}
               onPress={() => navigation.navigate('RegisterScreen')}>
-              New Here ? Register
+              회원가입하기
             </Text>
           </KeyboardAvoidingView>
         </View>
@@ -204,6 +213,14 @@ const styles = StyleSheet.create({
     borderColor: '#dadae8',
   },
   registerTextStyle: {
+    color: '#000000',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 14,
+    alignSelf: 'center',
+    padding: 10,
+  },
+  registerTextStyle2:{
     color: '#FFFFFF',
     textAlign: 'center',
     fontWeight: 'bold',
