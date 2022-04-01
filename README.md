@@ -46,7 +46,10 @@ npm run ios
  3. 로컬에서 백엔드 서버를 돌리면서 테스트를 수행할 시, 백단 서버에 연결되지 않는 connection error가 발생할 수 있습니다.
  
  4. 이 때는 npm run android를 한 상태에서 새 콘솔창을 열고 face-your-pace-frontend/sampleApp 폴더로 가서 
+
+
   adb -s '에뮬레이터 이름' reverse tcp:포트번호 tcp:포트번호 
+
  를 수행하면 됩니다. 예시 -> adb -s emulator-5554 reverse tcp:4000 tcp:4000
  
  5.  에뮬레이터 이름은 가상 에뮬레이터의 이름을 의미하며 포트번호는 로컬에서 실행하는 백엔드 서버의 포트 번호를 의미합니다.
