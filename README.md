@@ -10,7 +10,8 @@
 ## 1. 선행조건
 
 https://dev-yakuza.posstree.com/ko/react-native/install-on-windows/ - 윈도우 버전
-https://dev-yakuza.posstree.com/ko/react-native/install-on-mac/   - 맥 버전
+
+https://dev-yakuza.posstree.com/ko/react-native/install-on-mac/ - 맥 버전
 위 링크를 참고해서 react-native 어플리케이션 실행을 위한 모든 
 세팅을 진행해야 합니다.
 
