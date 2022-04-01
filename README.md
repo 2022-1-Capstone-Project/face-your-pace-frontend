@@ -28,4 +28,4 @@ pod install
 npm run android 혹은
 npm run ios
 
-현재 안드로이드 버전에 대한 테스트가 이루어져서 ios 버전에서는 에러가 발생할 수 있습니다.
+현재 ios 버전은 테스트가  에러가 발생할 수 있습니다.
