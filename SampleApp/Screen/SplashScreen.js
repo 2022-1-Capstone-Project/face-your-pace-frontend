@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Image
 } from 'react-native';
-
+import {LinesLoader} from 'react-native-indicator';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const SplashScreen = ({navigation}) => {
@@ -32,16 +32,18 @@ const SplashScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../Image/logo_white.png')}
-        style={{width: '90%', resizeMode: 'contain', margin: 30}}
-      />
-      <ActivityIndicator
-        animating={animating}
-        color="#FFFFFF"
-        size="large"
-        style={styles.activityIndicator}
-      />
+        <Image
+          source={require('../Image/common/logo.png')}
+          style={{width: '90%', resizeMode: 'contain', margin: 30, height:250}}
+        />
+      <View style={styles.loading}>
+        <LinesLoader
+          animating={animating}
+          color="#307ecc"
+          size="large"
+          style={styles.activityIndicator}
+        />
+      </View>
     </View>
   );
 };
@@ -53,10 +55,22 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#307ecc',
+    backgroundColor: '#ffffff',
   },
   activityIndicator: {
-    alignItems: 'center',
-    height: 80,
+
+    justifyContent: 'center',
+    alignItems: 'center'
   },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    opacity: 0.5,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center'
+}
 });

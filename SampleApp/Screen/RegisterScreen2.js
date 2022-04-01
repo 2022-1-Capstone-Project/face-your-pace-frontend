@@ -14,18 +14,15 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { NaverLogin } from "@react-native-seoul/naver-login";
 
 import Loader from './Components/Loader';
 
-const RegisterScreen = (props) => {
+const RegisterScreen2 = (props) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userAge, setUserAge] = useState('');
-
+  const [userAddress, setUserAddress] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [userHeight, setUserHeight] = useState('');
-  const [userWeight, setUserWeight] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const [
@@ -37,42 +34,37 @@ const RegisterScreen = (props) => {
   const ageInputRef = createRef();
   const addressInputRef = createRef();
   const passwordInputRef = createRef();
-  const weightInputRef = createRef();
-  const heightInputRef = createRef();
 
   const handleSubmitButton = () => {
     setErrortext('');
     if (!userName) {
-      alert('성함을 입력해주세요.');
+      alert('Please fill Name');
       return;
     }
     if (!userEmail) {
-      alert('이메일을 입력해주세요.');
+      alert('Please fill Email');
       return;
     }
     if (!userAge) {
-      alert('나이를 입력해주세요');
+      alert('Please fill Age');
       return;
     }
     if (!userAddress) {
-      alert('주소를 입력해주세요');
+      alert('Please fill Address');
       return;
     }
     if (!userPassword) {
-      alert('비밀번호를 입력해주세요');
+      alert('Please fill Password');
       return;
     }
-
     //Show Loader
     setLoading(true);
     var dataToSend = {
       name: userName,
       email: userEmail,
       age: userAge,
-      height: userHeight,
-      weight: userWeight,
-      password: userPassword
-      ,
+      address: userAddress,
+      password: userPassword,
     };
     var formBody = [];
     for (var key in dataToSend) {
@@ -87,7 +79,6 @@ const RegisterScreen = (props) => {
       body: formBody,
       headers: {
         //Header Defination
-        //Header Defination
         'Content-Type':
         'application/x-www-form-urlencoded;charset=UTF-8',
       },
@@ -100,8 +91,9 @@ const RegisterScreen = (props) => {
         // If server response message same as Data Matched
         if (responseJson.status === 'success') {
           setIsRegistraionSuccess(true);
+          alert(isRegistraionSuccess);
           console.log(
-            '회원가입에 성공하였습니다. 로그인 절차를 진행해 주십시오.'
+            'Registration Successful. Please Login to proceed'
           );
         } else {
           setErrortext(responseJson.msg);
@@ -118,7 +110,7 @@ const RegisterScreen = (props) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#ffffff',
+          backgroundColor: '#307ecc',
           justifyContent: 'center',
         }}>
         <Image
@@ -142,7 +134,7 @@ const RegisterScreen = (props) => {
     );
   }
   return (
-    <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+    <View style={{flex: 1, backgroundColor: '#307ecc'}}>
       <Loader loading={loading} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -152,7 +144,7 @@ const RegisterScreen = (props) => {
         }}>
         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../Image/logo_white.png')}
+            source={require('../Image/aboutreact.png')}
             style={{
               width: '50%',
               height: 100,
@@ -167,7 +159,7 @@ const RegisterScreen = (props) => {
               style={styles.inputStyle}
               onChangeText={(UserName) => setUserName(UserName)}
               underlineColorAndroid="#f000"
-              placeholder="이름을 입력해 주세요."
+              placeholder="Enter Name"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               returnKeyType="next"
@@ -182,7 +174,7 @@ const RegisterScreen = (props) => {
               style={styles.inputStyle}
               onChangeText={(UserEmail) => setUserEmail(UserEmail)}
               underlineColorAndroid="#f000"
-              placeholder="이메일을 입력해 주세요."
+              placeholder="Enter Email"
               placeholderTextColor="#8b9cb5"
               keyboardType="email-address"
               ref={emailInputRef}
@@ -201,7 +193,7 @@ const RegisterScreen = (props) => {
                 setUserPassword(UserPassword)
               }
               underlineColorAndroid="#f000"
-              placeholder="비밀번호를 입력해 주세요."
+              placeholder="Enter Password"
               placeholderTextColor="#8b9cb5"
               ref={passwordInputRef}
               returnKeyType="next"
@@ -218,7 +210,7 @@ const RegisterScreen = (props) => {
               style={styles.inputStyle}
               onChangeText={(UserAge) => setUserAge(UserAge)}
               underlineColorAndroid="#f000"
-              placeholder="나이를 입력해 주세요."
+              placeholder="Enter Age"
               placeholderTextColor="#8b9cb5"
               keyboardType="numeric"
               ref={ageInputRef}
@@ -233,31 +225,14 @@ const RegisterScreen = (props) => {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserHeight) =>
-                setUserHeight(UserHeight)
+              onChangeText={(UserAddress) =>
+                setUserAddress(UserAddress)
               }
               underlineColorAndroid="#f000"
-              placeholder="키를 입력해 주세요."
+              placeholder="Enter Address"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
-              ref={heightInputRef}
-              returnKeyType="next"
-              onSubmitEditing={  weightInputRef.current &&
-                weightInputRef.current.focus()}
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserWeight) =>
-                setUserWeight(UserWeight)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="몸무게를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={weightInputRef}
+              ref={addressInputRef}
               returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
@@ -271,7 +246,7 @@ const RegisterScreen = (props) => {
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
-            onPress={handleSubmitButton}>
+            onPress={()=>handleSubmitButton}>
             <Text style={styles.buttonTextStyle}>REGISTER</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
@@ -279,7 +254,7 @@ const RegisterScreen = (props) => {
     </View>
   );
 };
-export default RegisterScreen;
+export default RegisterScreen2;
 
 const styles = StyleSheet.create({
   SectionStyle: {
@@ -310,7 +285,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: 'black',
+    color: 'white',
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,

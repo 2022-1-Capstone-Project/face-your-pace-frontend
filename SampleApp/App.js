@@ -13,8 +13,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from './Screen/SplashScreen';
 import LoginScreen from './Screen/LoginScreen';
 import RegisterScreen from './Screen/RegisterScreen';
+import RegisterScreen2 from './Screen/RegisterScreen2';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
-
+import MainLoginScreen from './Screen/MainLoginScreen';
 const Stack = createStackNavigator();
 
 const Auth = () => {
@@ -26,11 +27,31 @@ const Auth = () => {
         component={LoginScreen}
         options={{headerShown: false}}
       />
+       <Stack.Screen
+        name="MainLoginScreen"
+        component={MainLoginScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="RegisterScreen"
         component={RegisterScreen}
         options={{
-          title: 'Register', //Set Header Title
+          title: '회원가입하기', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#307ecc', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="RegisterScreen2"
+        component={RegisterScreen2}
+        options={{
+          title: '회원가입하기', //Set Header Title
           headerStyle: {
             backgroundColor: '#307ecc', //Set Header color
           },
