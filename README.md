@@ -18,7 +18,9 @@ npm install
 ## 4. ios인 경우
 
 ios 폴더에 가서
+
 pod install
+
 명령을 수행합니다.
 
 ## 5. 어플리케이션을 실행합니다.
