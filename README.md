@@ -32,5 +32,5 @@ pod install
 
 npm run android 혹은
 npm run ios
-
+## 
 현재 ios 버전은 테스트가  에러가 발생할 수 있습니다.
