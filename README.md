@@ -33,4 +33,4 @@ pod install
 npm run android 혹은
 npm run ios
 ## 
-현재 ios 버전은 테스트가 이루어지지 않았기 때문에 npm run ios 에러가 발생할 수 있습니다.
+현재 ios 버전은 테스트가 이루어지지 않았기 때문에 npm run ios 실행 시 에러가 발생할 수 있습니다.
