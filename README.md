@@ -9,7 +9,9 @@
 
 ## 1. 선행조건
 
-파이썬 가상환경, npm, react-create-app 이 설치되어있다는 것을 가정으로 합니다.
+https://dev-yakuza.posstree.com/ko/react-native/install-on-windows/
+위 링크를 참고해서 react-native 어플리케이션 실행을 위한 모든 
+세팅을 진행해야 합니다.
 
 ## 2. 자신의 가상환경에 진입해서 Git repo를 clone 한다
 
