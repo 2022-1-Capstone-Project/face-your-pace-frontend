@@ -41,6 +41,8 @@ const androidKeys = {
   kConsumerSecret: "1bpkmD5b6R",
   kServiceAppName: "FaceYourPace"
 };
+
+
 const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 
 const LoginScreen = ({navigation}) => {
@@ -51,6 +53,7 @@ const LoginScreen = ({navigation}) => {
 
   const passwordInputRef = createRef();
   var profileResult;
+
   const [naverToken, setNaverToken] = useState(null);
 
   useDidMountEffect(() => {
@@ -60,6 +63,10 @@ const LoginScreen = ({navigation}) => {
 
   const naverLogout = () => {
     NaverLogin.logout();
+    Alert.alert(
+      "로그아웃",
+      "로그아웃이 완료되었습니다."
+    );
     setNaverToken("");
   };
   const naverLogin = props => {
@@ -67,12 +74,12 @@ const LoginScreen = ({navigation}) => {
       NaverLogin.login(props, (err, token) => {
         console.log(token);
         setNaverToken(token);
-        console.log(naverToken);
         if (err) {
           reject(err.message);
           return;
         }
         resolve(token);
+       
        //getUserProfile(); // <---- 요기 추가
       });
     });
@@ -88,8 +95,41 @@ const LoginScreen = ({navigation}) => {
       //Alert.alert("로그인 실패", profileResult.message);
       return;
     }
+    console.log("naverToken",naverToken);
     console.log("profileResult", profileResult);
+    AsyncStorage.setItem('profileResult', profileResult.response.email);
+    setLoading(true);
+    fetch('http://127.0.0.1:3000/auth/login/naver', {
+      method: 'POST',
+      body: formBody,
+      headers: {
+        //Header Defination
+        'Content-Type':
+        'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //Hide Loader
+        setLoading(false);
+        console.log(responseJson);
+        // If server response message same as Data Matched
+        if (responseJson.status === 'success') {
+          AsyncStorage.setItem('user_id', responseJson.data.email);
+          console.log(responseJson.data.email);
+          navigation.replace('DrawerNavigationRoutes');
+        } else {
+          setErrortext(responseJson.msg);
+          console.log('네이버 로그인에 실패하였습니다!');
+        }
+      })
+      .catch((error) => {
+        //Hide Loader
+        setLoading(false);
+        console.error(error);
+      });
   };
+  
 
   const handleSubmitPress = () => {
     setErrortext('');
@@ -115,7 +155,9 @@ const LoginScreen = ({navigation}) => {
     }
     formBody = formBody.join('&');
 
-    fetch('http://127.0.0.1:3000/api/user/login', {
+
+    //현재는 3000 포트 번호로 되어 있는데 로컬에서 구동하는 백엔드 서버의 포트 번호에 따라 3000값을 바꾸시면 됩니다.
+    fetch('http://127.0.0.1:3000/auth/login', {
       method: 'POST',
       body: formBody,
       headers: {

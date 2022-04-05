@@ -14,11 +14,12 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { NaverLogin } from "@react-native-seoul/naver-login";
+
 
 import Loader from './Components/Loader';
 
 const RegisterScreen = (props) => {
+  const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userAge, setUserAge] = useState('');
@@ -33,6 +34,8 @@ const RegisterScreen = (props) => {
     setIsRegistraionSuccess
   ] = useState(false);
 
+
+  const nameInputRef = createRef();
   const emailInputRef = createRef();
   const ageInputRef = createRef();
   const addressInputRef = createRef();
@@ -42,6 +45,10 @@ const RegisterScreen = (props) => {
 
   const handleSubmitButton = () => {
     setErrortext('');
+    if(!userId){
+      alert('아이디를 입력해주세요.');
+      return;
+    }
     if (!userName) {
       alert('성함을 입력해주세요.');
       return;
@@ -54,10 +61,6 @@ const RegisterScreen = (props) => {
       alert('나이를 입력해주세요');
       return;
     }
-    if (!userAddress) {
-      alert('주소를 입력해주세요');
-      return;
-    }
     if (!userPassword) {
       alert('비밀번호를 입력해주세요');
       return;
@@ -66,6 +69,7 @@ const RegisterScreen = (props) => {
     //Show Loader
     setLoading(true);
     var dataToSend = {
+      id:userId,
       name: userName,
       email: userEmail,
       age: userAge,
@@ -82,7 +86,7 @@ const RegisterScreen = (props) => {
     }
     formBody = formBody.join('&');
 
-    fetch('http://127.0.0.1:3000/api/user/register', {
+    fetch('http://127.0.0.1:3000/auth/signup', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -130,13 +134,13 @@ const RegisterScreen = (props) => {
           }}
         />
         <Text style={styles.successTextStyle}>
-          Registration Successful
+          회원가입에 성공하였습니다!
         </Text>
         <TouchableOpacity
           style={styles.buttonStyle}
           activeOpacity={0.5}
           onPress={() => props.navigation.navigate('LoginScreen')}>
-          <Text style={styles.buttonTextStyle}>Login Now</Text>
+          <Text style={styles.buttonTextStyle}>로그인하기</Text>
         </TouchableOpacity>
       </View>
     );
@@ -162,6 +166,21 @@ const RegisterScreen = (props) => {
           />
         </View>
         <KeyboardAvoidingView enabled>
+        <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserId) => setUserId(UserId)}
+              underlineColorAndroid="#f000"
+              placeholder="ID를 입력해 주세요."
+              placeholderTextColor="#8b9cb5"
+              returnKeyType="next"
+              onSubmitEditing={() =>
+                nameInputRef.current &&
+                nameInputRef.current.focus()
+              }
+              blurOnSubmit={false}
+            />
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -171,6 +190,7 @@ const RegisterScreen = (props) => {
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               returnKeyType="next"
+              ref = {nameInputRef}
               onSubmitEditing={() =>
                 emailInputRef.current && emailInputRef.current.focus()
               }
@@ -272,7 +292,7 @@ const RegisterScreen = (props) => {
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>REGISTER</Text>
+            <Text style={styles.buttonTextStyle}>등록하기</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
