@@ -10,11 +10,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 // Import Screens
-import SplashScreen from './Screen/SplashScreen';
-import LoginScreen from './Screen/LoginScreen';
-import RegisterScreen from './Screen/RegisterScreen';
+import SplashScreen from './Screen/member/SplashScreen';
+import LoginScreen from './Screen/member/LoginScreen';
+import RegisterScreen from './Screen/member/RegisterScreen';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
-import MainLoginScreen from './Screen/MainLoginScreen';
+import MainLoginScreen from './Screen/member/MainLoginScreen';
 const Stack = createStackNavigator();
 
 const Auth = () => {

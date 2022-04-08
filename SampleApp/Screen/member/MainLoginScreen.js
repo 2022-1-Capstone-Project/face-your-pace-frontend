@@ -21,7 +21,7 @@ import { NaverLogin, getProfile } from "@react-native-seoul/naver-login";
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-import Loader from './Components/Loader';
+import Loader from '../Components/Loader';
 
 
 const iosKeys = {
@@ -72,7 +72,7 @@ const MainLoginScreen = ({navigation}) => {
         <View>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../Image/common/logo.png')}
+                source={require('../../Image/common/logo.png')}
                 style={{
                   width: '70%',
                   height: 200,
@@ -86,9 +86,10 @@ const MainLoginScreen = ({navigation}) => {
               activeOpacity={0.5}
               onPress={()=>naverLogin(initials)}
               >
-              <Image source={require('../Image/login/btnG_login.png')} resizeMode='contain' style={{flex:1}}/>
+              <Image source={require('../../Image/login/btnG_login.png')} resizeMode='contain' style={{flex:1}}/>
               
             </TouchableOpacity>
+            
             <TouchableOpacity
               style={styles.buttonStyle2}
               activeOpacity={0.5}

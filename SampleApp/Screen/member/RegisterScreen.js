@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 
-import Loader from './Components/Loader';
+import Loader from '../Components/Loader';
 
 const RegisterScreen = (props) => {
   const [userId, setUserId] = useState('');
@@ -86,7 +86,7 @@ const RegisterScreen = (props) => {
     }
     formBody = formBody.join('&');
 
-    fetch('http://127.0.0.1:3000/auth/signup', {
+    fetch('http://127.0.0.1:8080/auth/signup', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -126,7 +126,7 @@ const RegisterScreen = (props) => {
           justifyContent: 'center',
         }}>
         <Image
-          source={require('../Image/success.png')}
+          source={require('../../Image/success.png')}
           style={{
             height: 150,
             resizeMode: 'contain',
@@ -156,7 +156,7 @@ const RegisterScreen = (props) => {
         }}>
         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../Image/logo_white.png')}
+            source={require('../../Image/logo_white.png')}
             style={{
               width: '50%',
               height: 100,
@@ -186,7 +186,7 @@ const RegisterScreen = (props) => {
               style={styles.inputStyle}
               onChangeText={(UserName) => setUserName(UserName)}
               underlineColorAndroid="#f000"
-              placeholder="이름을 입력해 주세요."
+              placeholder="별명을 입력해 주세요."
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               returnKeyType="next"

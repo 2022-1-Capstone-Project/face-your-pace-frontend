@@ -20,8 +20,8 @@ import {
 import { NaverLogin, getProfile } from "@react-native-seoul/naver-login";
 import AsyncStorage from '@react-native-community/async-storage';
 
-import Loader from './Components/Loader';
-import useDidMountEffect from '../components/useDIdMountEffect';
+import Loader from '../Components/Loader';
+import useDidMountEffect from '../../components/useDIdMountEffect';
 
 
 function validateEmail(email) {
@@ -98,10 +98,11 @@ const LoginScreen = ({navigation}) => {
     console.log("naverToken",naverToken);
     console.log("profileResult", profileResult);
     AsyncStorage.setItem('profileResult', profileResult.response.email);
-    setLoading(true);
+    navigation.replace('DrawerNavigationRoutes');
+   /* setLoading(true);
     fetch('http://127.0.0.1:3000/auth/login/naver', {
       method: 'POST',
-      body: formBody,
+      body: profileResult,
       headers: {
         //Header Defination
         'Content-Type':
@@ -117,6 +118,7 @@ const LoginScreen = ({navigation}) => {
         if (responseJson.status === 'success') {
           AsyncStorage.setItem('user_id', responseJson.data.email);
           console.log(responseJson.data.email);
+          navigation.replace('DrawerNavigationRoutes');
         } else {
           setErrortext(responseJson.msg);
           console.log('네이버 로그인에 실패하였습니다!');
@@ -126,7 +128,9 @@ const LoginScreen = ({navigation}) => {
         //Hide Loader
         setLoading(false);
         console.error(error);
-      });
+      });*/
+
+
   };
   
 
@@ -156,7 +160,7 @@ const LoginScreen = ({navigation}) => {
 
 
     //현재는 3000 포트 번호로 되어 있는데 로컬에서 구동하는 백엔드 서버의 포트 번호에 따라 3000값을 바꾸시면 됩니다.
-    fetch('http://127.0.0.1:3000/auth/login', {
+    fetch('http://127.0.0.1:8080/auth/login', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -201,7 +205,7 @@ const LoginScreen = ({navigation}) => {
           <KeyboardAvoidingView enabled>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../Image/common/logo.png')}
+                source={require('../../Image/common/logo.png')}
                 style={{
                   width: '60%',
                   height: 200,
@@ -210,6 +214,8 @@ const LoginScreen = ({navigation}) => {
                 }}
               />
             </View>
+
+            
             {!naverToken && <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
@@ -261,7 +267,7 @@ const LoginScreen = ({navigation}) => {
               activeOpacity={0.5}
               onPress={()=>naverLogin(initials)}
               >
-               <Image source={require('../Image/login/btnG_login.png')} resizeMode='contain' style={{flex:1}}/>
+               <Image source={require('../../Image/login/btnG_login.png')} resizeMode='contain' style={{flex:1}}/>
             </TouchableOpacity>
 
             }     
@@ -273,20 +279,20 @@ const LoginScreen = ({navigation}) => {
             </Text>
           ) : null}
             {!naverToken &&
-            
-            
-            <Text
-              style={styles.registerTextStyle}
-              >
-              처음이신가요? 
-            </Text>
-            }
-            {!naverToken &&
-            <Text
-              style={styles.registerTextStyle2}
-              onPress={() => navigation.navigate('RegisterScreen')}>
-              회원가입하기
-            </Text>
+            <View style = {styles.registerTextStyle}>
+              <Text >
+                <Text
+                  style={styles.registerTextStyle1}
+                  >
+                  처음이신가요?  {" "}{" "}     
+                </Text>
+                <Text
+                  style={styles.registerTextStyle2}
+                  onPress={() => navigation.navigate('RegisterScreen')}>
+                  회원가입하기
+                </Text>
+              </Text>
+            </View>
             } 
 
             {!!naverToken &&
@@ -336,15 +342,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   buttonStyle2: {
-    backgroundColor: '#fffff',
+    backgroundColor: '#03C75A',
+    borderWidth: 0,
     color: '#FFFFFF',
-    borderWdth:0,
+    borderColor: '#dadae8',
     height: 40,
     alignItems: 'center',
-    borderColor:'#ffffff',
+    borderRadius: 30,
     marginLeft: 35,
     marginRight: 35,
-    marginBottom: 20,
+    marginBottom: 25,
     borderWidth: 1,
   },
   buttonTextStyle: {
@@ -361,13 +368,18 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderColor: '#dadae8',
   },
+
   registerTextStyle: {
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  registerTextStyle1: {
     color: '#000000',
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 14,
     alignSelf: 'center',
-    padding: 10,
+    padding: 30,
   },
   registerTextStyle2:{
     color: '#1AE162',
@@ -375,11 +387,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     alignSelf: 'center',
-    padding: 10,
+    padding: 30,
+
   },
   errorTextStyle: {
     color: 'red',
     textAlign: 'center',
     fontSize: 14,
   },
+  registrationStyle: {
+    justifyContent:'center'
+  }
 });
