@@ -32,10 +32,10 @@ const homeScreenStack = ({navigation}) => {
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
           headerStyle: {
-            backgroundColor: '#307ecc', //Set Header color
+            backgroundColor: '#ffffff', //Set Header color
             alignContent: 'center',
           },
-          headerTintColor: '#fff', //Set Header text color
+          headerTintColor: '#000', //Set Header text color
           headerTitleStyle: {
             fontWeight: 'bold', //Set Header text style
             textAlign:'center',
@@ -64,9 +64,9 @@ const playListScreenStack = ({navigation}) => {
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
           headerStyle: {
-            backgroundColor: '#307ecc', //Set Header color
+            backgroundColor: '#ffffff', //Set Header color
           },
-          headerTintColor: '#fff', //Set Header text color
+          headerTintColor: '#000', //Set Header text color
           headerTitleStyle: {
             justifyContent: 'center',
             alignContent: 'center',
@@ -88,9 +88,9 @@ const settingScreenStack = ({navigation}) => {
           <NavigationDrawerHeader navigationProps={navigation} />
         ),
         headerStyle: {
-          backgroundColor: '#307ecc', //Set Header color
+          backgroundColor: '#ffffff', //Set Header color
         },
-        headerTintColor: '#fff', //Set Header text color
+        headerTintColor: '#000', //Set Header text color
         headerTitleStyle: {
           fontWeight: 'bold', //Set Header text style
           justifyContent: 'center',

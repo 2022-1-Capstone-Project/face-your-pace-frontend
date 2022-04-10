@@ -22,11 +22,38 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 
-
+const renderPlaylists=(initialArr)=> {
+  return initialArr.map((item) => {
+      return (
+        <View key = {item.id} style={styles.SectionStyle}>
+          <TouchableOpacity>
+            <Image
+                  source={item.imgUrl}
+                  style={styles.imgStyle}
+            />
+            <Text style={styles.playlistTextStyle}>
+                  {item.title}
+            </Text>
+          </TouchableOpacity>
+         </View>
+      );
+  });
+};
 const PlayListScreen = ({navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
-
+  initialArr = [
+    {
+      id:1,
+      imgUrl: require('../../Image/common/logo.png'),
+      title: "플레이리스트1"
+    },
+    {
+      id:2,
+      imgUrl: require('../../Image/success.png'),
+      title: "플레이리스트3"
+    },
+  ];
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
 
@@ -72,9 +99,6 @@ const PlayListScreen = ({navigation}) => {
        
       <View style={styles.header}>
       <KeyboardAvoidingView enabled>
-      <ScrollView contentContainerStyle={{flexGrow: 1}}
-
->
       
           <Searchbar
           placeholder="플레이리스트 에서 찾기"
@@ -82,20 +106,16 @@ const PlayListScreen = ({navigation}) => {
           value={searchQuery}
           icon={() => <Ionicons name="search-outline" size={30}/>}
         />
-        </ScrollView>
         </KeyboardAvoidingView> 
       </View>
-            <View style={styles.SectionStyle}>
-              <TouchableOpacity>
-                <Image
-                      source={require('../../Image/common/logo.png')}
-                      style={styles.imgStyle}
-                />
-                <Text style={styles.playlistTextStyle}>
-                      플레이리스트 1번
-                </Text>
-                </TouchableOpacity>
-            </View>
+
+
+            {
+
+              renderPlaylists(initialArr)
+            }
+        
+      
     
       </View>
 
@@ -108,13 +128,11 @@ export default PlayListScreen;
 const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
-    alignContent: 'center',
     backgroundColor: '#ffffff',
   },
 
   header:{
 
-    alignContent:'center',
     height: 40,
     marginTop: 20,
     marginHorizontal:20,
@@ -124,10 +142,10 @@ const styles = StyleSheet.create({
     flexdirection: 'column',
     justifyContent:'space-between',
     alignContent: 'center',
-    marginTop: 30,
+    marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
-    margin: 10,
+    height: 40,
   },
 
 
