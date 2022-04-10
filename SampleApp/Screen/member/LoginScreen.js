@@ -3,6 +3,7 @@
 
 // Import React and Component
 import React, {useState, createRef, useEffect } from 'react';
+import axios from 'axios';
 import {
   StyleSheet,
   TextInput,
@@ -160,6 +161,17 @@ const LoginScreen = ({navigation}) => {
 
 
     //현재는 3000 포트 번호로 되어 있는데 로컬에서 구동하는 백엔드 서버의 포트 번호에 따라 3000값을 바꾸시면 됩니다.
+   
+    axios.post('http://127.0.0.1:8080/auth/login')
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+   
+   
+   
     fetch('http://127.0.0.1:8080/auth/login', {
       method: 'POST',
       body: formBody,

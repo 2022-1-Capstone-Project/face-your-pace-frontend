@@ -39,6 +39,33 @@ const renderPlaylists=(initialArr)=> {
       );
   });
 };
+
+const fetchPlayListData= ()=>{
+
+
+
+  fetch('http://127.0.0.1:3000/api/music/playlist', {
+      method: 'GET',
+      body: formBody,
+      headers: {
+        //Header Defination
+        'Content-Type':
+        'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //Hide Loader
+
+      })
+      .catch((error) => {
+        //Hide Loader
+        console.error(error);
+      });
+  };
+
+
+
 const PlayListScreen = ({navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
@@ -56,6 +83,9 @@ const PlayListScreen = ({navigation}) => {
   ];
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
+
+
+
 
       //Check if user_id is set or not
       //If not then send for Authentication
