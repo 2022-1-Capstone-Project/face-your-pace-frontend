@@ -10,6 +10,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 // Import Screens
 import HomeScreen from './DrawerScreens/HomeScreen';
+import PlayListScreen from './playlist/Playlist';
 import SettingsScreen from './DrawerScreens/SettingsScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
@@ -22,10 +23,44 @@ const homeScreenStack = ({navigation}) => {
     <Stack.Navigator initialRouteName="HomeScreen">
       <Stack.Screen
         name="HomeScreen"
+        
         component={HomeScreen}
+  
         options={{
           title: 'Home', //Set Header Title
-          headerLeft: () => (
+          headerRight: () => (
+            <NavigationDrawerHeader navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: '#307ecc', //Set Header color
+            alignContent: 'center',
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+            textAlign:'center',
+            justifyContent: 'center',
+            alignContent: 'center',
+          },
+          defaultNavigationOptions: {
+            headerTitleAlign: 'center'
+        }
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+
+const playListScreenStack = ({navigation}) => {
+  return (
+    <Stack.Navigator initialRouteName="PlayListScreen">
+      <Stack.Screen
+        name="PlayListScreen"
+        component={PlayListScreen}
+        options={{
+          title: 'Home', //Set Header Title
+          headerRight: () => (
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
           headerStyle: {
@@ -33,7 +68,10 @@ const homeScreenStack = ({navigation}) => {
           },
           headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
           },
         }}
       />
@@ -46,7 +84,7 @@ const settingScreenStack = ({navigation}) => {
     <Stack.Navigator
       initialRouteName="SettingsScreen"
       screenOptions={{
-        headerLeft: () => (
+        headerRight: () => (
           <NavigationDrawerHeader navigationProps={navigation} />
         ),
         headerStyle: {
@@ -55,6 +93,8 @@ const settingScreenStack = ({navigation}) => {
         headerTintColor: '#fff', //Set Header text color
         headerTitleStyle: {
           fontWeight: 'bold', //Set Header text style
+          justifyContent: 'center',
+          alignContent: 'center',
         },
       }}>
       <Stack.Screen
@@ -71,6 +111,7 @@ const settingScreenStack = ({navigation}) => {
 const DrawerNavigatorRoutes = (props) => {
   return (
     <Drawer.Navigator
+      initialRouteName='Home'
       drawerContentOptions={{
         activeTintColor: '#cee1f2',
         color: '#cee1f2',
@@ -79,12 +120,20 @@ const DrawerNavigatorRoutes = (props) => {
           color: '#d8d8d8',
         },
       }}
-      screenOptions={{headerShown: false}}
-      drawerContent={CustomSidebarMenu}>
+      screenOptions={{headerShown: false,drawerPosition:'right'}}
+      drawerContent={CustomSidebarMenu}
+      
+      >
+      
       <Drawer.Screen
         name="homeScreenStack"
         options={{drawerLabel: 'Home Screen'}}
         component={homeScreenStack}
+      />
+      <Drawer.Screen
+        name="playListScreenStack"
+        options={{drawerLabel: 'PlayList Screen'}}
+        component={playListScreenStack}
       />
       <Drawer.Screen
         name="settingScreenStack"

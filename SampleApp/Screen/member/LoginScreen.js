@@ -97,7 +97,7 @@ const LoginScreen = ({navigation}) => {
     }
     console.log("naverToken",naverToken);
     console.log("profileResult", profileResult);
-    AsyncStorage.setItem('profileResult', profileResult.response.email);
+    AsyncStorage.setItem('user_id', profileResult.response.email);
     navigation.replace('DrawerNavigationRoutes');
    /* setLoading(true);
     fetch('http://127.0.0.1:3000/auth/login/naver', {

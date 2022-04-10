@@ -11,6 +11,8 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const CustomSidebarMenu = (props) => {
@@ -18,12 +20,10 @@ const CustomSidebarMenu = (props) => {
     <View style={stylesSidebar.sideMenuContainer}>
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
-          <Text style={{fontSize: 25, color: '#307ecc'}}>
-            {'About React'.charAt(0)}
-          </Text>
+          <Ionicons name="person-outline" size={30}/>
         </View>
         <Text style={stylesSidebar.profileHeaderText}>
-          AboutReact
+          유저 이름
         </Text>
       </View>
       <View style={stylesSidebar.profileHeaderLine} />

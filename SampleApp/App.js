@@ -15,6 +15,9 @@ import LoginScreen from './Screen/member/LoginScreen';
 import RegisterScreen from './Screen/member/RegisterScreen';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 import MainLoginScreen from './Screen/member/MainLoginScreen';
+
+import Icon from 'react-native-vector-icons/dist/Ionicons';
+
 const Stack = createStackNavigator();
 
 const Auth = () => {
@@ -45,6 +48,7 @@ const Auth = () => {
           },
         }}
       />
+
 
     </Stack.Navigator>
   );

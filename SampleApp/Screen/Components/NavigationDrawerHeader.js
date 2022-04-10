@@ -4,7 +4,8 @@
 // Import React and Component
 import React from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
-
+import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 const NavigationDrawerHeader = (props) => {
   const toggleDrawer = () => {
     props.navigationProps.toggleDrawer();
