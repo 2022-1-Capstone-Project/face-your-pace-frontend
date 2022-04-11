@@ -154,11 +154,8 @@ const PlayListScreen = ({navigation}) => {
       <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
       enabled style={styles.mainBody} >
         <View style={styles.header}>
-          <TextInput>
 
 
-          </TextInput>
-        
             <Searchbar
             placeholder="플레이리스트 에서 찾기"
             onChangeText={onChangeSearch}
