@@ -3,9 +3,9 @@
 
 // Import React and Component
 import React, {useState, createRef} from 'react';
-import { TextInput } from 'react-native-paper';
 import {
   StyleSheet,
+  TextInput,
   View,
   Text,
   Image,
@@ -156,7 +156,7 @@ const RegisterScreen = (props) => {
         }}>
         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../../Image/common/logo.png')}
+            source={require('../../Image/logo_white.png')}
             style={{
               width: '50%',
               height: 100,
@@ -169,7 +169,6 @@ const RegisterScreen = (props) => {
         <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              label="ID"
               onChangeText={(UserId) => setUserId(UserId)}
               underlineColorAndroid="#f000"
               placeholder="ID를 입력해 주세요."
@@ -184,7 +183,6 @@ const RegisterScreen = (props) => {
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
-             label="NickName"
               style={styles.inputStyle}
               onChangeText={(UserName) => setUserName(UserName)}
               underlineColorAndroid="#f000"
@@ -201,7 +199,6 @@ const RegisterScreen = (props) => {
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
-            label="Email"
               style={styles.inputStyle}
               onChangeText={(UserEmail) => setUserEmail(UserEmail)}
               underlineColorAndroid="#f000"
@@ -219,7 +216,6 @@ const RegisterScreen = (props) => {
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
-             label="비밀번호"
               style={styles.inputStyle}
               onChangeText={(UserPassword) =>
                 setUserPassword(UserPassword)
@@ -239,7 +235,6 @@ const RegisterScreen = (props) => {
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
-              label="나이"
               style={styles.inputStyle}
               onChangeText={(UserAge) => setUserAge(UserAge)}
               underlineColorAndroid="#f000"
@@ -257,7 +252,6 @@ const RegisterScreen = (props) => {
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
-              label="키"
               style={styles.inputStyle}
               onChangeText={(UserHeight) =>
                 setUserHeight(UserHeight)
@@ -275,7 +269,6 @@ const RegisterScreen = (props) => {
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
-              label="몸무게"
               style={styles.inputStyle}
               onChangeText={(UserWeight) =>
                 setUserWeight(UserWeight)
@@ -311,7 +304,7 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: 'row',
-    height: 60,
+    height: 40,
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
@@ -336,18 +329,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputStyle: {
-    //textAlign:'center',
-   // margin: 0,
-   height:60,
     flex: 1,
     color: 'black',
-   // paddingLeft: 15,
-   //paddingRight: 15,
-   // borderWidth: 1,
-    activeUnderlineColor: 'purple',
-    activeOutlineColor: 'purple',
-    //borderRadius: 30,
-   // borderColor: '#dadae8',
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderWidth: 1,
+    borderRadius: 30,
+    borderColor: '#dadae8',
   },
   errorTextStyle: {
     color: 'red',

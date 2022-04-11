@@ -3,10 +3,10 @@
 
 // Import React and Component
 import React, {useState, createRef, useEffect } from 'react';
+import { TextInput } from 'react-native-paper';
 import axios from 'axios';
 import {
   StyleSheet,
-  TextInput,
   View,
   Text,
   ScrollView,
@@ -230,7 +230,7 @@ const LoginScreen = ({navigation}) => {
             
             {!naverToken && <View style={styles.SectionStyle}>
               <TextInput
-                style={styles.inputStyle}
+               
                 onChangeText={(UserEmail) =>
                   setUserEmail(UserEmail)
                 }

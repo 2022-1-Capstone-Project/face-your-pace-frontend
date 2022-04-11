@@ -37,11 +37,9 @@ const RegisterScreen = (props) => {
 
   const nameInputRef = createRef();
   const emailInputRef = createRef();
-  const ageInputRef = createRef();
-  const addressInputRef = createRef();
+
   const passwordInputRef = createRef();
-  const weightInputRef = createRef();
-  const heightInputRef = createRef();
+
 
   const handleSubmitButton = () => {
     setErrortext('');
@@ -117,34 +115,6 @@ const RegisterScreen = (props) => {
         console.error(error);
       });
   };
-  if (isRegistraionSuccess) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#ffffff',
-          justifyContent: 'center',
-        }}>
-        <Image
-          source={require('../../Image/success.png')}
-          style={{
-            height: 150,
-            resizeMode: 'contain',
-            alignSelf: 'center'
-          }}
-        />
-        <Text style={styles.successTextStyle}>
-          회원가입에 성공하였습니다!
-        </Text>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={() => props.navigation.navigate('LoginScreen')}>
-          <Text style={styles.buttonTextStyle}>로그인하기</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <Loader loading={loading} />
@@ -166,41 +136,9 @@ const RegisterScreen = (props) => {
           />
         </View>
         <KeyboardAvoidingView enabled>
-        <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              label="ID"
-              onChangeText={(UserId) => setUserId(UserId)}
-              underlineColorAndroid="#f000"
-              placeholder="ID를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                nameInputRef.current &&
-                nameInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
           <View style={styles.SectionStyle}>
             <TextInput
-             label="NickName"
-              style={styles.inputStyle}
-              onChangeText={(UserName) => setUserName(UserName)}
-              underlineColorAndroid="#f000"
-              placeholder="별명을 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              ref = {nameInputRef}
-              onSubmitEditing={() =>
-                emailInputRef.current && emailInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
+             mode="outlined"
             label="Email"
               style={styles.inputStyle}
               onChangeText={(UserEmail) => setUserEmail(UserEmail)}
@@ -217,89 +155,12 @@ const RegisterScreen = (props) => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-             label="비밀번호"
-              style={styles.inputStyle}
-              onChangeText={(UserPassword) =>
-                setUserPassword(UserPassword)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="비밀번호를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              ref={passwordInputRef}
-              returnKeyType="next"
-              secureTextEntry={true}
-              onSubmitEditing={() =>
-                ageInputRef.current &&
-                ageInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              label="나이"
-              style={styles.inputStyle}
-              onChangeText={(UserAge) => setUserAge(UserAge)}
-              underlineColorAndroid="#f000"
-              placeholder="나이를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              keyboardType="numeric"
-              ref={ageInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                addressInputRef.current &&
-                addressInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              label="키"
-              style={styles.inputStyle}
-              onChangeText={(UserHeight) =>
-                setUserHeight(UserHeight)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="키를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={heightInputRef}
-              returnKeyType="next"
-              onSubmitEditing={  weightInputRef.current &&
-                weightInputRef.current.focus()}
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              label="몸무게"
-              style={styles.inputStyle}
-              onChangeText={(UserWeight) =>
-                setUserWeight(UserWeight)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="몸무게를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={weightInputRef}
-              returnKeyType="next"
-              onSubmitEditing={Keyboard.dismiss}
-              blurOnSubmit={false}
-            />
-          </View>
-          {errortext != '' ? (
-            <Text style={styles.errorTextStyle}>
-              {errortext}
-            </Text>
-          ) : null}
+         
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>등록하기</Text>
+            <Text style={styles.buttonTextStyle}>다음</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -311,7 +172,7 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: 'row',
-    height: 60,
+    height: 40,
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
@@ -336,16 +197,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputStyle: {
-    //textAlign:'center',
-   // margin: 0,
-   height:60,
     flex: 1,
     color: 'black',
    // paddingLeft: 15,
    //paddingRight: 15,
-   // borderWidth: 1,
+    borderWidth: 1,
+    backgroundColor: 'white',
     activeUnderlineColor: 'purple',
-    activeOutlineColor: 'purple',
+    activeOutlineColor: 'purple'
     //borderRadius: 30,
    // borderColor: '#dadae8',
   },

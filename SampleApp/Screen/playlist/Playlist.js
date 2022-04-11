@@ -13,7 +13,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { Searchbar,Text } from 'react-native-paper';
+
+import { Searchbar,Text,TextInput } from 'react-native-paper';
 import {LinesLoader} from 'react-native-indicator';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../Components/Loader';
@@ -80,6 +81,31 @@ const PlayListScreen = ({navigation}) => {
       imgUrl: require('../../Image/success.png'),
       title: "플레이리스트3"
     },
+    {
+      id:3,
+      imgUrl: require('../../Image/success.png'),
+      title: "플레이리스트4"
+    },
+    {
+      id:3,
+      imgUrl: require('../../Image/success.png'),
+      title: "플레이리스트4"
+    },
+    {
+      id:3,
+      imgUrl: require('../../Image/success.png'),
+      title: "플레이리스트4"
+    },
+    {
+      id:3,
+      imgUrl: require('../../Image/success.png'),
+      title: "플레이리스트4"
+    },
+    {
+      id:3,
+      imgUrl: require('../../Image/success.png'),
+      title: "플레이리스트4"
+    },
   ];
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
@@ -125,31 +151,34 @@ const PlayListScreen = ({navigation}) => {
 
 
   return (
-    <View style={styles.mainBody}>
-       
-      <View style={styles.header}>
-      <KeyboardAvoidingView enabled>
-      
-          <Searchbar
-          placeholder="플레이리스트 에서 찾기"
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-          icon={() => <Ionicons name="search-outline" size={30}/>}
-        />
-        </KeyboardAvoidingView> 
-      </View>
+      <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
+      enabled style={styles.mainBody} >
+        <View style={styles.header}>
+          <TextInput>
 
 
-            {
-
-              renderPlaylists(initialArr)
-            }
+          </TextInput>
         
-      
-    
-      </View>
+            <Searchbar
+            placeholder="플레이리스트 에서 찾기"
+            onChangeText={onChangeSearch}
+            value={searchQuery}
+            icon={() => <Ionicons name="search-outline" size={30}/>}
+          />
+          
+        </View>
+        <View style={styles.body}>
+          <ScrollView style={{ width:'100%',flex:1}}>
+                {
+
+                  renderPlaylists(initialArr)
+                }
+            
+          </ScrollView>
+        </View>
 
 
+    </KeyboardAvoidingView>
   );
 };
 
@@ -162,23 +191,25 @@ const styles = StyleSheet.create({
   },
 
   header:{
-
     height: 40,
     marginTop: 20,
+    marginBottom: 40,
     marginHorizontal:20,
   },
   SectionStyle: {
     flex:1,
-    flexdirection: 'column',
+    flexdirection: 'row',
     justifyContent:'space-between',
     alignContent: 'center',
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
-    height: 40,
+    height: 100,
   },
 
-
+  body:{
+    flex:1,
+  },
   buttonStyle: {
     backgroundColor: '#fffff',
     borderWidth: 0,

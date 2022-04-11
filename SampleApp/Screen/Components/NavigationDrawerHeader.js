@@ -15,8 +15,8 @@ const NavigationDrawerHeader = (props) => {
     <View style={{flexDirection: 'row'}}>
       <TouchableOpacity onPress={toggleDrawer}>
         <Image
-          source={require('../../Image/playlist/drawer.jpg')}
-          style={{width: 25, height: 25, marginLeft: 5}}
+          source={require('../../Image/playlist/drawer.png')}
+          style={{width: 50, height: 50, marginRight: 20}}
         />
       </TouchableOpacity>
     </View>
