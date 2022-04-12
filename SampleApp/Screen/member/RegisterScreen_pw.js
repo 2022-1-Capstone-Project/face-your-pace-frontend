@@ -15,136 +15,51 @@ import {
   ScrollView,
 } from 'react-native';
 
-
+import { useNavigation } from '@react-navigation/native';
 import Loader from '../Components/Loader';
 
-const RegisterScreen = (props) => {
-  const [userId, setUserId] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userAge, setUserAge] = useState('');
 
+
+function isPassword(asValue) {
+	var regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+ 
+	return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+}
+
+
+const RegisterScreen_pw = (props) => {
+
+  const userInfo = props.route.params;
   const [userPassword, setUserPassword] = useState('');
-  const [userHeight, setUserHeight] = useState('');
-  const [userWeight, setUserWeight] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
-  const [
-    isRegistraionSuccess,
-    setIsRegistraionSuccess
-  ] = useState(false);
 
-
-  const nameInputRef = createRef();
-  const emailInputRef = createRef();
-  const ageInputRef = createRef();
-  const addressInputRef = createRef();
   const passwordInputRef = createRef();
-  const weightInputRef = createRef();
-  const heightInputRef = createRef();
 
-  const handleSubmitButton = () => {
+  const navigation = useNavigation();
+
+  //console.log(userInfo);
+  const handleNextButton = () => {
+
+    console.log(userInfo);
     setErrortext('');
-    if(!userId){
-      alert('아이디를 입력해주세요.');
-      return;
-    }
-    if (!userName) {
-      alert('성함을 입력해주세요.');
-      return;
-    }
-    if (!userEmail) {
-      alert('이메일을 입력해주세요.');
-      return;
-    }
-    if (!userAge) {
-      alert('나이를 입력해주세요');
-      return;
-    }
     if (!userPassword) {
       alert('비밀번호를 입력해주세요');
       return;
     }
-
-    //Show Loader
-    setLoading(true);
-    var dataToSend = {
-      id:userId,
-      name: userName,
-      email: userEmail,
-      age: userAge,
-      height: userHeight,
-      weight: userWeight,
-      password: userPassword
-      ,
-    };
-    var formBody = [];
-    for (var key in dataToSend) {
-      var encodedKey = encodeURIComponent(key);
-      var encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
+    if(!isPassword(userPassword)){
+      alert('비밀번호를 정확히 입력해주세요');
+      return;
     }
-    formBody = formBody.join('&');
 
-    fetch('http://127.0.0.1:8080/auth/signup', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          setIsRegistraionSuccess(true);
-          console.log(
-            '회원가입에 성공하였습니다. 로그인 절차를 진행해 주십시오.'
-          );
-        } else {
-          setErrortext(responseJson.msg);
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });
+    var password = "password";
+    userInfo[password] = userPassword;
+
+    navigation.navigate("RegisterScreen_nickname",userInfo);
   };
-  if (isRegistraionSuccess) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#ffffff',
-          justifyContent: 'center',
-        }}>
-        <Image
-          source={require('../../Image/success.png')}
-          style={{
-            height: 150,
-            resizeMode: 'contain',
-            alignSelf: 'center'
-          }}
-        />
-        <Text style={styles.successTextStyle}>
-          회원가입에 성공하였습니다!
-        </Text>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={() => props.navigation.navigate('LoginScreen')}>
-          <Text style={styles.buttonTextStyle}>로그인하기</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+
+
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <Loader loading={loading} />
@@ -153,10 +68,11 @@ const RegisterScreen = (props) => {
         contentContainerStyle={{
           justifyContent: 'center',
           alignContent: 'center',
+          flex:1,
         }}>
-        <View style={{alignItems: 'center'}}>
+         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../../Image/logo_white.png')}
+            source={require('../../Image/common/logo.png')}
             style={{
               width: '50%',
               height: 100,
@@ -164,62 +80,17 @@ const RegisterScreen = (props) => {
               margin: 30,
             }}
           />
-        </View>
+        </View>   
         <KeyboardAvoidingView enabled>
-        <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              label="ID"
-              onChangeText={(UserId) => setUserId(UserId)}
-              underlineColorAndroid="#f000"
-              placeholder="ID를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                nameInputRef.current &&
-                nameInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
+       
           <View style={styles.SectionStyle}>
             <TextInput
-             label="NickName"
-              style={styles.inputStyle}
-              onChangeText={(UserName) => setUserName(UserName)}
-              underlineColorAndroid="#f000"
-              placeholder="별명을 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              ref = {nameInputRef}
-              onSubmitEditing={() =>
-                emailInputRef.current && emailInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-            label="Email"
-              style={styles.inputStyle}
-              onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-              underlineColorAndroid="#f000"
-              placeholder="이메일을 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              keyboardType="email-address"
-              ref={emailInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                passwordInputRef.current &&
-                passwordInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-             label="password"
+              label={
+                  <Text>
+                       Password
+                       <Text style={{color: 'red'}}> *</Text>
+                  </Text>
+                }
               style={styles.inputStyle}
               onChangeText={(UserPassword) =>
                 setUserPassword(UserPassword)
@@ -237,56 +108,6 @@ const RegisterScreen = (props) => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAge) => setUserAge(UserAge)}
-              underlineColorAndroid="#f000"
-              placeholder="나이를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              keyboardType="numeric"
-              ref={ageInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                addressInputRef.current &&
-                addressInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserHeight) =>
-                setUserHeight(UserHeight)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="키를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={heightInputRef}
-              returnKeyType="next"
-              onSubmitEditing={  weightInputRef.current &&
-                weightInputRef.current.focus()}
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserWeight) =>
-                setUserWeight(UserWeight)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="몸무게를 입력해 주세요."
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={weightInputRef}
-              returnKeyType="next"
-              onSubmitEditing={Keyboard.dismiss}
-              blurOnSubmit={false}
-            />
-          </View>
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}>
               {errortext}
@@ -295,20 +116,20 @@ const RegisterScreen = (props) => {
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
-            onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>등록하기</Text>
+            onPress={handleNextButton}>
+            <Text style={styles.buttonTextStyle}>다음</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
     </View>
   );
 };
-export default RegisterScreen;
+export default RegisterScreen_pw;
 
 const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: 'row',
-    height: 40,
+    height: 60,
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
@@ -333,17 +154,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputStyle: {
-    textAlign:'center',
-    paddingTop: 0,
-    paddingBottom: 0,
+    //textAlign:'center',
+   // margin: 0,
+   height:60,
     flex: 1,
     color: 'black',
    // paddingLeft: 15,
    //paddingRight: 15,
-    borderWidth: 1,
-    backgroundColor: 'white',
+   // borderWidth: 1,
     activeUnderlineColor: 'purple',
-    activeOutlineColor: 'purple'
+    activeOutlineColor: 'purple',
     //borderRadius: 30,
    // borderColor: '#dadae8',
   },

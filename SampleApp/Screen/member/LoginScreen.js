@@ -70,6 +70,8 @@ const LoginScreen = ({navigation}) => {
     );
     setNaverToken("");
   };
+
+
   const naverLogin = props => {
     return new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
@@ -98,8 +100,39 @@ const LoginScreen = ({navigation}) => {
     }
     console.log("naverToken",naverToken);
     console.log("profileResult", profileResult);
-    AsyncStorage.setItem('user_id', profileResult.response.email);
-    navigation.replace('DrawerNavigationRoutes');
+    AsyncStorage.setItem('user_email', profileResult.response.email);
+    //navigation.replace('DrawerNavigationRoutes');
+
+    setLoading(true);
+
+    axios.post('http://127.0.0.1:3000/auth/login/naver', profileResult)
+    .then(function(response){
+      setLoading(false);
+      if (response.status === 'success') {
+       
+        console.log(response.data.email);
+        //navigation.replace('DrawerNavigationRoutes');
+      } else {
+        setErrortext(response.msg);
+        console.log('네이버 로그인에 실패하였습니다!');
+      }
+
+
+      //네이버 로그인을 사용해서 회원가입이 되어 있다면?
+      if(response.isRegistered==true){
+
+        AsyncStorage.setItem('user_email', response.data.email);
+        navigation.replace('DrawerNavigationRoutes');
+      }
+      else{
+        navigation.replace('RegisterScreen_id');
+      }
+    }
+      )
+    .catch(error => {
+        setLoading(false);
+        setErrortext('에러: '+ error.message);
+    });
    /* setLoading(true);
     fetch('http://127.0.0.1:3000/auth/login/naver', {
       method: 'POST',
@@ -151,28 +184,29 @@ const LoginScreen = ({navigation}) => {
     }
     setLoading(true);
     let dataToSend = {email: userEmail, password: userPassword};
-    let formBody = [];
-    for (let key in dataToSend) {
-      let encodedKey = encodeURIComponent(key);
-      let encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
 
 
     //현재는 3000 포트 번호로 되어 있는데 로컬에서 구동하는 백엔드 서버의 포트 번호에 따라 3000값을 바꾸시면 됩니다.
    
-    axios.post('http://127.0.0.1:8080/auth/login')
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
+    axios.post('http://127.0.0.1:8080/auth/login', dataToSend)
+    .then( function(response){
+      setLoading(false);
+      if (response.success==true) {
+        AsyncStorage.setItem('user_id', responseJson.data.email);
+        navigation.replace('DrawerNavigationRoutes');
+      }
+      else{
+        alert('아이디와 비밀번호를 확인해주시기 바랍니다!');
+      }
+    }
+      )
+    .catch(error => {
+        setErrortext('Error:'+ error.message);
     });
    
    
    
-    fetch('http://127.0.0.1:8080/auth/login', {
+    /*fetch('http://127.0.0.1:8080/auth/login', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -200,7 +234,7 @@ const LoginScreen = ({navigation}) => {
         //Hide Loader
         setLoading(false);
         console.error(error);
-      });
+      });*/
   };
 
   return (
@@ -230,7 +264,7 @@ const LoginScreen = ({navigation}) => {
             
             {!naverToken && <View style={styles.SectionStyle}>
               <TextInput
-               
+                style={styles.inputStyle}
                 onChangeText={(UserEmail) =>
                   setUserEmail(UserEmail)
                 }
@@ -300,7 +334,7 @@ const LoginScreen = ({navigation}) => {
                 </Text>
                 <Text
                   style={styles.registerTextStyle2}
-                  onPress={() => navigation.navigate('RegisterScreen')}>
+                  onPress={() => navigation.navigate('Register')}>
                   회원가입하기
                 </Text>
               </Text>
@@ -320,6 +354,8 @@ const LoginScreen = ({navigation}) => {
     </View>
   );
 };
+
+
 export default LoginScreen;
 
 const styles = StyleSheet.create({
@@ -372,13 +408,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputStyle: {
+    //textAlign:'center',
+   // margin: 0,
+   height:60,
     flex: 1,
     color: 'black',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 30,
-    borderColor: '#dadae8',
+   // paddingLeft: 15,
+   //paddingRight: 15,
+   // borderWidth: 1,
+    activeUnderlineColor: 'purple',
+    activeOutlineColor: 'purple',
+    //borderRadius: 30,
+   // borderColor: '#dadae8',
   },
 
   registerTextStyle: {

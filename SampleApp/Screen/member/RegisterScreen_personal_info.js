@@ -19,48 +19,36 @@ import { useNavigation } from '@react-navigation/native';
 import Loader from '../Components/Loader';
 
 
-function isEmail(asValue) {
-	var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
- 
-	return regExp.test(asValue);
+function checkPersonalInfo(userAge,userHeight,userWeight){
+
+
+
 }
 
-const RegisterScreen_email = (props) => {
 
-  const [userEmail, setUserEmail] = useState('');
+const RegisterScreen_personal_info = (props) => {
+  
+  const userInfo = props.route.params;
+  const [userAge, setUserAge] = useState('');
+  const [userHeight, setUserHeight] = useState('');
+  const [userWeight, setUserWeight] = useState('');
+
+
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
-  
-  const navigation = useNavigation();
 
-  const userInfo = props.route.params;
- 
- // console.log(userInfo);
-  const nameInputRef = createRef();
-  const emailInputRef = createRef();
 
-  const handleNextButton = () => {
+  const ageInputRef = createRef();
+  const weightInputRef = createRef();
+  const heightInputRef = createRef();
+
+  const handleSubmitButton = () => {
+    console.log(userInfo);
     setErrortext('');
+    //Show Loader
 
-
-    if (!userEmail) {
-      alert('이메일을 입력해주세요.');
-      return;
-    }
-
-    if(!isEmail(userEmail)){
-
-      alert('이메일을 정확히 입력해주세요!');
-      return;
-    }
-    var email = "email";
-    userInfo[email] = userEmail;
-
-    navigation.navigate("RegisterScreen_pw",userInfo);
-   // const userInfo = {Id:userId}
-   // const navigation = useNavigation();
-   // navigation.navigate("RegisterScreen_nickname",{userInfo});
   };
+  
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <Loader loading={loading} />
@@ -71,7 +59,7 @@ const RegisterScreen_email = (props) => {
           alignContent: 'center',
           flex:1,
         }}>
-         <View style={{alignItems: 'center'}}>
+      <View style={{alignItems: 'center'}}>
           <Image
             source={require('../../Image/common/logo.png')}
             style={{
@@ -82,45 +70,77 @@ const RegisterScreen_email = (props) => {
             }}
           />
         </View>   
-          
         <KeyboardAvoidingView enabled>
-          <View style={styles.SectionStyle}>
+        <View style={styles.SectionStyle}>
             <TextInput
-          
-          label={
-            <Text>
-                 Email
-                 <Text style={{color: 'red'}}> *</Text>
-            </Text>
-          }
+              label="나이"
               style={styles.inputStyle}
-              onChangeText={(UserEmail) => setUserEmail(UserEmail)}
+              onChangeText={(UserAge) => setUserAge(UserAge)}
               underlineColorAndroid="#f000"
-              placeholder="이메일을 입력해 주세요."
+              placeholder="나이를 입력해 주세요."
               placeholderTextColor="#8b9cb5"
-              keyboardType="email-address"
-              ref={emailInputRef}
+              keyboardType="numeric"
+              ref={ageInputRef}
               returnKeyType="next"
               onSubmitEditing={() =>
-                passwordInputRef.current &&
-                passwordInputRef.current.focus()
+                heightInputRef.current &&
+                heightInputRef.current.focus()
               }
               blurOnSubmit={false}
             />
           </View>
-         
+          <View style={styles.SectionStyle}>
+            <TextInput
+              label="키"
+              style={styles.inputStyle}
+              onChangeText={(UserHeight) =>
+                setUserHeight(UserHeight)
+              }
+              underlineColorAndroid="#f000"
+              placeholder="키를 입력해 주세요."
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              ref={heightInputRef}
+              returnKeyType="next"
+              onSubmitEditing={  weightInputRef.current &&
+                weightInputRef.current.focus()}
+              blurOnSubmit={false}
+            />
+          </View>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              label="몸무게"
+              style={styles.inputStyle}
+              onChangeText={(UserWeight) =>
+                setUserWeight(UserWeight)
+              }
+              underlineColorAndroid="#f000"
+              placeholder="몸무게를 입력해 주세요."
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              ref={weightInputRef}
+              returnKeyType="next"
+              onSubmitEditing={Keyboard.dismiss}
+              blurOnSubmit={false}
+            />
+          </View>
+          {errortext != '' ? (
+            <Text style={styles.errorTextStyle}>
+              {errortext}
+            </Text>
+          ) : null}
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
-            onPress={handleNextButton}>
-            <Text style={styles.buttonTextStyle}>다음</Text>
+            onPress={handleSubmitButton}>
+            <Text style={styles.buttonTextStyle}>회원가입</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
     </View>
   );
 };
-export default RegisterScreen_email;
+export default RegisterScreen_personal_info;
 
 const styles = StyleSheet.create({
   SectionStyle: {

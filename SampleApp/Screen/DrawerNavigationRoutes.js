@@ -11,6 +11,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 // Import Screens
 import HomeScreen from './DrawerScreens/HomeScreen';
 import PlayListScreen from './playlist/Playlist';
+import PlayListMusicScreen from './playlist/Playlist_music';
 import SettingsScreen from './DrawerScreens/SettingsScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
@@ -58,6 +59,27 @@ const playListScreenStack = ({navigation}) => {
       <Stack.Screen
         name="PlayListScreen"
         component={PlayListScreen}
+        options={{
+          title: 'Home', //Set Header Title
+          headerRight: () => (
+            <NavigationDrawerHeader navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
+<Stack.Screen
+        name="PlayListMusicScreen"
+        component={PlayListMusicScreen}
         options={{
           title: 'Home', //Set Header Title
           headerRight: () => (

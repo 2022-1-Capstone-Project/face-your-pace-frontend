@@ -13,6 +13,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from './Screen/member/SplashScreen';
 import LoginScreen from './Screen/member/LoginScreen';
 import RegisterScreen from './Screen/member/RegisterScreen';
+import RegisterScreen_id from './Screen/member/RegisterScreen_id';
+import RegisterScreen_email from './Screen/member/RegisterScreen_email';
+import RegisterScreen_nickname from './Screen/member/RegisterScreen_nickname';
+import RegisterScreen_pw from './Screen/member/RegisterScreen_pw';
+import RegisterScreen_personal_info from './Screen/member/RegisterScreen_personal_info';
+
+
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 import MainLoginScreen from './Screen/member/MainLoginScreen';
 
@@ -29,6 +36,11 @@ const Auth = () => {
         component={LoginScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{headerShown: false}}
+        />
        <Stack.Screen
         name="MainLoginScreen"
         component={MainLoginScreen}
@@ -54,6 +66,57 @@ const Auth = () => {
   );
 };
 
+
+
+const Register = () => {
+
+ return(
+<Stack.Navigator initialRouteName="RegisterScreen_id">
+      <Stack.Screen
+        name="RegisterScreen_id"
+        component={RegisterScreen_id}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="RegisterScreen_email"
+        component={RegisterScreen_email}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="RegisterScreen_nickname"
+        component={RegisterScreen_nickname}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="RegisterScreen_pw"
+        component={RegisterScreen_pw}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="RegisterScreen_personal_info"
+        component={RegisterScreen_personal_info}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name="MainLoginScreen"
+        component={MainLoginScreen}
+        options={{headerShown: false}}
+      />
+
+
+    </Stack.Navigator>
+
+ );
+
+
+};
+
+
 const App = () => {
   return (
     <NavigationContainer>
@@ -71,6 +134,7 @@ const App = () => {
           component={Auth}
           options={{headerShown: false}}
         />
+          
         {/* Navigation Drawer as a landing page */}
         <Stack.Screen
           name="DrawerNavigationRoutes"

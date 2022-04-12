@@ -4,7 +4,7 @@
 // Import React and Component
 import React from 'react';
 import {View, Text, Alert, StyleSheet} from 'react-native';
-
+import { NaverLogin, getProfile } from "@react-native-seoul/naver-login";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -39,8 +39,8 @@ const CustomSidebarMenu = (props) => {
           onPress={() => {
             props.navigation.toggleDrawer();
             Alert.alert(
-              'Logout',
-              'Are you sure? You want to logout?',
+              '로그아웃',
+              '정말 로그아웃하시겠습니까?',
               [
                 {
                   text: 'Cancel',
@@ -51,6 +51,7 @@ const CustomSidebarMenu = (props) => {
                 {
                   text: 'Confirm',
                   onPress: () => {
+                    NaverLogin.logout();
                     AsyncStorage.clear();
                     props.navigation.replace('Auth');
                   },

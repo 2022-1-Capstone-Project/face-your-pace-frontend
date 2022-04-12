@@ -4,6 +4,8 @@
 // Import React and Component
 import React, {useState, createRef} from 'react';
 import { TextInput } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+
 import {
   StyleSheet,
   View,
@@ -18,92 +20,43 @@ import {
 
 import Loader from '../Components/Loader';
 
-const RegisterScreen = (props) => {
+const  isId= (asValue)=> {
+	var regExp = /^[a-z]+[a-z0-9]{5,19}$/g;
+ 
+	return regExp.test(asValue);
+};
+
+const RegisterScreen_id = (props) => {
   const [userId, setUserId] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
 
+  const navigation = useNavigation();
 
 
+  const IdInputRef = createRef();
 
-  const nameInputRef = createRef();
 
-
-  const handleSubmitButton = () => {
+  const handleNextButton = () => {
+    var finish = false;
     setErrortext('');
+    const userInfo = 
+    {
+      Id:userId
+    }
     if(!userId){
       alert('아이디를 입력해주세요.');
       return;
     }
-    if (!userName) {
-      alert('성함을 입력해주세요.');
+    else if(!isId(userId)){
+      alert('아이디를 정확히 입력해주세요!');
       return;
     }
-    if (!userEmail) {
-      alert('이메일을 입력해주세요.');
-      return;
-    }
-    if (!userAge) {
-      alert('나이를 입력해주세요');
-      return;
-    }
-    if (!userPassword) {
-      alert('비밀번호를 입력해주세요');
-      return;
-    }
+    navigation.navigate("RegisterScreen_email",userInfo);
 
-    //Show Loader
-    setLoading(true);
-    var dataToSend = {
-      id:userId,
-      name: userName,
-      email: userEmail,
-      age: userAge,
-      height: userHeight,
-      weight: userWeight,
-      password: userPassword
-      ,
-    };
-    var formBody = [];
-    for (var key in dataToSend) {
-      var encodedKey = encodeURIComponent(key);
-      var encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
-
-    fetch('http://127.0.0.1:8080/auth/signup', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          setIsRegistraionSuccess(true);
-          console.log(
-            '회원가입에 성공하였습니다. 로그인 절차를 진행해 주십시오.'
-          );
-        } else {
-          setErrortext(responseJson.msg);
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });
   };
+
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <Loader loading={loading} />
@@ -112,6 +65,7 @@ const RegisterScreen = (props) => {
         contentContainerStyle={{
           justifyContent: 'center',
           alignContent: 'center',
+          flex:1,
         }}>
         <View style={{alignItems: 'center'}}>
           <Image
@@ -128,25 +82,31 @@ const RegisterScreen = (props) => {
         <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              label="ID"
+              label={
+                <Text>
+                     ID
+                     <Text style={{color: 'red'}}> *</Text>
+                </Text>
+              }
               onChangeText={(UserId) => setUserId(UserId)}
               underlineColorAndroid="#f000"
               placeholder="ID를 입력해 주세요."
               placeholderTextColor="#8b9cb5"
               returnKeyType="next"
+              maxLength={20}
               onSubmitEditing={() =>
                 nameInputRef.current &&
                 nameInputRef.current.focus()
               }
               blurOnSubmit={false}
             />
+          
         </View>
          
-
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
-            onPress={handleSubmitButton}>
+            onPress={handleNextButton}>
             <Text style={styles.buttonTextStyle}>다음</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
@@ -154,7 +114,7 @@ const RegisterScreen = (props) => {
     </View>
   );
 };
-export default RegisterScreen;
+export default RegisterScreen_id;
 
 const styles = StyleSheet.create({
   SectionStyle: {

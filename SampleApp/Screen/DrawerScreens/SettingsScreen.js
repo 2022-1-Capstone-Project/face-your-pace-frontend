@@ -21,7 +21,7 @@ const SettingsScreen = () => {
               textAlign: 'center',
               marginBottom: 16,
             }}>
-            Example of Splash, Login and Sign Up in React Native
+            현재 설정화면은 미구현 상태입니다.
             {'\n\n'}
             This is the Settings Screen
           </Text>
@@ -32,7 +32,7 @@ const SettingsScreen = () => {
             textAlign: 'center',
             color: 'grey',
           }}>
-          Splash, Login and Register Example{'\n'}React Native
+         
         </Text>
         <Text
           style={{
@@ -40,7 +40,7 @@ const SettingsScreen = () => {
             textAlign: 'center',
             color: 'grey',
           }}>
-          www.aboutreact.com
+        
         </Text>
       </View>
     </SafeAreaView>

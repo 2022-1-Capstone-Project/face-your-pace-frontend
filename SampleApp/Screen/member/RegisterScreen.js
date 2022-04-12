@@ -38,10 +38,11 @@ const RegisterScreen = (props) => {
   const nameInputRef = createRef();
   const emailInputRef = createRef();
   const ageInputRef = createRef();
-  const addressInputRef = createRef();
-  const passwordInputRef = createRef();
   const weightInputRef = createRef();
   const heightInputRef = createRef();
+  const addressInputRef = createRef();
+  const passwordInputRef = createRef();
+
 
   const handleSubmitButton = () => {
     setErrortext('');

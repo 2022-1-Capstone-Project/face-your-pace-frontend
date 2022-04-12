@@ -3,6 +3,8 @@
 
 // Import React and Component
 import React, {useState, useEffect} from 'react';
+
+import axios from 'axios';
 import {
   ActivityIndicator,
   View,
@@ -18,23 +20,16 @@ import { Searchbar,Text,TextInput } from 'react-native-paper';
 import {LinesLoader} from 'react-native-indicator';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../Components/Loader';
-import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const renderPlaylists=(initialArr)=> {
-
-  const navigation = useNavigation();
   return initialArr.map((item) => {
       return (
         <View key = {item.id} style={styles.SectionStyle}>
-          <TouchableOpacity  activeOpacity={0.5}
-            onPress={()=>navigation.navigate("PlayListMusicScreen",{
-              playlist_id: item.id,
-            })}
-          >
+          <TouchableOpacity>
             <Image
                   source={item.imgUrl}
                   style={styles.imgStyle}
@@ -51,68 +46,60 @@ const renderPlaylists=(initialArr)=> {
 const fetchPlayListData= ()=>{
 
 
+  userID = AsyncStorage.get('userID');
 
-  fetch('http://127.0.0.1:3000/api/music/playlist', {
-      method: 'GET',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
+  axios.get('http://127.0.0.1:3000/api/mypage/playlist',{userID}).then((Response)=>{
+    return Response.data;
+}).catch((Error)=>{
+    console.log(Error);
+})
 
-      })
-      .catch((error) => {
-        //Hide Loader
-        console.error(error);
-      });
-  };
+
+};
 
 
 
-const PlayListScreen = ({navigation}) => {
-  //fetchPlayListData();
+const PlayListMusicScreen = ({navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
+
+  //initialArr = fetchPlayListData();
+
   initialArr = [
     {
       id:1,
       imgUrl: require('../../Image/common/logo.png'),
-      title: "플레이리스트1"
+      title: "음악1"
     },
     {
       id:2,
       imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트3"
+      title: "음악2"
     },
     {
       id:3,
       imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트4"
+      title: "음악3"
     },
     {
       id:3,
       imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트4"
+      title: "음악4"
     },
     {
       id:3,
       imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트4"
+      title: "음악5"
     },
     {
       id:3,
       imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트4"
+      title: "음악6"
     },
     {
       id:3,
       imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트4"
+      title: "음악7"
     },
   ];
   const [searchQuery, setSearchQuery] = useState('');
@@ -162,15 +149,12 @@ const PlayListScreen = ({navigation}) => {
       <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
       enabled style={styles.mainBody} >
         <View style={styles.header}>
-
-
-            <Searchbar
-            placeholder="플레이리스트 에서 찾기"
-            onChangeText={onChangeSearch}
-            value={searchQuery}
-            icon={() => <Ionicons name="search-outline" size={30}/>}
-          />
           
+
+        <Image 
+        source={require('../../Image/playlist/music.png')} 
+        resizeMode='contain' 
+        style={{flex:1}}/>
         </View>
         <View style={styles.body}>
           <ScrollView style={{ width:'100%',flex:1}}>
@@ -187,7 +171,7 @@ const PlayListScreen = ({navigation}) => {
   );
 };
 
-export default PlayListScreen;
+export default PlayListMusicScreen;
 
 const styles = StyleSheet.create({
   mainBody: {
