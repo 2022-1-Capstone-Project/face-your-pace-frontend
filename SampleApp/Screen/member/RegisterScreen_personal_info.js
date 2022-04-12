@@ -41,9 +41,51 @@ const RegisterScreen_personal_info = (props) => {
   const ageInputRef = createRef();
   const weightInputRef = createRef();
   const heightInputRef = createRef();
-
+  console.log(userInfo);
   const handleSubmitButton = () => {
     console.log(userInfo);
+
+    var age = "age";
+    userInfo[age] = userAge;
+
+    var height = "height";
+    userInfo[height] = userHeight;
+
+    var weight = "weight";
+    userInfo[weight] = userWeight;
+
+
+    setLoading(true);
+    axios.post('http://127.0.0.1:3000/auth/signup', userInfo)
+    .then(function(response){
+      setLoading(false);
+      if (response.status === 'success') {
+       
+        console.log(response.data.email);
+        navigation.replace('DrawerNavigationRoutes');
+      } else {
+        setErrortext(response.msg);
+        console.log('회원가입에 실패하였습니다!');
+      }
+
+
+      //회원가입이 이미 되어 있다면?
+      if(response.success==true){
+
+        AsyncStorage.setItem('user_email', response.data.email);
+        navigation.replace('DrawerNavigationRoutes');
+      }
+      else{
+        navigation.replace('RegisterScreen_id');
+      }
+    }
+      )
+    .catch(error => {
+        setLoading(false);
+        setErrortext('에러: '+ error.message);
+    });
+
+
     setErrortext('');
     //Show Loader
 

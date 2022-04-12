@@ -36,7 +36,7 @@ const RegisterScreen = (props) => {
   const heightInputRef = createRef();
   const navigation = useNavigation();
 
-
+  console.log(userInfo);
   const handleNextButton = () => {
     setErrortext('');
     var name = "name";
