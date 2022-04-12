@@ -101,7 +101,7 @@ const LoginScreen = ({navigation}) => {
     console.log("naverToken",naverToken);
     console.log("profileResult", profileResult);
     AsyncStorage.setItem('user_email', profileResult.response.email);
-    //navigation.replace('DrawerNavigationRoutes');
+    navigation.replace('DrawerNavigationRoutes');
 
     setLoading(true);
 
@@ -131,6 +131,7 @@ const LoginScreen = ({navigation}) => {
       )
     .catch(error => {
         setLoading(false);
+        N
         setErrortext('에러: '+ error.message);
     });
    /* setLoading(true);
@@ -202,6 +203,8 @@ const LoginScreen = ({navigation}) => {
       )
     .catch(error => {
         setErrortext('Error:'+ error.message);
+        NaverLogin.logout();
+        setNaverToken("");
     });
    
    
@@ -317,13 +320,9 @@ const LoginScreen = ({navigation}) => {
             </TouchableOpacity>
 
             }     
-            {!!naverToken && <Button title="로그아웃하기" style={styles.buttonStyle} onPress={naverLogout} />}
+          
 
-            {errortext != '' ? (
-            <Text style={styles.errorTextStyle}>
-              {errortext}
-            </Text>
-          ) : null}
+    
             {!naverToken &&
             <View style = {styles.registerTextStyle}>
               <Text >
@@ -341,6 +340,12 @@ const LoginScreen = ({navigation}) => {
             </View>
             } 
 
+
+          {errortext != '' ? (
+                      <Text style={styles.errorTextStyle}>
+                        {errortext}
+                      </Text>
+                    ) : null}
             {!!naverToken &&
                <Text
                style={styles.registerTextStyle2}
