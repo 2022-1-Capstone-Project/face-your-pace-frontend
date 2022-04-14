@@ -47,7 +47,7 @@ const androidKeys = {
 const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 
 const LoginScreen = ({navigation}) => {
-  const [userEmail, setUserEmail] = useState('');
+  const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
@@ -71,7 +71,11 @@ const LoginScreen = ({navigation}) => {
     setNaverToken("");
   };
 
-
+  const  isId= (asValue)=> {
+    var regExp = /^[a-z]+[a-z0-9]{5,19}$/g;
+   
+    return regExp.test(asValue);
+  };
   const naverLogin = props => {
     return new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
@@ -105,7 +109,7 @@ const LoginScreen = ({navigation}) => {
 
     setLoading(true);
 
-    axios.post('http://127.0.0.1:3000/auth/login/naver', profileResult)
+    axios.post('http://127.0.0.1:8080/auth/login/naver', profileResult)
     .then(function(response){
       setLoading(false);
       if (response.status === 'success') {
@@ -131,7 +135,7 @@ const LoginScreen = ({navigation}) => {
       )
     .catch(error => {
         setLoading(false);
-        N
+        NaverLogin.logout();
         setErrortext('에러: '+ error.message);
     });
    /* setLoading(true);
@@ -171,11 +175,11 @@ const LoginScreen = ({navigation}) => {
 
   const handleSubmitPress = () => {
     setErrortext('');
-    if (!userEmail) {
-      alert('이메일을 입력해주시기 바랍니다.');
+    if (!userId) {
+      alert('아이디를 입력해주시기 바랍니다.');
       return;
     }
-    if(!validateEmail(userEmail)){
+    if(!isId(userId)){
       alert('이메일 형식이 잘못 입력되었습니다. 다시 입력해주시기 바랍니다.');
       return;
     }
@@ -184,16 +188,21 @@ const LoginScreen = ({navigation}) => {
       return;
     }
     setLoading(true);
-    let dataToSend = {email: userEmail, password: userPassword};
-
+    let dataToSend = {userId: userId, userPw: userPassword};
+    var formBody = [];
+    for (var key in dataToSend) {
+      var value = dataToSend[key];
+      formBody.push(key + '=' + value);
+    }
+    formBody = formBody.join('&');
 
     //현재는 3000 포트 번호로 되어 있는데 로컬에서 구동하는 백엔드 서버의 포트 번호에 따라 3000값을 바꾸시면 됩니다.
    
-    axios.post('http://127.0.0.1:8080/auth/login', dataToSend)
+    axios.post('http://127.0.0.1:8080/auth/login', formBody)
     .then( function(response){
       setLoading(false);
-      if (response.success==true) {
-        AsyncStorage.setItem('user_id', responseJson.data.email);
+      if (response.data==true) {
+        AsyncStorage.setItem('user_email', userId);
         navigation.replace('DrawerNavigationRoutes');
       }
       else{
@@ -268,10 +277,10 @@ const LoginScreen = ({navigation}) => {
             {!naverToken && <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={(UserEmail) =>
-                  setUserEmail(UserEmail)
+                onChangeText={(UserId) =>
+                  setUserId(UserId)
                 }
-                placeholder="이메일을 입력하세요." 
+                placeholder="아이디를 입력하세요." 
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
                 keyboardType="email-address"

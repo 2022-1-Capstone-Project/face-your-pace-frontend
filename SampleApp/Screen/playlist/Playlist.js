@@ -86,33 +86,33 @@ const PlayListScreen = ({navigation}) => {
     },
     {
       id:2,
-      imgUrl: require('../../Image/success.png'),
+      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
+      title: "플레이리스트2"
+    },
+    {
+      id:3,
+      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
       title: "플레이리스트3"
     },
     {
       id:3,
-      imgUrl: require('../../Image/success.png'),
+      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
       title: "플레이리스트4"
     },
     {
       id:3,
-      imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트4"
+      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
+      title: "플레이리스트5"
     },
     {
       id:3,
-      imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트4"
+      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
+      title: "플레이리스트6"
     },
     {
       id:3,
-      imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트4"
-    },
-    {
-      id:3,
-      imgUrl: require('../../Image/success.png'),
-      title: "플레이리스트4"
+      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
+      title: "플레이리스트7"
     },
   ];
   const [searchQuery, setSearchQuery] = useState('');

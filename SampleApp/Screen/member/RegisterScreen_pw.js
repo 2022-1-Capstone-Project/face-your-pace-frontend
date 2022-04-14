@@ -49,11 +49,11 @@ const RegisterScreen_pw = (props) => {
       return;
     }
     if(!isPassword(userPassword)){
-      alert('비밀번호를 정확히 입력해주세요');
+      alert('비밀번호는 6~20자 특수문자와 영문자를 포함해서 입력해주세요');
       return;
     }
 
-    var password = "password";
+    var password = "userPw";
     userInfo[password] = userPassword;
 
     navigation.navigate("RegisterScreen_nickname",userInfo);

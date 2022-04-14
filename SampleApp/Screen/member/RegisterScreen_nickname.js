@@ -39,7 +39,7 @@ const RegisterScreen = (props) => {
   console.log(userInfo);
   const handleNextButton = () => {
     setErrortext('');
-    var name = "name";
+    var name = "userName";
     userInfo[name] = userName;
     navigation.navigate("RegisterScreen_personal_info",userInfo);
 

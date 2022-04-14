@@ -68,37 +68,37 @@ const PlayListMusicScreen = ({navigation}) => {
   initialArr = [
     {
       id:1,
-      imgUrl: require('../../Image/common/logo.png'),
+      imgUrl: require('../../Image/playlist/music2.png'),
       title: "음악1"
     },
     {
       id:2,
-      imgUrl: require('../../Image/success.png'),
+      imgUrl: require('../../Image/playlist/music2.png'),
       title: "음악2"
     },
     {
       id:3,
-      imgUrl: require('../../Image/success.png'),
+      imgUrl: require('../../Image/playlist/music2.png'),
       title: "음악3"
     },
     {
       id:3,
-      imgUrl: require('../../Image/success.png'),
+      imgUrl: require('../../Image/playlist/music2.png'),
       title: "음악4"
     },
     {
       id:3,
-      imgUrl: require('../../Image/success.png'),
+      imgUrl: require('../../Image/playlist/music2.png'),
       title: "음악5"
     },
     {
       id:3,
-      imgUrl: require('../../Image/success.png'),
+      imgUrl: require('../../Image/playlist/music2.png'),
       title: "음악6"
     },
     {
       id:3,
-      imgUrl: require('../../Image/success.png'),
+      imgUrl: require('../../Image/playlist/music2.png'),
       title: "음악7"
     },
   ];
@@ -152,7 +152,7 @@ const PlayListMusicScreen = ({navigation}) => {
           
 
         <Image 
-        source={require('../../Image/playlist/music.png')} 
+        source={require('../../Image/common/logo.png')} 
         resizeMode='contain' 
         style={{flex:1}}/>
         </View>

@@ -4,6 +4,9 @@
 // Import React and Component
 import React, {useState, createRef} from 'react';
 import { TextInput } from 'react-native-paper';
+import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import {
   StyleSheet,
   View,
@@ -21,19 +24,54 @@ import Loader from '../Components/Loader';
 
 function checkPersonalInfo(userAge,userHeight,userWeight){
 
-
-
+  if(userAge!=''){
+    if(isNaN(userAge))
+    {
+      alert("나이는 숫자로 입력해주세요!");
+      return;
+    }
+    if(userAge<13||userAge>99)
+    {
+      alert("나이를 정확하게 입력해주세요!");
+      return;
+    }
+  }
+  if(userHeight!=''){
+    if(isNaN(userHeight))
+    {
+      alert("키는 숫자로 입력해주세요!");
+      return;
+    }
+    if(userHeight<60||userHeight>300)
+    {
+      alert("키는 숫자로 입력해주세요!");
+      return;
+    }
+  }
+  if(userWeight!=''){
+    if(isNaN(userWeight))
+    {
+      alert("나이는 숫자로 입력해주세요!");
+      return;
+    }
+    if(userWeight<0||userWeight>200)
+    {
+      alert("정확한 몸무게를 입력해주세요!");
+      return;
+    }
+  }
+  return true;
 }
 
 
 const RegisterScreen_personal_info = (props) => {
   
   const userInfo = props.route.params;
-  const [userAge, setUserAge] = useState('');
-  const [userHeight, setUserHeight] = useState('');
-  const [userWeight, setUserWeight] = useState('');
+  const [userAge, setUserAge] = useState(18);
+  const [userHeight, setUserHeight] = useState(165);
+  const [userWeight, setUserWeight] = useState(50);
 
-
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
 
@@ -44,45 +82,63 @@ const RegisterScreen_personal_info = (props) => {
   console.log(userInfo);
   const handleSubmitButton = () => {
     console.log(userInfo);
-
-    var age = "age";
+    
+    if(!checkPersonalInfo(userAge,userHeight,userWeight))
+    {
+      return;
+    }
+    var age = "userAge";
     userInfo[age] = userAge;
 
-    var height = "height";
+    var height = "userHeight";
     userInfo[height] = userHeight;
 
-    var weight = "weight";
+    var weight = "userWeight";
     userInfo[weight] = userWeight;
 
-
+    var formBody = [];
+    for (var key in userInfo) {
+      var value = userInfo[key];
+      formBody.push(key + '=' + value);
+    }
+    formBody = formBody.join('&');
     setLoading(true);
-    axios.post('http://127.0.0.1:3000/auth/signup', userInfo)
+    axios.post('http://127.0.0.1:8080/auth/signup', formBody)
     .then(function(response){
       setLoading(false);
-      if (response.status === 'success') {
+      /*if (response.status === 'success') {
        
         console.log(response.data.email);
         navigation.replace('DrawerNavigationRoutes');
       } else {
         setErrortext(response.msg);
         console.log('회원가입에 실패하였습니다!');
-      }
-
-
+      }*/
       //회원가입이 이미 되어 있다면?
-      if(response.success==true){
-
-        AsyncStorage.setItem('user_email', response.data.email);
-        navigation.replace('DrawerNavigationRoutes');
+      console.log(response);
+      console.log(userInfo);
+      if(response.data==true){
+        alert(userInfo.userName+"님의 회원가입에 성공하였습니다! 로그인 화면으로 이동합니다.");
+        //AsyncStorage.setItem('user_email', response.data.email);
+        navigation.replace('LoginScreen');
       }
       else{
-        navigation.replace('RegisterScreen_id');
+        alert("회원가입 과정에서 오류가 발생했습니다! 로그인 페이지로 이동합니다..");
+        navigation.replace("LoginScreen");
       }
+
+      if(response.status==500)
+      {
+        alert("이미 가입되어 있는 회원입니다. 로그인 페이지로 이동합니다..");
+        navigation.replace("LoginScreen");
+      }
+
     }
       )
     .catch(error => {
         setLoading(false);
-        setErrortext('에러: '+ error.message);
+        alert("이미 가입되어 있는 회원입니다. 로그인 페이지로 이동합니다..");
+        navigation.replace("LoginScreen");
     });
 
 
@@ -91,6 +147,9 @@ const RegisterScreen_personal_info = (props) => {
 
   };
   
+
+
+
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <Loader loading={loading} />
@@ -113,6 +172,8 @@ const RegisterScreen_personal_info = (props) => {
           />
         </View>   
         <KeyboardAvoidingView enabled>
+
+        <Text style={{marginLeft:40, color:'black'}}>나이, 키, 몸무게 입력은 선택입니다.</Text>
         <View style={styles.SectionStyle}>
             <TextInput
               label="나이"
@@ -139,7 +200,7 @@ const RegisterScreen_personal_info = (props) => {
                 setUserHeight(UserHeight)
               }
               underlineColorAndroid="#f000"
-              placeholder="키를 입력해 주세요."
+              placeholder="키를 입력해 주세요. 단위(cm)"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               ref={heightInputRef}
@@ -157,7 +218,7 @@ const RegisterScreen_personal_info = (props) => {
                 setUserWeight(UserWeight)
               }
               underlineColorAndroid="#f000"
-              placeholder="몸무게를 입력해 주세요."
+              placeholder="몸무게를 입력해 주세요. 단위(kg)"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               ref={weightInputRef}

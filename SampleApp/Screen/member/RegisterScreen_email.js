@@ -53,7 +53,7 @@ const RegisterScreen_email = (props) => {
       alert('이메일을 정확히 입력해주세요!');
       return;
     }
-    var email = "email";
+    var email = "userEmail";
     userInfo[email] = userEmail;
 
     navigation.navigate("RegisterScreen_pw",userInfo);

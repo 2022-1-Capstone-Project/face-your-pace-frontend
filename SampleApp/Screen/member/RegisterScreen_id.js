@@ -43,7 +43,7 @@ const RegisterScreen_id = (props) => {
     setErrortext('');
     const userInfo = 
     {
-      Id:userId
+      userId:userId
     }
     if(!userId){
       alert('아이디를 입력해주세요.');
@@ -80,7 +80,8 @@ const RegisterScreen_id = (props) => {
         </View>
         <KeyboardAvoidingView enabled>
         <View style={styles.SectionStyle}>
-            <TextInput
+            <Text style={styles.textStyle}>*표시는 필수 입력 항목입니다.</Text>
+            <TextInput color='black'
               style={styles.inputStyle}
               label={
                 <Text>
@@ -118,12 +119,16 @@ export default RegisterScreen_id;
 
 const styles = StyleSheet.create({
   SectionStyle: {
-    flexDirection: 'row',
-    height: 60,
+    flexDirection: 'column',
+    height: 100,
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
     margin: 10,
+  },
+  textStyle:{
+
+    marginBottom:20,
   },
   buttonStyle: {
     backgroundColor: '#7DE24E',
