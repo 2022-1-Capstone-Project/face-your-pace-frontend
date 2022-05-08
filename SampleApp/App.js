@@ -25,6 +25,7 @@ import MainLoginScreen from './Screen/member/MainLoginScreen';
 
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 
+console.disableYellowBox = true;
 const Stack = createStackNavigator();
 
 const Auth = () => {

@@ -15,7 +15,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
+
 import { Searchbar,Text,TextInput } from 'react-native-paper';
 import {LinesLoader} from 'react-native-indicator';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -26,8 +26,6 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const renderPlaylists=(initialArr)=> {
-
-  const navigation = useNavigation();
   return initialArr.map((item) => {
       return (
         <View key = {item.id} style={styles.SectionStyle}>
@@ -41,14 +39,11 @@ const renderPlaylists=(initialArr)=> {
             </Text>
 
             <TouchableOpacity
-             onPress={()=>navigation.navigate("Config_screen1",{
-              playlist_id: item.id,
-              music_title:item.title
-            })}>
+            >
 
               <Image
                     source={item.configUrl}
-                    style={styles.imgStyle2}
+                    style={styles.imgStyle}
               />
             </TouchableOpacity>
           </View>
@@ -171,7 +166,7 @@ const PlayListMusicScreen = ({navigation}) => {
       enabled style={styles.mainBody} >
         <View style={styles.header}>
           
-      
+
         <Image 
         source={require('../../Image/common/logo.png')} 
         resizeMode='contain' 
@@ -295,20 +290,12 @@ const styles = StyleSheet.create({
       position: 'absolute',
       left:0
  },
- imgStyle2:{
 
-  width: '30%',
-  height: 50,
-  resizeMode: 'contain',
-  position: 'relative',
-  top:30,
-  left:260
-},
  playlistTextStyle:{
     width: '50%',
     height: 100,
     position:'absolute',
-    top:45,
+    top:50,
     right:0
  },
   errorTextStyle: {

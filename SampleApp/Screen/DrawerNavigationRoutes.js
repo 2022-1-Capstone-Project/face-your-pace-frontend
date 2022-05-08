@@ -12,6 +12,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from './DrawerScreens/HomeScreen';
 import PlayListScreen from './playlist/Playlist';
 import PlayListMusicScreen from './playlist/Playlist_music';
+import Config_screen1 from './playlist/config_1';
 import SettingsScreen from './DrawerScreens/SettingsScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
@@ -60,7 +61,7 @@ const playListScreenStack = ({navigation}) => {
         name="PlayListScreen"
         component={PlayListScreen}
         options={{
-          title: 'Home', //Set Header Title
+          title: 'playlist', //Set Header Title
           headerRight: () => (
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
@@ -81,7 +82,28 @@ const playListScreenStack = ({navigation}) => {
         name="PlayListMusicScreen"
         component={PlayListMusicScreen}
         options={{
-          title: 'Home', //Set Header Title
+          title: 'music', //Set Header Title
+          headerRight: () => (
+            <NavigationDrawerHeader navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
+    <Stack.Screen
+        name="Config_screen1"
+        component={Config_screen1}
+        options={{
+          title: 'music', //Set Header Title
           headerRight: () => (
             <NavigationDrawerHeader navigationProps={navigation} />
           ),

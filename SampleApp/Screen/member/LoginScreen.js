@@ -203,6 +203,7 @@ const LoginScreen = ({navigation}) => {
       setLoading(false);
       if (response.data==true) {
         AsyncStorage.setItem('user_email', userId);
+        alert("로그인에 성공하였습니다.");
         navigation.replace('DrawerNavigationRoutes');
       }
       else{
@@ -211,7 +212,7 @@ const LoginScreen = ({navigation}) => {
     }
       )
     .catch(error => {
-        setErrortext('Error:'+ error.message);
+        //setErrortext('Error:'+ error.message);
         NaverLogin.logout();
         setNaverToken("");
     });

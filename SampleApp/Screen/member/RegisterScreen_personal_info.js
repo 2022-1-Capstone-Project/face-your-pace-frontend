@@ -137,7 +137,8 @@ const RegisterScreen_personal_info = (props) => {
       )
     .catch(error => {
         setLoading(false);
-        alert("이미 가입되어 있는 회원입니다. 로그인 페이지로 이동합니다..");
+        console.log(error);
+        alert("회원가입에 실패했습니다. 로그인 페이지로 이동합니다.");
         navigation.replace("LoginScreen");
     });
 
@@ -204,6 +205,7 @@ const RegisterScreen_personal_info = (props) => {
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               ref={heightInputRef}
+              keyboardType="numeric"
               returnKeyType="next"
               onSubmitEditing={  weightInputRef.current &&
                 weightInputRef.current.focus()}
@@ -221,6 +223,7 @@ const RegisterScreen_personal_info = (props) => {
               placeholder="몸무게를 입력해 주세요. 단위(kg)"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
+              keyboardType="numeric"
               ref={weightInputRef}
               returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}

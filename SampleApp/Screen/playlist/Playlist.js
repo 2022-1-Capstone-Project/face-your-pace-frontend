@@ -33,6 +33,7 @@ const renderPlaylists=(initialArr)=> {
           <TouchableOpacity  activeOpacity={0.5}
             onPress={()=>navigation.navigate("PlayListMusicScreen",{
               playlist_id: item.id,
+              playlist_title:item.title
             })}
           >
             <Image
@@ -49,27 +50,36 @@ const renderPlaylists=(initialArr)=> {
 };
 
 const fetchPlayListData= ()=>{
+  var userId = 4;
+  let dataToSend = {userId: userId};
+  var formBody = [];
+  for (var key in dataToSend) {
+    var value = dataToSend[key];
+    formBody.push(key + '=' + value);
+  }
+  formBody = formBody.join('&');
+
+  axios.post('http://127.0.0.1:8080/auth/login', formBody)
+  .then( function(response){
+    setLoading(false);
+    if (response.data==true) {
+      AsyncStorage.setItem('user_email', userId);
+      alert("로그인에 성공하였습니다.");
+      navigation.replace('DrawerNavigationRoutes');
+    }
+    else{
+      alert('아이디와 비밀번호를 확인해주시기 바랍니다!');
+    }
+  }
+    )
+  .catch(error => {
+      //setErrortext('Error:'+ error.message);
+      NaverLogin.logout();
+      setNaverToken("");
+  });
 
 
 
-  fetch('http://127.0.0.1:3000/api/music/playlist', {
-      method: 'GET',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-
-      })
-      .catch((error) => {
-        //Hide Loader
-        console.error(error);
-      });
   };
 
 
@@ -95,22 +105,22 @@ const PlayListScreen = ({navigation}) => {
       title: "플레이리스트3"
     },
     {
-      id:3,
+      id:4,
       imgUrl: require('../../Image/playlist/music-playlist.jpg'),
       title: "플레이리스트4"
     },
     {
-      id:3,
+      id:5,
       imgUrl: require('../../Image/playlist/music-playlist.jpg'),
       title: "플레이리스트5"
     },
     {
-      id:3,
+      id:6,
       imgUrl: require('../../Image/playlist/music-playlist.jpg'),
       title: "플레이리스트6"
     },
     {
-      id:3,
+      id:7,
       imgUrl: require('../../Image/playlist/music-playlist.jpg'),
       title: "플레이리스트7"
     },
