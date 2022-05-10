@@ -15,16 +15,16 @@ import AsyncStorage from '@react-native-community/async-storage';
 const SplashScreen = ({navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
-
+  console.warn =  () => {};
   useEffect(() => {
     setTimeout(() => {
       setAnimating(false);
       //Check if user_id is set or not
       //If not then send for Authentication
       //else send to Home Screen
-      AsyncStorage.getItem('user_email').then((value) =>
-        navigation.replace(
-          value === null ? 'Auth' : 'DrawerNavigationRoutes'
+      AsyncStorage.getItem('user_id').then((value) =>
+        navigation.navigate(
+          value === null ? 'Auth' : 'DrawerNavigationRoutes',{params:{user_id:value}}
         ),
       );
     }, 3000);

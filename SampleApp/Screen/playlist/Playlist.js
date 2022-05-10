@@ -3,6 +3,7 @@
 
 // Import React and Component
 import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import {
   ActivityIndicator,
   View,
@@ -24,30 +25,47 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 
+
+
+const handleSubmit=(navigation)=>{
+
+  AsyncStorage.getItem('user_id').then((value) =>
+    navigation.navigate("PlayListAddScreen",{params:{user_id:a}}));
+
+}
+
+
+
 const renderPlaylists=(initialArr)=> {
 
   const navigation = useNavigation();
-  return initialArr.map((item) => {
-      return (
-        <View key = {item.id} style={styles.SectionStyle}>
-          <TouchableOpacity  activeOpacity={0.5}
-            onPress={()=>navigation.navigate("PlayListMusicScreen",{
-              playlist_id: item.id,
-              playlist_title:item.title
-            })}
-          >
-            <Image
-                  source={item.imgUrl}
-                  style={styles.imgStyle}
-            />
-            <Text style={styles.playlistTextStyle}>
-                  {item.title}
-            </Text>
-          </TouchableOpacity>
-         </View>
-      );
-  });
+  
+
+    return initialArr.map((item) => {
+        return (
+          <View key = {item.id} style={styles.SectionStyle}>
+            <TouchableOpacity  activeOpacity={0.5}
+              onPress={()=>navigation.navigate("PlayListMusicScreen",{
+                playlist_id: item.id,
+                playlist_title:item.title
+              })}
+            >
+              <Image
+                    source={item.imgUrl}
+                    style={styles.imgStyle}
+              />
+              <Text style={styles.playlistTextStyle}>
+                    {item.title}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        );
+    });
+  
 };
+
+
+
 
 const fetchPlayListData= ()=>{
   var userId = 4;
@@ -59,7 +77,21 @@ const fetchPlayListData= ()=>{
   }
   formBody = formBody.join('&');
 
-  axios.post('http://127.0.0.1:8080/auth/login', formBody)
+  
+
+
+  };
+
+
+
+const PlayListScreen = ({navigation}) => {
+  //fetchPlayListData();
+  //State for ActivityIndicator animation
+  const [animating, setAnimating] = useState(true);
+
+
+
+  /*axios.post('http://127.0.0.1:8080/api/mypage/playlist', formBody)
   .then( function(response){
     setLoading(false);
     if (response.data==true) {
@@ -76,18 +108,8 @@ const fetchPlayListData= ()=>{
       //setErrortext('Error:'+ error.message);
       NaverLogin.logout();
       setNaverToken("");
-  });
+  });*/
 
-
-
-  };
-
-
-
-const PlayListScreen = ({navigation}) => {
-  //fetchPlayListData();
-  //State for ActivityIndicator animation
-  const [animating, setAnimating] = useState(true);
   initialArr = [
     {
       id:1,
@@ -125,69 +147,41 @@ const PlayListScreen = ({navigation}) => {
       title: "플레이리스트7"
     },
   ];
-  const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = query => setSearchQuery(query);
-
-
 
 
       //Check if user_id is set or not
       //If not then send for Authentication
       //else send to Home Screen
-
-      /*fetch('http://127.0.0.1:8080/mypage/playlist', {
-        method: 'POST',
-        body: formBody,
-        headers: {
-          //Header Defination
-          'Content-Type':
-          'application/x-www-form-urlencoded;charset=UTF-8',
-        },
-      })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          //Hide Loader
-          setLoading(false);
-          console.log(responseJson);
-          // If server response message same as Data Matched
-          if (responseJson.status === 'success') {
-            AsyncStorage.setItem('user_id', responseJson.data.email);
-            console.log(responseJson.data.email);
-            navigation.replace('DrawerNavigationRoutes');
-          } else {
-            setErrortext(responseJson.msg);
-            console.log('이메일 ID와 비밀번호를 확인해주시기 바랍니다!');
-          }
-        })
-        .catch((error) => {
-          //Hide Loader
-          setLoading(false);
-          console.error(error);
-        });*/
-
  
 
 
   return (
       <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
       enabled style={styles.mainBody} >
-        <View style={styles.header}>
 
-
-            <Searchbar
-            placeholder="플레이리스트 에서 찾기"
-            onChangeText={onChangeSearch}
-            value={searchQuery}
-            icon={() => <Ionicons name="search-outline" size={30}/>}
-          />
-          
-        </View>
         <View style={styles.body}>
           <ScrollView style={{ width:'100%',flex:1}}>
+
+                <View style={styles.SectionStyle}>
+                    <TouchableOpacity  activeOpacity={0.5}
+                      onPress={handleSubmit.bind(navigation)}
+                    >
+                      <Image
+                            source={require('../../Image/playlist/add.png')}
+                            style={styles.imgStyle2}
+                      />
+                      <Text style={styles.addTextStyle}>
+                            플레이리스트 추가하기
+                      </Text>
+                  </TouchableOpacity>
+                </View>
                 {
 
                   renderPlaylists(initialArr)
                 }
+
+               
+               
             
           </ScrollView>
         </View>
@@ -301,6 +295,14 @@ const styles = StyleSheet.create({
       left:0
  },
 
+ imgStyle2:{
+
+  width: '30%',
+  height: 100,
+  resizeMode: 'contain',
+  position: 'absolute',
+  left:0
+},
  playlistTextStyle:{
     width: '50%',
     height: 100,
@@ -308,6 +310,15 @@ const styles = StyleSheet.create({
     top:50,
     right:0
  },
+
+ addTextStyle:{
+  width: '60%',
+  height: 100,
+  position:'absolute',
+  top:40,
+  fontSize:20,
+  right:10
+},
   errorTextStyle: {
     color: 'red',
     textAlign: 'center',

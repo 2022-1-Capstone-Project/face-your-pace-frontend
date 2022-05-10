@@ -3,44 +3,52 @@
 
 // Import React and Component
 import React from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  Image,
+  Button,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  SafeAreaView
+} from 'react-native';
 
 const HomeScreen = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1, padding: 16}}>
+      <View style={{flex: 1, padding: 16,backgroundColor:'white'}}>
         <View
           style={{
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text
-            style={{
-              fontSize: 20,
-              textAlign: 'center',
-              marginBottom: 16,
-            }}>
-            메인화면은 현재 미구현 상태입니다.
-          </Text>
+          <Image 
+                    source={require('../../Image/common/running-1.jpg')}
+                    style={styles.imgStyle}
+          />
+            <Image 
+                    source={require('../../Image/common/running-2.webp')}
+                    style={styles.imgStyle}
+          />
         </View>
-        <Text
-          style={{
-            fontSize: 18,
-            textAlign: 'center',
-            color: 'grey',
-          }}>
-        </Text>
-        <Text
-          style={{
-            fontSize: 16,
-            textAlign: 'center',
-            color: 'grey',
-          }}>
-        </Text>
+       
       </View>
     </SafeAreaView>
   );
 };
 
+
+const styles = StyleSheet.create({
+imgStyle:{
+
+  flex: 1,
+  width: 300,
+  height: 300,
+  resizeMode: 'contain',
+
+},
+
+});
 export default HomeScreen;

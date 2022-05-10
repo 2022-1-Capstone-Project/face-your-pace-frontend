@@ -79,7 +79,6 @@ const LoginScreen = ({navigation}) => {
   const naverLogin = props => {
     return new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
-        console.log(token);
         setNaverToken(token);
         if (err) {
           reject(err.message);
@@ -102,20 +101,24 @@ const LoginScreen = ({navigation}) => {
       //Alert.alert("로그인 실패", profileResult.message);
       return;
     }
-    console.log("naverToken",naverToken);
-    console.log("profileResult", profileResult);
-    AsyncStorage.setItem('user_email', profileResult.response.email);
-    navigation.replace('DrawerNavigationRoutes');
 
-    setLoading(true);
+    const email = profileResult.reponse.email;
+        console.log("AAAAAA");
+        console.log(reponse.data.email);
+        AsyncStorage.setItem('user_id', profileResult.response.email);
+        navigation.navigate(
+          'DrawerNavigationRoutes',{params:{user_id:email}}
+          );
 
-    axios.post('http://127.0.0.1:8080/auth/login/naver', profileResult)
+
+
+    /*axios.post('http://127.0.0.1:8080/auth/login/naver', profileResult)
     .then(function(response){
       setLoading(false);
       if (response.status === 'success') {
-       
+        console.log("로그인 성공")
         console.log(response.data.email);
-        //navigation.replace('DrawerNavigationRoutes');
+        navigation.replace('DrawerNavigationRoutes');
       } else {
         setErrortext(response.msg);
         console.log('네이버 로그인에 실패하였습니다!');
@@ -124,9 +127,13 @@ const LoginScreen = ({navigation}) => {
 
       //네이버 로그인을 사용해서 회원가입이 되어 있다면?
       if(response.isRegistered==true){
-
-        AsyncStorage.setItem('user_email', response.data.email);
-        navigation.replace('DrawerNavigationRoutes');
+        const email = profileResult.reponse.email;
+        console.log("AAAAAA");
+        console.log(reponse.data.email);
+        AsyncStorage.setItem('user_id', profileResult.response.email);
+        navigation.navigate(
+          'DrawerNavigationRoutes',{params:{user_id:email}}
+          );
       }
       else{
         navigation.replace('RegisterScreen_id');
@@ -137,7 +144,9 @@ const LoginScreen = ({navigation}) => {
         setLoading(false);
         NaverLogin.logout();
         setErrortext('에러: '+ error.message);
-    });
+    });*/
+
+    
    /* setLoading(true);
     fetch('http://127.0.0.1:3000/auth/login/naver', {
       method: 'POST',
@@ -202,9 +211,9 @@ const LoginScreen = ({navigation}) => {
     .then( function(response){
       setLoading(false);
       if (response.data==true) {
-        AsyncStorage.setItem('user_email', userId);
+        AsyncStorage.setItem('user_id', userId);
         alert("로그인에 성공하였습니다.");
-        navigation.replace('DrawerNavigationRoutes');
+        navigation.replace('DrawerNavigationRoutes',{params:{user_id:userId}});
       }
       else{
         alert('아이디와 비밀번호를 확인해주시기 바랍니다!');
@@ -213,6 +222,7 @@ const LoginScreen = ({navigation}) => {
       )
     .catch(error => {
         //setErrortext('Error:'+ error.message);
+        setLoading(false);
         NaverLogin.logout();
         setNaverToken("");
     });

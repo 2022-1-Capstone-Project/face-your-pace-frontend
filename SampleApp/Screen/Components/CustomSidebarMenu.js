@@ -16,6 +16,7 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const CustomSidebarMenu = (props) => {
+  var nickname = ""
   return (
     <View style={stylesSidebar.sideMenuContainer}>
       <View style={stylesSidebar.profileHeader}>
@@ -23,16 +24,16 @@ const CustomSidebarMenu = (props) => {
           <Ionicons name="person-outline" size={30}/>
         </View>
         <Text style={stylesSidebar.profileHeaderText}>
-          유저 이름
+          {props.name}
         </Text>
       </View>
       <View style={stylesSidebar.profileHeaderLine} />
 
       <DrawerContentScrollView {...props}>
-        <DrawerItemList {...props} />
+        <DrawerItemList {...props}/>
         <DrawerItem
           label={({color}) =>
-            <Text style={{color: '#d8d8d8'}}>
+            <Text style={{color: 'black'}}>
               Logout
             </Text>
           }
@@ -72,13 +73,13 @@ const stylesSidebar = StyleSheet.create({
   sideMenuContainer: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#307ecc',
+    backgroundColor: '#ffffff',
     paddingTop: 40,
     color: 'white',
   },
   profileHeader: {
     flexDirection: 'row',
-    backgroundColor: '#307ecc',
+    backgroundColor: '#ff6347',
     padding: 15,
     textAlign: 'center',
   },

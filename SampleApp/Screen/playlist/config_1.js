@@ -237,8 +237,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginLeft: 35,
     marginRight: 35,
-    marginTop:20,
     marginBottom: 25,
+    top:-30,
     borderWidth: 1,
   },
   buttonStyle2: {
