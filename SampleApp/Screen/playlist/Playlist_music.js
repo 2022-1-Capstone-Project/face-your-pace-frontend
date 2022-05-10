@@ -169,23 +169,28 @@ const PlayListMusicScreen = ({navigation}) => {
   return (
       <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
       enabled style={styles.mainBody} >
-        <View style={styles.header}>
-          
+
+      <ScrollView style={{ width:'100%',flex:1}}>
+        <View style={styles.SectionStyle}>
+                    <TouchableOpacity  activeOpacity={0.5}
+                    >
+                      <Image
+                            source={require('../../Image/playlist/add.png')}
+                            style={styles.imgStyle3}
+                      />
+                      <Text style={styles.addTextStyle}>
+                            플레이리스트 추가하기
+                      </Text>
+                  </TouchableOpacity>
+          </View>
       
-        <Image 
-        source={require('../../Image/common/logo.png')} 
-        resizeMode='contain' 
-        style={{flex:1}}/>
-        </View>
-        <View style={styles.body}>
-          <ScrollView style={{ width:'100%',flex:1}}>
-                {
+            {
 
                   renderPlaylists(initialArr)
-                }
+            }
             
           </ScrollView>
-        </View>
+       
 
 
     </KeyboardAvoidingView>
@@ -304,6 +309,14 @@ const styles = StyleSheet.create({
   top:30,
   left:260
 },
+imgStyle3:{
+
+  width: '30%',
+  height: 100,
+  resizeMode: 'contain',
+  position: 'absolute',
+  left:0
+},
  playlistTextStyle:{
     width: '50%',
     height: 100,
@@ -318,5 +331,15 @@ const styles = StyleSheet.create({
   },
   registrationStyle: {
     justifyContent:'center'
-  }
+  },
+  addTextStyle:{
+    width: '60%',
+    height: 100,
+    position:'absolute',
+    top:40,
+    fontSize:20,
+    right:10
+  },
+
+  
 });

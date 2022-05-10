@@ -27,12 +27,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 
 
-const handleSubmit=(navigation)=>{
 
-  AsyncStorage.getItem('user_id').then((value) =>
-    navigation.navigate("PlayListAddScreen",{params:{user_id:a}}));
-
-}
 
 
 
@@ -88,6 +83,9 @@ const PlayListScreen = ({navigation}) => {
   //fetchPlayListData();
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
+  const value = "";
+  AsyncStorage.getItem('user_id').then((val) =>
+  value=val);
 
 
 
@@ -148,7 +146,12 @@ const PlayListScreen = ({navigation}) => {
     },
   ];
 
-
+  const handleSubmit=()=>{
+    navigation.navigate(
+      'PlayListAddScreen',{params:{user_id:value}}
+    )
+    
+  }
       //Check if user_id is set or not
       //If not then send for Authentication
       //else send to Home Screen
@@ -164,7 +167,7 @@ const PlayListScreen = ({navigation}) => {
 
                 <View style={styles.SectionStyle}>
                     <TouchableOpacity  activeOpacity={0.5}
-                      onPress={handleSubmit.bind(navigation)}
+                      onPress={handleSubmit}
                     >
                       <Image
                             source={require('../../Image/playlist/add.png')}

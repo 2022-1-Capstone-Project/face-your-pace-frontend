@@ -41,7 +41,6 @@ const Config_screen1 = ({route,navigation}) => {
     const [repeat, setRepeat] = useState('');
     const [bpm, setBpm] = useState('');
   
-    const start_m_Ref = createRef();
     const start_s_Ref = createRef();
     const finish_m_Ref = createRef();
     const finish_s_Ref = createRef();
@@ -228,18 +227,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center'
   },
   buttonStyle: {
-    backgroundColor: '#fffff',
+    backgroundColor: '#7DE24E',
     borderWidth: 0,
     color: '#FFFFFF',
-    borderColor: '#dadae8',
+    borderColor: '#7DE24E',
     height: 40,
     alignItems: 'center',
     borderRadius: 30,
     marginLeft: 35,
     marginRight: 35,
-    marginBottom: 25,
-    top:-30,
-    borderWidth: 1,
+    marginTop: 20,
+    marginBottom: 20,
   },
   buttonStyle2: {
     backgroundColor: '#03C75A',
