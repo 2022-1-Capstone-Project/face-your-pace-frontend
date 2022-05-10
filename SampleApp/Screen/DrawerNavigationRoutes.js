@@ -15,6 +15,7 @@ import PlayListMusicScreen from './playlist/Playlist_music';
 import Config_screen1 from './playlist/config_1';
 import Config_screen2 from './playlist/config_2';
 import PlayListAddScreen from './playlist/playlist_add';
+import MusicAddScreen from './playlist/music_add';
 import SettingsScreen from './DrawerScreens/SettingsScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
@@ -104,6 +105,27 @@ const playListScreenStack = ({navigation}) => {
     <Stack.Screen
         name="PlayListAddScreen"
         component={PlayListAddScreen}
+        options={{
+          title: 'music', //Set Header Title
+          headerRight: () => (
+            <NavigationDrawerHeader navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
+<Stack.Screen
+        name="MusicAddScreen"
+        component={MusicAddScreen}
         options={{
           title: 'music', //Set Header Title
           headerRight: () => (

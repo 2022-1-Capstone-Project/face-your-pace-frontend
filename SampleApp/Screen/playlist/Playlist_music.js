@@ -76,6 +76,8 @@ const fetchPlayListData= ()=>{
 const PlayListMusicScreen = ({navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
+  const musicInfo= navigation.params;
+  console.log(musicInfo);
 
   //initialArr = fetchPlayListData();
 
@@ -123,6 +125,13 @@ const PlayListMusicScreen = ({navigation}) => {
       title: "음악7"
     },
   ];
+
+  const handleSubmit=()=>{
+    navigation.navigate(
+      'MusicAddScreen',{params:{user_id:value}}
+    )
+    
+  }
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
 
@@ -173,13 +182,14 @@ const PlayListMusicScreen = ({navigation}) => {
       <ScrollView style={{ width:'100%',flex:1}}>
         <View style={styles.SectionStyle}>
                     <TouchableOpacity  activeOpacity={0.5}
+                     onPress={handleSubmit}
                     >
                       <Image
                             source={require('../../Image/playlist/add.png')}
                             style={styles.imgStyle3}
                       />
                       <Text style={styles.addTextStyle}>
-                            플레이리스트 추가하기
+                            음악 추가하기
                       </Text>
                   </TouchableOpacity>
           </View>

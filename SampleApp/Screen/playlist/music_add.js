@@ -26,178 +26,120 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
-const PlayListAddScreen = ({navigation}) => {
+const MusicAddScreen = ({navigation}) => {
   //fetchPlayListData();
   //State for ActivityIndicator animation
+
+
   const [animating, setAnimating] = useState(true);
   const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
   return (
-      <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
-      enabled style={styles.mainBody} >
-        <View>
-          <Text>플레이리스트 이름 : </Text>
-          <TextInput
-          style={styles.inputStyle}
-                  label="minute"
-                    onChangeText={(name) => setName(name)}
-                    underlineColorAndroid="#f000"
-                    returnKeyType="next"
-                    blurOnSubmit={false}
-          
+    <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+    <Loader loading={loading} />
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{
+        justifyContent: 'center',
+        alignContent: 'center',
+        flex:1,
+      }}>
+      <View style={{alignItems: 'center'}}>
+      <Text style={{fontSize:20}}>들으실 음악의 사운드 클라우드 url을 입력하세요. </Text>
+      </View>
+      <KeyboardAvoidingView enabled>
+      <View style={styles.SectionStyle}>
+          <TextInput color='black'
+            style={styles.inputStyle}
+            label={
+              <Text>
+                   music_url
+                   <Text style={{color: 'red'}}> *</Text>
+              </Text>
+            }
+            onChangeText={(UserId) => setUserId(UserId)}
+            underlineColorAndroid="#f000"
+            placeholder="들으실 음악의 url을 입력해 주세요."
+            placeholderTextColor="#8b9cb5"
+            returnKeyType="next"
+            maxLength={20}
+            onSubmitEditing={() =>
+              nameInputRef.current &&
+              nameInputRef.current.focus()
+            }
+            blurOnSubmit={false}
           />
-        </View>
-
-
-    </KeyboardAvoidingView>
+        
+      </View>
+       
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          activeOpacity={0.5}
+          >
+          <Text style={styles.buttonTextStyle}>저장</Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    </ScrollView>
+  </View>
   );
 };
 
-export default PlayListAddScreen;
+export default MusicAddScreen;
 
 const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-
-  header:{
-    height: 40,
-    marginTop: 20,
-    marginBottom: 40,
-    marginHorizontal:20,
-  },
-  headerTextStyle:{
-
-    fontSize:20,
-    top:20,
-    left:45
-  },
-  bodyText1:{
-
-    fontSize:30,
-    left:20,
-    marginBottom:30
-  },
   SectionStyle: {
-    flex:1,
-    flexdirection: 'row',
-    justifyContent:'space-between',
+    flexDirection: 'column',
+    height: 50,
+    marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
-    height: 100,
+    margin: 10,
   },
+  textStyle:{
 
-  body:{
-    flexDirection: 'column',
-    flex:1,
-    justifyContent: 'center', alignItems: 'center'
+    marginBottom:20,
   },
   buttonStyle: {
-    backgroundColor: '#fffff',
+    backgroundColor: '#7DE24E',
     borderWidth: 0,
     color: '#FFFFFF',
-    borderColor: '#dadae8',
+    borderColor: '#7DE24E',
     height: 40,
     alignItems: 'center',
     borderRadius: 30,
     marginLeft: 35,
     marginRight: 35,
-    marginBottom: 25,
-    top:-30,
-    borderWidth: 1,
-  },
-  buttonStyle2: {
-    backgroundColor: '#03C75A',
-    borderWidth: 0,
-    color: '#FFFFFF',
-    borderColor: '#dadae8',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginBottom: 25,
-    borderWidth: 1,
+    marginTop: 20,
+    marginBottom: 20,
   },
   buttonTextStyle: {
-    color: '#000000',
+    color: '#FFFFFF',
     paddingVertical: 10,
     fontSize: 16,
   },
   inputStyle: {
-    height:40,
+    //textAlign:'center',
+   // margin: 0,
+   height:60,
+    flex: 1,
     color: 'black',
-    width:50,
-    left:120,
-    top:-35,
-    borderWidth: 1,
-    borderRadius: 15,
-    fontSize:15,
-    textAlign:'center',
-    borderColor: '#dadae8',
+   // paddingLeft: 15,
+   //paddingRight: 15,
+   // borderWidth: 1,
+    activeUnderlineColor: 'purple',
+    activeOutlineColor: 'purple',
+    //borderRadius: 30,
+   // borderColor: '#dadae8',
   },
-
-  inputStyle2: {
-    height:40,
-    color: 'black',
-    width:50,
-    left:220,
-    top:-100  ,
-    borderWidth: 1,
-    borderRadius: 15,
-    fontSize:15,
-    textAlign:'center',
-    borderColor: '#dadae8',
-  },
-
-
-  registerTextStyle: {
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  registerTextStyle1: {
-    color: '#000000',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 14,
-    alignSelf: 'center',
-    padding: 30,
-  },
-  registerTextStyle2:{
-    color: '#1AE162',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 14,
-    alignSelf: 'center',
-    padding: 30,
-
-  },
-
-
- imgStyle:{
-
-      width: '30%',
-      height: 100,
-      borderWidth: 5,
-      resizeMode: 'contain',
-      borderColor: '#dadae8',
-      position: 'absolute',
-      left:0
- },
-
- playlistTextStyle:{
-    width: '50%',
-    height: 100,
-    position:'absolute',
-    top:50,
-    right:0
- },
   errorTextStyle: {
     color: 'red',
     textAlign: 'center',
     fontSize: 14,
   },
-  registrationStyle: {
-    justifyContent:'center'
-  }
+  successTextStyle: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 18,
+    padding: 30,
+  },
 });
