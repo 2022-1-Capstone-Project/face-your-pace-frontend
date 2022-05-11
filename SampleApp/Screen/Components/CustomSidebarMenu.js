@@ -10,7 +10,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-
+import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -34,7 +34,7 @@ const CustomSidebarMenu = (props) => {
         <DrawerItem
           label={({color}) =>
             <Text style={{color: 'black'}}>
-              Logout
+              로그아웃
             </Text>
           }
           onPress={() => {
@@ -53,8 +53,22 @@ const CustomSidebarMenu = (props) => {
                   text: 'Confirm',
                   onPress: () => {
                     NaverLogin.logout();
-                    AsyncStorage.clear();
-                    props.navigation.replace('Auth');
+
+                    axios.post('http://127.0.0.1:8080/auth/logout', {email:'a'})
+                    .then( function(response){
+                      setNaverToken("");
+                      AsyncStorage.clear();
+                      props.navigation.replace('Auth');
+                    }
+                      )
+                    .catch(error => {
+                        props.navigation.replace('Auth');
+                        //setErrortext('Error:'+ error.message);
+                        setNaverToken("");
+                        AsyncStorage.clear();
+                     
+                    });
+    
                   },
                 },
               ],

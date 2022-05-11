@@ -23,7 +23,7 @@ const SplashScreen = ({navigation}) => {
       //If not then send for Authentication
       //else send to Home Screen
       AsyncStorage.getItem('user_id').then((value) =>
-        navigation.navigate(
+        navigation.replace(
           value === null ? 'Auth' : 'DrawerNavigationRoutes',{params:{user_id:value}}
         ),
       );

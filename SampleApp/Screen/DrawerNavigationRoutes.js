@@ -243,19 +243,19 @@ const DrawerNavigatorRoutes = (props) => {
       
       <Drawer.Screen
         name="homeScreenStack"
-        options={{drawerLabel: 'Home Screen'}}
+        options={{drawerLabel: '메인화면'}}
         labelStyle={{color:'#ffffff'}}
         component={homeScreenStack}
       />
       <Drawer.Screen
         name="playListScreenStack"
-        options={{drawerLabel: 'PlayList Screen'}}
+        options={{drawerLabel: '플레이리스트'}}
         labelStyle={{color:'#ffffff'}}
         component={playListScreenStack}
       />
       <Drawer.Screen
         name="settingScreenStack"
-        options={{drawerLabel: 'Setting Screen'}}
+        options={{drawerLabel: '환경설정'}}
         labelStyle={{color:'#ffffff'}}
         component={settingScreenStack}
       />

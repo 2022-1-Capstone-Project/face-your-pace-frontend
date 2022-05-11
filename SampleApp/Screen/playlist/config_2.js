@@ -25,32 +25,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const renderPlaylists=(initialArr)=> {
-  return initialArr.map((item) => {
-      return (
-        <View key = {item.id} style={styles.SectionStyle}>
-          <View>
-            <Image
-                  source={item.imgUrl}
-                  style={styles.imgStyle}
-            />
-            <Text style={styles.playlistTextStyle}>
-                  {item.title}
-            </Text>
-
-            <TouchableOpacity
-            >
-
-              <Image
-                    source={item.configUrl}
-                    style={styles.imgStyle}
-              />
-            </TouchableOpacity>
-          </View>
-         </View>
-      );
-  });
-};
 
 const fetchPlayListData= ()=>{
 
@@ -72,105 +46,13 @@ const PlayListMusicScreen = ({navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
 
-  //initialArr = fetchPlayListData();
-
-  initialArr = [
-    {
-      id:1,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악1"
-    },
-    {
-      id:2,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악2"
-    },
-    {
-      id:3,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악3"
-    },
-    {
-      id:4,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악4"
-    },
-    {
-      id:5,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악5"
-    },
-    {
-      id:6,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악6"
-    },
-    {
-      id:7,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악7"
-    },
-  ];
-  const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = query => setSearchQuery(query);
-
-
-
-
-      //Check if user_id is set or not
-      //If not then send for Authentication
-      //else send to Home Screen
-
-      /*fetch('http://127.0.0.1:8080/mypage/playlist', {
-        method: 'POST',
-        body: formBody,
-        headers: {
-          //Header Defination
-          'Content-Type':
-          'application/x-www-form-urlencoded;charset=UTF-8',
-        },
-      })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          //Hide Loader
-          setLoading(false);
-          console.log(responseJson);
-          // If server response message same as Data Matched
-          if (responseJson.status === 'success') {
-            AsyncStorage.setItem('user_id', responseJson.data.email);
-            console.log(responseJson.data.email);
-            navigation.replace('DrawerNavigationRoutes');
-          } else {
-            setErrortext(responseJson.msg);
-            console.log('이메일 ID와 비밀번호를 확인해주시기 바랍니다!');
-          }
-        })
-        .catch((error) => {
-          //Hide Loader
-          setLoading(false);
-          console.error(error);
-        });*/
-
- 
-
-
   return (
       <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
       enabled style={styles.mainBody} >
         <View style={styles.header}>
           
 
-        <Image 
-        source={require('../../Image/common/logo.png')} 
-        resizeMode='contain' 
-        style={{flex:1}}/>
+        
         </View>
         <View style={styles.body}>
           <ScrollView style={{ width:'100%',flex:1}}>
