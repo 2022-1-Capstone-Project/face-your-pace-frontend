@@ -127,9 +127,11 @@ const PlayListMusicScreen = ({navigation}) => {
   ];
 
   const handleSubmit=()=>{
-    navigation.navigate(
-      'MusicAddScreen',{params:{user_id:value}}
-    )
+    AsyncStorage.getItem('user_id').then((value) =>
+        navigation.navigate(
+          'MusicAddScreen',{params:{user_id:value}}
+        ),
+      );
     
   }
   const [searchQuery, setSearchQuery] = useState('');

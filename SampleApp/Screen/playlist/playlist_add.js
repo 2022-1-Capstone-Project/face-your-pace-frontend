@@ -34,6 +34,14 @@ const PlayListAddScreen = ({navigation}) => {
   const [animating, setAnimating] = useState(true);
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const handleSubmit=()=>{
+  
+    
+  }
+
+
+
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
     <Loader loading={loading} />
@@ -57,12 +65,13 @@ const PlayListAddScreen = ({navigation}) => {
                    <Text style={{color: 'red'}}> *</Text>
               </Text>
             }
-            onChangeText={(UserId) => setUserId(UserId)}
+            onChangeText={(name) => setName(name)}
             underlineColorAndroid="#f000"
             placeholder="플레이리스트 이름을 입력해 주세요."
             placeholderTextColor="#8b9cb5"
             returnKeyType="next"
             maxLength={20}
+            onPress={handleSubmit}
             onSubmitEditing={() =>
               nameInputRef.current &&
               nameInputRef.current.focus()

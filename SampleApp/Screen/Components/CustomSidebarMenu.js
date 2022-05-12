@@ -53,7 +53,7 @@ const CustomSidebarMenu = (props) => {
                   text: 'Confirm',
                   onPress: () => {
                     NaverLogin.logout();
-
+                    
                     axios.post('http://127.0.0.1:8080/auth/logout', {email:'a'})
                     .then( function(response){
                       setNaverToken("");

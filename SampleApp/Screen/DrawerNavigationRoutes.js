@@ -12,11 +12,13 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from './DrawerScreens/HomeScreen';
 import PlayListScreen from './playlist/Playlist';
 import PlayListMusicScreen from './playlist/Playlist_music';
+import MusicAddScreenMain from './mypage/music_add';
 import Config_screen1 from './playlist/config_1';
 import Config_screen2 from './playlist/config_2';
 import PlayListAddScreen from './playlist/playlist_add';
 import MusicAddScreen from './playlist/music_add';
 import SettingsScreen from './DrawerScreens/SettingsScreen';
+import UserUpdateScreen from './DrawerScreens/UserUpdate';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -26,6 +28,28 @@ const Drawer = createDrawerNavigator();
 const homeScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen">
+
+    <Stack.Screen
+        name="MusicAddScreenMain"
+        component={MusicAddScreenMain}
+        options={{
+          title: 'music', //Set Header Title
+          headerRight: () => (
+            <NavigationDrawerHeader navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
       <Stack.Screen
         name="HomeScreen"
         
@@ -52,6 +76,8 @@ const homeScreenStack = ({navigation}) => {
         }
         }}
       />
+
+
     </Stack.Navigator>
   );
 };
@@ -219,6 +245,7 @@ const settingScreenStack = ({navigation}) => {
   );
 };
 
+
 const DrawerNavigatorRoutes = (props) => {
 
   const userInfo = props.route.params;
@@ -258,6 +285,13 @@ const DrawerNavigatorRoutes = (props) => {
         options={{drawerLabel: '환경설정'}}
         labelStyle={{color:'#ffffff'}}
         component={settingScreenStack}
+      />
+
+<Drawer.Screen
+        name="UserUpdateScreen"
+        options={{drawerLabel: '사용자 정보 조회'}}
+        labelStyle={{color:'#ffffff'}}
+        component={(props)=><UserUpdateScreen name={myName} {...props}/>}
       />
     </Drawer.Navigator>
   );
