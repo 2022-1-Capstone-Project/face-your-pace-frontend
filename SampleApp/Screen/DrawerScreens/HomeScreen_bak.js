@@ -21,7 +21,7 @@ import Loader from '../Components/Loader';
 
 
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen_bak = ({navigation}) => {
   const [music,setMusic] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -192,4 +192,4 @@ justifyContent:'center'
 },
 
 });
-export default HomeScreen;
+export default HomeScreen_bak;

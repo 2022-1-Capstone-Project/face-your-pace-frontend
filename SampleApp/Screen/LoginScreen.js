@@ -95,38 +95,11 @@ const LoginScreen = ({navigation}) => {
       //Alert.alert("로그인 실패", profileResult.message);
       return;
     }
-    console.log("naverToken",naverToken);
-    console.log("profileResult", profileResult);
-    AsyncStorage.setItem('profileResult', profileResult.response.email);
-    setLoading(true);
-    fetch('http://127.0.0.1:3000/auth/login/naver', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          AsyncStorage.setItem('user_id', responseJson.data.email);
-          console.log(responseJson.data.email);
-        } else {
-          setErrortext(responseJson.msg);
-          console.log('네이버 로그인에 실패하였습니다!');
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });
+
+
+
+    AsyncStorage.setItem('user_id', profileResult.response.email);
+    
   };
   
 

@@ -108,7 +108,7 @@ const PlayListScreen = ({navigation}) => {
       setNaverToken("");
   });*/
 
-  initialArr = [
+  const initialArr = [
     {
       id:1,
       imgUrl: require('../../Image/common/logo.png'),

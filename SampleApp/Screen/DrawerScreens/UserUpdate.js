@@ -19,9 +19,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../Components/Loader';
 import axios from 'axios';
 
-const UserUpdateScreen = ({navigation}) => {
+const UserUpdateScreen = ({props}) => {
 
   const [user,setUser] = useState('');
+  
   const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -30,7 +31,7 @@ const UserUpdateScreen = ({navigation}) => {
   const [userPassword, setUserPassword] = useState('');
   const [userHeight, setUserHeight] = useState('');
   const [userWeight, setUserWeight] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [errortext, setErrortext] = useState('');
   const [
     isRegistraionSuccess,
@@ -47,18 +48,18 @@ const UserUpdateScreen = ({navigation}) => {
   const passwordInputRef = createRef();
 
   var value = "";
-  AsyncStorage.getItem('user_id').then((val) =>
-  value=val);
 
   useEffect(() => {
 
-    alert("use effffffffffect");
+    AsyncStorage.getItem('user_id').then((val) =>
+    value=val);
     async function fetchUser() {
       const response = await axios({
         method:"GET",
-        url: 'http://127.0.0.1:8080/api/mypage/members/asdf123',
+        url: 'http://127.0.0.1:8080/api/mypage/members/cau123'
       });
       console.log(response.data);
+      setUser('');
       setUser(response.data);
       setUserId(response.data.userId);
       setUserName(response.data.userName);
@@ -67,9 +68,10 @@ const UserUpdateScreen = ({navigation}) => {
       setUserAge(response.data.userAge);
       setUserHeight(response.data.userHeight);
       setUserWeight(response.data.userWeight);
+      setLoading(false);
     }
     fetchUser();
-  }, [navigation]);
+  }, []);
 
  
 
@@ -77,7 +79,7 @@ const UserUpdateScreen = ({navigation}) => {
     console.log(user);
     return user.map((item)=>{
       return (
-      <KeyboardAvoidingView enabled>
+      <KeyboardAvoidingView key={item.id}enabled>
       <View style={styles.SectionStyle}>
           <Text style={{fontSize:20}}> 아이디 : {item.userId}</Text>
 
@@ -105,11 +107,18 @@ const UserUpdateScreen = ({navigation}) => {
       </KeyboardAvoidingView>
 
     );
-          });
+      });
+   }
 
 
-  };
-
+  if (loading) {
+    return (
+      <View>
+        <Loader loading={loading} />
+      </View>
+      );
+  }
+  else{
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <Loader loading={loading} />
@@ -143,6 +152,7 @@ const UserUpdateScreen = ({navigation}) => {
       </ScrollView>
     </View>
   );
+      }
 };
 export default UserUpdateScreen;
 

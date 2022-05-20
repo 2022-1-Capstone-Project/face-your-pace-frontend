@@ -16,7 +16,8 @@ import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 
 const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
+
 
 const homeScreenStack = ({navigation}) => {
   return (

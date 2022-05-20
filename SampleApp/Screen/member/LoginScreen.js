@@ -39,7 +39,7 @@ const iosKeys = {
 };
 const androidKeys = {
   kConsumerKey: "f2H9yNRsK3exdKOl2EHO",
-  kConsumerSecret: "1bpkmD5b6R",
+  kConsumerSecret: "h1Ql8ulzIM",
   kServiceAppName: "FaceYourPace"
 };
 
@@ -47,6 +47,7 @@ const androidKeys = {
 const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 
 const LoginScreen = ({navigation}) => {
+
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -61,7 +62,7 @@ const LoginScreen = ({navigation}) => {
     getUserProfile();
   }, [naverToken]); // <- add the count variable here
 
-
+  console.log(naverToken);
   const naverLogout = () => {
     NaverLogin.logout();
     Alert.alert(
@@ -79,6 +80,7 @@ const LoginScreen = ({navigation}) => {
   const naverLogin = props => {
     return new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
+        console.log("hello");
         setNaverToken(token);
         if (err) {
           reject(err.message);
@@ -90,95 +92,27 @@ const LoginScreen = ({navigation}) => {
       });
     });
   };
+
+
   /*{errortext != '' ? (
     <Text style={styles.errorTextStyle}>
       {errortext}
     </Text>
   ) : null}*/
   const getUserProfile = async () => {
-     profileResult = await getProfile(naverToken.accessToken);
+    profileResult = await getProfile(naverToken.accessToken);
     if (profileResult.resultcode === "024") {
-      //Alert.alert("로그인 실패", profileResult.message);
+      Alert.alert("로그인 실패", profileResult.message);
       return;
     }
 
     const email = profileResult.reponse.email;
-        console.log("AAAAAA");
-        console.log(reponse.data.email);
-        AsyncStorage.setItem('user_id', profileResult.response.email);
-        navigation.navigate(
-          'DrawerNavigationRoutes',{params:{user_id:email}}
-          );
-
-
-
-    /*axios.post('http://127.0.0.1:8080/auth/login/naver', profileResult)
-    .then(function(response){
-      setLoading(false);
-      if (response.status === 'success') {
-        console.log("로그인 성공")
-        console.log(response.data.email);
-        navigation.replace('DrawerNavigationRoutes');
-      } else {
-        setErrortext(response.msg);
-        console.log('네이버 로그인에 실패하였습니다!');
-      }
-
-
-      //네이버 로그인을 사용해서 회원가입이 되어 있다면?
-      if(response.isRegistered==true){
-        const email = profileResult.reponse.email;
-        console.log("AAAAAA");
-        console.log(reponse.data.email);
-        AsyncStorage.setItem('user_id', profileResult.response.email);
-        navigation.navigate(
-          'DrawerNavigationRoutes',{params:{user_id:email}}
-          );
-      }
-      else{
-        navigation.replace('RegisterScreen_id');
-      }
-    }
-      )
-    .catch(error => {
-        setLoading(false);
-        NaverLogin.logout();
-        setErrortext('에러: '+ error.message);
-    });*/
-
-    
-   /* setLoading(true);
-    fetch('http://127.0.0.1:3000/auth/login/naver', {
-      method: 'POST',
-      body: profileResult,
-      headers: {
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          AsyncStorage.setItem('user_id', responseJson.data.email);
-          console.log(responseJson.data.email);
-          navigation.replace('DrawerNavigationRoutes');
-        } else {
-          setErrortext(responseJson.msg);
-          console.log('네이버 로그인에 실패하였습니다!');
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });*/
-
-
+      console.log("AAAAAA");
+      console.log(reponse.data.email);
+      navigation.replace(
+        'DrawerNavigationRoutes',{params:{user_id:email}}
+        );
+      AsyncStorage.setItem('user_id', profileResult.response.email);
   };
   
 

@@ -36,8 +36,42 @@ const PlayListAddScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit=()=>{
+    if (!name) {
+      alert('플레이리스트 이름을 입력해주시기 바랍니다.');
+      return;
+    }
+    //alert(formBody);
+    //현재는 3000 포트 번호로 되어 있는데 로컬에서 구동하는 백엔드 서버의 포트 번호에 따라 3000값을 바꾸시면 됩니다.
+   
+    let dataToSend = {musicName: name};
+    var formBody = [];
+    for (var key in dataToSend) {
+      var value = dataToSend[key];
+      formBody.push(key + '=' + value);
+    }
+    formBody = formBody.join('&');
+    alert(formBody);
+    axios({
+      method:"POST",
+      url: 'http://127.0.0.1:8080/api/music/add',
+      data:formBody,
+  }).then((res)=>{
+    if (res.data==true) {
+      alert("음악 추가에 성공하였습니다.");
+        AsyncStorage.getItem('user_id').then((value) =>
+        navigation.replace(
+          'DrawerNavigationRoutes',{params:{user_id:value}}
+        ),
+      );
+    }
+    else{
+      alert('음악 추가에 실패했습니다.');
+    }
+  }).catch(error=>{
+      console.log(error);
+      throw new Error(error);
+  });
   
-    
   }
 
 

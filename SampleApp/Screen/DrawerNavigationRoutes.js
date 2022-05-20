@@ -21,7 +21,6 @@ import SettingsScreen from './DrawerScreens/SettingsScreen';
 import UserUpdateScreen from './DrawerScreens/UserUpdate';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
-import AsyncStorage from '@react-native-community/async-storage';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -246,6 +245,35 @@ const settingScreenStack = ({navigation}) => {
 };
 
 
+const UserUpdateScreenStack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="UserUpdateScreen"
+      screenOptions={{
+        headerRight: () => (
+          <NavigationDrawerHeader navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#ffffff', //Set Header color
+        },
+        headerTintColor: '#000', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+          justifyContent: 'center',
+          alignContent: 'center',
+        },
+      }}>
+      <Stack.Screen
+        name="UserUpdateScreen"
+        component={UserUpdateScreen}
+        options={{
+          title: '유저 정보 조회', //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const DrawerNavigatorRoutes = (props) => {
 
   const userInfo = props.route.params;
@@ -254,7 +282,7 @@ const DrawerNavigatorRoutes = (props) => {
   props.name = myName;
   return (
     <Drawer.Navigator
-      initialRouteName='Home'
+      initialRouteName='homeScreenStack'
       drawerContentOptions={{
         activeTintColor: '#cee1f2',
         inactiveTintColor: '#ffffff',
@@ -280,19 +308,13 @@ const DrawerNavigatorRoutes = (props) => {
         labelStyle={{color:'#ffffff'}}
         component={playListScreenStack}
       />
-      <Drawer.Screen
-        name="settingScreenStack"
-        options={{drawerLabel: '환경설정'}}
+           <Drawer.Screen
+        name="UserUpdateScreenStack"
+        options={{drawerLabel: '유저 정보 조회'}}
         labelStyle={{color:'#ffffff'}}
-        component={settingScreenStack}
+        component={UserUpdateScreenStack}
       />
 
-<Drawer.Screen
-        name="UserUpdateScreen"
-        options={{drawerLabel: '사용자 정보 조회'}}
-        labelStyle={{color:'#ffffff'}}
-        component={(props)=><UserUpdateScreen name={myName} {...props}/>}
-      />
     </Drawer.Navigator>
   );
 };
