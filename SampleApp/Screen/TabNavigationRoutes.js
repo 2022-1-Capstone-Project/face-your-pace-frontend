@@ -22,7 +22,7 @@ import UserUpdateScreen from './TabScreens/UserUpdate';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 
@@ -262,10 +262,10 @@ const TabNavigationRoutes = (props) => {
 
         if (route.name === 'homeScreenStack') {
           iconName = focused
-            ? 'ios-information-circle'
-            : 'ios-information-circle-outline';
+            ? 'home'
+            : 'home-outline';
         } else if (route.name === 'Settings') {
-          iconName = focused ? 'ios-list-box' : 'ios-list';
+          iconName = focused ? 'settings' : 'settings-outline';
         }
 
         // You can return any component that you like here!
