@@ -9,11 +9,22 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 // Import Screens
-import HomeScreen from './DrawerScreens/HomeScreen';
+import HomeScreen from './TabScreens/HomeScreen';
 import PlayListScreen from './playlist/Playlist';
-import SettingsScreen from './DrawerScreens/SettingsScreen';
-import CustomSidebarMenu from './Components/CustomSidebarMenu';
+import PlayListMusicScreen from './playlist/Playlist_music';
+import MusicAddScreenMain from './mypage/music_add';
+import Config_screen1 from './playlist/config_1';
+import Config_screen2 from './playlist/config_2';
+import PlayListAddScreen from './playlist/playlist_add';
+import MusicAddScreen from './playlist/music_add';
+import SettingsScreen from './TabScreens/SettingsScreen';
+import UserUpdateScreen from './TabScreens/UserUpdate';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
+
+import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,6 +33,25 @@ const Tab = createBottomTabNavigator();
 const homeScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen">
+
+    <Stack.Screen
+        name="MusicAddScreenMain"
+        component={MusicAddScreenMain}
+        options={{
+          title: 'music', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
       <Stack.Screen
         name="HomeScreen"
         
@@ -29,9 +59,6 @@ const homeScreenStack = ({navigation}) => {
   
         options={{
           title: 'Home', //Set Header Title
-          headerRight: () => (
-            <NavigationDrawerHeader navigationProps={navigation} />
-          ),
           headerStyle: {
             backgroundColor: '#ffffff', //Set Header color
             alignContent: 'center',
@@ -48,6 +75,8 @@ const homeScreenStack = ({navigation}) => {
         }
         }}
       />
+
+
     </Stack.Navigator>
   );
 };
@@ -60,10 +89,99 @@ const playListScreenStack = ({navigation}) => {
         name="PlayListScreen"
         component={PlayListScreen}
         options={{
-          title: 'Home', //Set Header Title
-          headerRight: () => (
-            <NavigationDrawerHeader navigationProps={navigation} />
-          ),
+          title: 'playlist', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
+<Stack.Screen
+        name="PlayListMusicScreen"
+        component={PlayListMusicScreen}
+        options={{
+          title: 'music', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
+    <Stack.Screen
+        name="PlayListAddScreen"
+        component={PlayListAddScreen}
+        options={{
+          title: 'music', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
+<Stack.Screen
+        name="MusicAddScreen"
+        component={MusicAddScreen}
+        options={{
+          title: 'music', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
+<Stack.Screen
+        name="Config_screen1"
+        component={Config_screen1}
+        options={{
+          title: 'music', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
+      
+    <Stack.Screen
+        name="Config_screen2"
+        component={Config_screen2}
+        options={{
+          title: 'music', //Set Header Title
+ 
           headerStyle: {
             backgroundColor: '#ffffff', //Set Header color
           },
@@ -85,9 +203,6 @@ const settingScreenStack = ({navigation}) => {
     <Stack.Navigator
       initialRouteName="SettingsScreen"
       screenOptions={{
-        headerRight: () => (
-          <NavigationDrawerHeader navigationProps={navigation} />
-        ),
         headerStyle: {
           backgroundColor: '#ffffff', //Set Header color
         },
@@ -109,40 +224,63 @@ const settingScreenStack = ({navigation}) => {
   );
 };
 
-const DrawerNavigatorRoutes = (props) => {
+
+const UserUpdateScreenStack = ({navigation}) => {
   return (
-    <Drawer.Navigator
-      initialRouteName='Home'
-      drawerContentOptions={{
-        activeTintColor: '#cee1f2',
-        color: '#cee1f2',
-        itemStyle: {marginVertical: 5, color: 'white'},
-        labelStyle: {
-          color: '#d8d8d8',
+    <Stack.Navigator
+      initialRouteName="UserUpdateScreen"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#ffffff', //Set Header color
         },
-      }}
-      screenOptions={{headerShown: false,drawerPosition:'right'}}
-      drawerContent={CustomSidebarMenu}
-      
-      >
-      
-      <Drawer.Screen
-        name="homeScreenStack"
-        options={{drawerLabel: 'Home Screen'}}
-        component={homeScreenStack}
+        headerTintColor: '#000', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+          justifyContent: 'center',
+          alignContent: 'center',
+        },
+      }}>
+      <Stack.Screen
+        name="UserUpdateScreen"
+        component={UserUpdateScreen}
+        options={{
+          title: '유저 정보 조회', //Set Header Title
+        }}
       />
-      <Drawer.Screen
-        name="playListScreenStack"
-        options={{drawerLabel: 'PlayList Screen'}}
-        component={playListScreenStack}
-      />
-      <Drawer.Screen
-        name="settingScreenStack"
-        options={{drawerLabel: 'Setting Screen'}}
-        component={settingScreenStack}
-      />
-    </Drawer.Navigator>
+    </Stack.Navigator>
   );
 };
 
-export default DrawerNavigatorRoutes;
+
+const TabNavigationRoutes = (props) => {
+  return (
+    <NavigationContainer>
+    <Tab.Navigator
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'homeScreenStack') {
+          iconName = focused
+            ? 'ios-information-circle'
+            : 'ios-information-circle-outline';
+        } else if (route.name === 'Settings') {
+          iconName = focused ? 'ios-list-box' : 'ios-list';
+        }
+
+        // You can return any component that you like here!
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+      tabBarActiveTintColor: 'tomato',
+      tabBarInactiveTintColor: 'gray',
+    })}
+    >
+      <Tab.Screen name="homeScreenStack" component={homeScreenStack} />
+      <Tab.Screen name="playListScreenStack" component={settingScreenStack} />
+      <Tab.Screen name="UserUpdateScreenStack" component={settingScreenStack} />
+    </Tab.Navigator>
+  </NavigationContainer>
+  );
+};
+
+export default TabNavigationRoutes;

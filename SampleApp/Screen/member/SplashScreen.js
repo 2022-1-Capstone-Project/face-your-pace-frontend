@@ -13,6 +13,7 @@ import {LinesLoader} from 'react-native-indicator';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const SplashScreen = ({navigation}) => {
+  AsyncStorage.clear();
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
   console.warn =  () => {};
