@@ -19,8 +19,7 @@ import RegisterScreen_nickname from './Screen/member/RegisterScreen_nickname';
 import RegisterScreen_pw from './Screen/member/RegisterScreen_pw';
 import RegisterScreen_personal_info from './Screen/member/RegisterScreen_personal_info';
 
-
-import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
+import TabNavigationRoutes from './Screen/TabNavigationRoutes';
 import MainLoginScreen from './Screen/member/MainLoginScreen';
 
 import Icon from 'react-native-vector-icons/dist/Ionicons';
@@ -138,8 +137,8 @@ const App = () => {
           
         {/* Navigation Drawer as a landing page */}
         <Stack.Screen
-          name="DrawerNavigationRoutes"
-          component={DrawerNavigationRoutes}
+          name="TabNavigationRoutes"
+          component={TabNavigationRoutes}
           // Hiding header for Navigation Drawer
           options={{headerShown: false}}
         />

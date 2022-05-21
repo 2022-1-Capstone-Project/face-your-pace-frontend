@@ -62,7 +62,7 @@ const LoginScreen = ({navigation}) => {
     getUserProfile();
   }, [naverToken]); // <- add the count variable here
 
-  //console.log(naverToken);
+  console.log(naverToken);
   const naverLogout = () => {
     NaverLogin.logout();
     Alert.alert(
@@ -107,10 +107,10 @@ const LoginScreen = ({navigation}) => {
     }
 
     const email = profileResult.reponse.email;
-      console.log("AAAAAA");
-      console.log(reponse.data.email);
-      navigation.replace(
-        'DrawerNavigationRoutes',{params:{user_id:email}}
+    console.log("AAAAAA");
+    console.log(reponse.data.email);
+    navigation.replace(
+        'TabNavigationRoutes',{params:{user_id:email}}
         );
       AsyncStorage.setItem('user_id', profileResult.response.email);
   };
@@ -147,7 +147,7 @@ const LoginScreen = ({navigation}) => {
       if (response.data==true) {
         AsyncStorage.setItem('user_id', userId);
         alert("로그인에 성공하였습니다.");
-        navigation.replace('DrawerNavigationRoutes',{params:{user_id:userId}});
+        navigation.replace('TabNavigationRoutes',{params:{user_id:userId}});
       }
       else{
         alert('아이디와 비밀번호를 확인해주시기 바랍니다!');

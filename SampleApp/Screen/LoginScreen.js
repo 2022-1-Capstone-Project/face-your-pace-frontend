@@ -147,7 +147,7 @@ const LoginScreen = ({navigation}) => {
         if (responseJson.status === 'success') {
           AsyncStorage.setItem('user_id', responseJson.data.email);
           console.log(responseJson.data.email);
-          navigation.replace('DrawerNavigationRoutes');
+          navigation.replace('TabNavigationRoutes');
         } else {
           setErrortext(responseJson.msg);
           console.log('이메일 ID와 비밀번호를 확인해주시기 바랍니다!');

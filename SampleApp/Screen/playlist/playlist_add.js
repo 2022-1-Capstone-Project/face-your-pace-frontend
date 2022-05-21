@@ -60,7 +60,7 @@ const PlayListAddScreen = ({navigation}) => {
       alert("음악 추가에 성공하였습니다.");
         AsyncStorage.getItem('user_id').then((value) =>
         navigation.replace(
-          'DrawerNavigationRoutes',{params:{user_id:value}}
+          'TabNavigationRoutes',{params:{user_id:value}}
         ),
       );
     }

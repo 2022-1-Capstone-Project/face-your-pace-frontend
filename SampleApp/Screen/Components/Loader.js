@@ -4,7 +4,7 @@
 // Import React and Component
 import React from 'react';
 import {StyleSheet, View, Modal, ActivityIndicator} from 'react-native';
-
+import {LinesLoader} from 'react-native-indicator';
 const Loader = (props) => {
   const {loading, ...attributes} = props;
 
@@ -18,9 +18,9 @@ const Loader = (props) => {
       }}>
       <View style={styles.modalBackground}>
         <View style={styles.activityIndicatorWrapper}>
-          <ActivityIndicator
+          <LinesLoader
             animating={true}
-            color="#000000"
+            color="#307ecc"
             size="large"
             style={styles.activityIndicator}
           />

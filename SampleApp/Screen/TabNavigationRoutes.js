@@ -6,8 +6,7 @@ import React from 'react';
 
 // Import Navigators from React Navigation
 import {createStackNavigator} from '@react-navigation/stack';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Import Screens
 import HomeScreen from './TabScreens/HomeScreen';
 import PlayListScreen from './playlist/Playlist';
@@ -19,11 +18,10 @@ import PlayListAddScreen from './playlist/playlist_add';
 import MusicAddScreen from './playlist/music_add';
 import SettingsScreen from './TabScreens/SettingsScreen';
 import UserUpdateScreen from './TabScreens/UserUpdate';
-import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 
-import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
-import Icon from 'react-native-vector-icons/Ionicons';
-
+import Ionicons  from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
+import SimpleLineIcons  from 'react-native-vector-icons/SimpleLineIcons';
 
 
 const Stack = createStackNavigator();
@@ -253,10 +251,17 @@ const UserUpdateScreenStack = ({navigation}) => {
 
 
 const TabNavigationRoutes = (props) => {
+
+  const userInfo = props.route.params;
+  console.log(userInfo);
+  const myName = userInfo.params.user_id;
+  props.name = myName;
+
   return (
-    <NavigationContainer>
     <Tab.Navigator
+    tabBarOptions={{ showLabel: false }}
     screenOptions={({ route }) => ({
+      headerShown:false,
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
 
@@ -264,22 +269,26 @@ const TabNavigationRoutes = (props) => {
           iconName = focused
             ? 'home'
             : 'home-outline';
-        } else if (route.name === 'Settings') {
-          iconName = focused ? 'settings' : 'settings-outline';
+            return <Ionicons name={iconName} size={size} color={color} />;
+        } else if (route.name === 'playListScreenStack') {
+          iconName = focused ? 'playlist' : 'playlist';
+          return <SimpleLineIcons name={iconName} size={size} color={color} />;
+        }else if (route.name === 'UserUpdateScreenStack') {
+          iconName = focused ? 'md-person' : 'md-person-outline';
+          return <Ionicons name={iconName} size={size} color={color} />;
         }
 
         // You can return any component that you like here!
-        return <Ionicons name={iconName} size={size} color={color} />;
+     
       },
       tabBarActiveTintColor: 'tomato',
       tabBarInactiveTintColor: 'gray',
     })}
     >
       <Tab.Screen name="homeScreenStack" component={homeScreenStack} />
-      <Tab.Screen name="playListScreenStack" component={settingScreenStack} />
-      <Tab.Screen name="UserUpdateScreenStack" component={settingScreenStack} />
+      <Tab.Screen name="playListScreenStack" component={playListScreenStack} />
+      <Tab.Screen name="UserUpdateScreenStack" component={UserUpdateScreenStack} />
     </Tab.Navigator>
-  </NavigationContainer>
   );
 };
 
