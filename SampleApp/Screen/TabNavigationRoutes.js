@@ -18,6 +18,8 @@ import PlayListAddScreen from './playlist/playlist_add';
 import MusicAddScreen from './playlist/music_add';
 import SettingsScreen from './TabScreens/SettingsScreen';
 import UserUpdateScreen from './TabScreens/UserUpdate';
+import TrackListScreen from '../Music/TrackListScreen';
+
 
 import Ionicons  from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -276,6 +278,9 @@ const TabNavigationRoutes = (props) => {
         }else if (route.name === 'UserUpdateScreenStack') {
           iconName = focused ? 'md-person' : 'md-person-outline';
           return <Ionicons name={iconName} size={size} color={color} />;
+        }else if (route.name === 'TrackListScreen') {
+          iconName = focused ? 'musical-notes' : 'musical-notes-outline';
+          return <Ionicons name={iconName} size={size} color={color} />;
         }
 
         // You can return any component that you like here!
@@ -288,6 +293,7 @@ const TabNavigationRoutes = (props) => {
       <Tab.Screen name="homeScreenStack" component={homeScreenStack} />
       <Tab.Screen name="playListScreenStack" component={playListScreenStack} />
       <Tab.Screen name="UserUpdateScreenStack" component={UserUpdateScreenStack} />
+      <Tab.Screen name="TrackListScreen" component={TrackListScreen} />
     </Tab.Navigator>
   );
 };

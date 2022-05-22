@@ -40,7 +40,7 @@ const UserUpdateScreen = ({props}) => {
 
 
   const nameInputRef = createRef();
-  const emailInputRef = createRef();
+  const emailInputRef = createRef();dd
   const ageInputRef = createRef();
   const weightInputRef = createRef();
   const heightInputRef = createRef();

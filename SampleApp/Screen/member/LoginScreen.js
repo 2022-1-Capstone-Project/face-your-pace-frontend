@@ -62,7 +62,7 @@ const LoginScreen = ({navigation}) => {
     getUserProfile();
   }, [naverToken]); // <- add the count variable here
 
-  console.log(naverToken);
+  //console.log(naverToken);
   const naverLogout = () => {
     NaverLogin.logout();
     Alert.alert(
