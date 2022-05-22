@@ -1,4 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import TrackPlayer, {
+  useTrackPlayerEvents,
+  Event,
+  State,
+} from 'react-native-track-player';
+
+
 import {
   View,
   Text,
@@ -14,6 +21,15 @@ import LinearGradient from 'react-native-linear-gradient';
 import TrackPlayerScreen from '../components/TrackPlayerScreen';
 import PlayIcon from '../Image/music/play.png';
 import PauseIcon from '../Image/music/pause.jpg';
+
+
+const events = [
+  Event.PlaybackState,
+  Event.PlaybackError,
+  Event.RemotePlay,
+  Event.RemotePause,
+];
+
 export default function TrackListScreen() {
   const [selectedMusic, setSelectedMusic] = useState(null);
   const [selectedMusicIndex, setSelectedMusicIndex] = useState(null);
@@ -43,8 +59,37 @@ export default function TrackListScreen() {
     // remove TrackPlayer.skip(index);
     // playOrPause();
   };
+
+
+  useTrackPlayerEvents(events, event => {
+    if (event.type === Event.PlaybackError) {
+      console.warn('An error occurred while playing the current track.');
+    }
+    if (event.type === Event.PlaybackState) {
+      console.log(event.type);
+    }
+    if (event.type === Event.RemotePlay) {
+      console.log(event.type);
+    }
+    if (event.type === Event.RemotePause) {
+      console.log(event.type);
+    }
+  });
+
   const playOrPause = async () => {
-    setIsPlaying(!isPlaying);
+      const state = await TrackPlayer.getState();
+    if (state === State.Paused && isCurrentTrack) {
+      setIsPlaying(!isPlaying);
+      TrackPlayer.play();
+      return;
+    }
+    if (state === State.Playing && isCurrentTrack) {
+      setIsPlaying(!isPlaying);
+      TrackPlayer.pause();
+      return;
+    }
+    setIsPlaying(true);
+    TrackPlayer.play();
   };
   const onSeekTrack = newTimeStamp => {
     setTimestamp(newTimeStamp);
@@ -135,6 +180,11 @@ export default function TrackListScreen() {
     </View>
   );
 }
+
+
+
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
