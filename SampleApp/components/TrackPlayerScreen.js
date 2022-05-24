@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, Modal, Image, StyleSheet, Pressable} from 'react-native';
+import React, { useEffect } from 'react';
+import {View, Text, Modal, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Slider from '@react-native-community/slider';
 import LinearGradient from 'react-native-linear-gradient';
 import ShuffleIcon from '../Image/music/shuffle.png';
@@ -7,9 +7,11 @@ import PrevIcon from '../Image/music/prev.png';
 import NextIcon from '../Image/music/next.png';
 import LoopIcon from '../Image/music/loop.png';
 import PlayIcon from '../Image/music/play.png';
-import PauseIcon from '../Image/music/pause.jpg';
+import PauseIcon from '../Image/music/pause.png';
 import MenuIcon from '../Image/music/down.png';
 import {secsToTimestamp} from '../util/timeFormat';
+import { useProgress } from 'react-native-track-player';
+
 export default function TrackPlayerScreen({
   isVisible,
   onCloseModal,
@@ -24,6 +26,9 @@ export default function TrackPlayerScreen({
   onClickShuffle,
   onClickLoop,
 }) {
+  
+  const { position, buffered, duration } = useProgress()
+
   return (
     <Modal
       animationType="slide"
@@ -32,7 +37,7 @@ export default function TrackPlayerScreen({
       <LinearGradient
         colors={['#0000ff', '#00005f', '#191414']}
         style={styles.container}>
-        <Pressable
+        <TouchableOpacity
           onPress={onCloseModal}
           style={{
             position: 'absolute',
@@ -47,7 +52,7 @@ export default function TrackPlayerScreen({
               tintColor: '#fff',
             }}
           />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.mainText}>Playing from My Playlist</Text>
         <Text style={[styles.mainText, {fontWeight: 'bold'}]}>
           {selectedMusic.album}
@@ -63,6 +68,7 @@ export default function TrackPlayerScreen({
           </View>
           <Text>Like</Text>
         </View>
+
         <Slider
           tapToSeek={true}
           minimumTrackTintColor="#fff"
@@ -84,19 +90,29 @@ export default function TrackPlayerScreen({
           </Text>
         </View>
         <View style={styles.timeStampHolder}>
-          <View/>
-          <Pressable onPress={onPressPrev}>
+          <TouchableOpacity onPress={onClickShuffle}>
+            <Image
+              style={[
+                styles.iconWidth,
+                {tintColor: playbackMode === 'shuffle' ? '#1DB954' : '#fff'},
+              ]}
+              source={ShuffleIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onPressPrev}>
             <Image style={styles.iconWidth} source={PrevIcon} />
-          </Pressable>
-          <Pressable onPress={playOrPause} style={styles.playButtonHolder}>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={playOrPause} style={styles.playButtonHolder}>
             <Image
               style={[styles.iconWidth, {tintColor: '#000'}]}
-              source={isPlaying ? PauseIcon : PlayIcon}        />
-          </Pressable>
-          <Pressable onPress={onPressNext}>
+              source={isPlaying ? PauseIcon : PlayIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onPressNext}>
             <Image style={styles.iconWidth} source={NextIcon} />
-          </Pressable>
-          <Pressable onPress={onClickLoop}>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onClickLoop}>
             <Image
               style={[
                 styles.iconWidth,
@@ -104,12 +120,13 @@ export default function TrackPlayerScreen({
               ]}
               source={LoopIcon}
             />
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </LinearGradient>
     </Modal>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,11 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import TrackPlayer, {
-  useTrackPlayerEvents,
-  Event,
-  State,
-} from 'react-native-track-player';
-
-
 import {
   View,
   Text,
@@ -18,10 +11,16 @@ import {
 } from 'react-native';
 import {musiclibrary} from '../data';
 import LinearGradient from 'react-native-linear-gradient';
-import TrackPlayerScreen from '../components/TrackPlayerScreen';
+import PlayerModal from '../components/TrackPlayerScreen';
+import TrackPlayer, {
+  useTrackPlayerEvents,
+  Event,
+  State,
+  useProgress,
+  RepeatMode,
+} from 'react-native-track-player';
 import PlayIcon from '../Image/music/play.png';
-import PauseIcon from '../Image/music/pause.jpg';
-
+import PauseIcon from '../Image/music/pause.png';
 
 const events = [
   Event.PlaybackState,
@@ -36,7 +35,33 @@ export default function TrackListScreen() {
   const [isPlayerModalVisible, setisPlayerModalVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timestamp, setTimestamp] = useState(0);
-  const [mode, setMode] = useState('shuffle')
+  const [mode, setMode] = useState('shuffle');
+
+  const {position} = useProgress();
+
+  useEffect(
+    () =>
+      mode === 'off'
+        ? TrackPlayer.setRepeatMode(RepeatMode.Queue)
+        : TrackPlayer.setRepeatMode(RepeatMode.Off),
+    [mode],
+  );
+
+  useTrackPlayerEvents(events, event => {
+    if (event.type === Event.PlaybackError) {
+      console.warn('An error occured while playing the current track.');
+    }
+    if (event.type === Event.PlaybackState) {
+      console.log(event.type);
+    }
+    if (event.type === Event.RemotePlay) {
+      console.log('event.type');
+    }
+    if (event.type === Event.RemotePause) {
+      console.log(event.type);
+    }
+  });
+
   const PlaylistImageView = () => (
     <>
       <LinearGradient
@@ -52,37 +77,25 @@ export default function TrackListScreen() {
       </TouchableOpacity>
     </>
   );
+
   const onSelectTrack = async (selectedTrack, index) => {
     setSelectedMusic(selectedTrack);
     setTimestamp(0);
     setSelectedMusicIndex(index);
-    // remove TrackPlayer.skip(index);
-    // playOrPause();
+    TrackPlayer.skip(index);
+    playOrPause();
   };
 
+  TrackPlayer;
 
-  useTrackPlayerEvents(events, event => {
-    if (event.type === Event.PlaybackError) {
-      console.warn('An error occurred while playing the current track.');
-    }
-    if (event.type === Event.PlaybackState) {
-      console.log(event.type);
-    }
-    if (event.type === Event.RemotePlay) {
-      console.log(event.type);
-    }
-    if (event.type === Event.RemotePause) {
-      console.log(event.type);
-    }
-  });
-
-  const playOrPause = async () => {
-      const state = await TrackPlayer.getState();
+  const playOrPause = async isCurrentTrack => {
+    const state = await TrackPlayer.getState();
     if (state === State.Paused && isCurrentTrack) {
       setIsPlaying(!isPlaying);
       TrackPlayer.play();
       return;
     }
+
     if (state === State.Playing && isCurrentTrack) {
       setIsPlaying(!isPlaying);
       TrackPlayer.pause();
@@ -91,55 +104,64 @@ export default function TrackListScreen() {
     setIsPlaying(true);
     TrackPlayer.play();
   };
+
   const onSeekTrack = newTimeStamp => {
-    setTimestamp(newTimeStamp);
+    TrackPlayer.seekTo(newTimeStamp);
   };
+
   const onPressNext = () => {
-    setTimestamp(0);
     setSelectedMusic(
       musiclibrary[(selectedMusicIndex + 1) % musiclibrary.length],
     );
     setSelectedMusicIndex(selectedMusicIndex + 1);
+    TrackPlayer.skipToNext();
+    playOrPause();
   };
+
   const onPressPrev = () => {
     if (selectedMusicIndex === 0) {
       return;
     }
-    setTimestamp(0);
     setSelectedMusic(
       musiclibrary[(selectedMusicIndex - 1) % musiclibrary.length],
     );
     setSelectedMusicIndex(selectedMusicIndex - 1);
+    TrackPlayer.skipToPrevious();
+    playOrPause();
   };
+
   const renderSingleMusic = ({item, index}) => {
     return (
       <>
         {index === 0 && <PlaylistImageView />}
-        <Pressable onPress={() => onSelectTrack(item, index)}>
+        <TouchableOpacity onPress={() => onSelectTrack(item, index)}>
           <View>
             <Text style={styles.musicTitle}>{item.title}</Text>
             <Text style={styles.artisteTitle}>{item.artist}</Text>
           </View>
-        </Pressable>
+        </TouchableOpacity>
       </>
     );
   };
+
   return (
     <View style={styles.container}>
       <SafeAreaView />
       {selectedMusic && (
-        <TrackPlayerScreen
+        <PlayerModal
           onCloseModal={() => setisPlayerModalVisible(false)}
           isVisible={isPlayerModalVisible}
           isPlaying={isPlaying}
           playOrPause={playOrPause}
           selectedMusic={selectedMusic}
           onSeekTrack={onSeekTrack}
-          timestamp={timestamp}
+          timestamp={Math.round(position)}
           onPressNext={onPressNext}
           onPressPrev={onPressPrev}
-          playbackMode={mode}        
-           onClickLoop={()=> mood === "loop" ? setMode("loop") : setMode("off")}
+          playbackMode={mode}
+          onClickLoop={() =>
+            mode === 'loop' ? setMode('loop') : setMode('off')
+          }
         />
       )}
       <View style={[styles.widgetContainer, {justifyContent: 'center'}]}>
@@ -168,9 +190,9 @@ export default function TrackListScreen() {
                 </Text>
               </View>
             </View>
-            <Pressable onPress={() => playOrPause()}>
+            <Pressable onPress={() => playOrPause(true)}>
               <Image
-                source={isPlaying ? PauseIcon : PlayIcon}           
+                source={isPlaying ? PauseIcon : PlayIcon}
                 style={{height: 30, tintColor: '#fff', width: 30}}
               />
             </Pressable>
@@ -180,10 +202,6 @@ export default function TrackListScreen() {
     </View>
   );
 }
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
