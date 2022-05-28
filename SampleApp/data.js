@@ -1,11 +1,11 @@
 export const musiclibrary = [
   {
-    url: 'https://www.bensound.com/bensound-music/bensound-happyrock.mp3',
-    title: 'Happy Rock',
-    artist: 'Benjamin Tissot',
+    url: require('./Music/asdf123/music/iL.wav'),
+    title: 'iL (Cytus II v2.1)',
+    artist: 'Ice',
     album: "Bensound's rock",
-    genre: 'Rock',
-    date: '2014-05-20T07:00:00+00:00', // RFC 3339
+    genre: 'Electronic',
+    date: '2022-05-28T08:15:28+15:30', // RFC 3339
     artwork: 'https://www.bensound.com/bensound-img/happyrock.jpg', // Load artwork from the network
     duration: 105, // Duration in seconds
   },

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {View, Text, Modal, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Modal, Image, StyleSheet, TouchableOpacity,ScrollView} from 'react-native';
 import Slider from '@react-native-community/slider';
 import LinearGradient from 'react-native-linear-gradient';
 import ShuffleIcon from '../Image/music/shuffle.png';
@@ -34,95 +34,97 @@ export default function TrackPlayerScreen({
       animationType="slide"
       visible={isVisible}
       presentationStyle="fullScreen">
-      <LinearGradient
-        colors={['#0000ff', '#00005f', '#191414']}
-        style={styles.container}>
-        <TouchableOpacity
-          onPress={onCloseModal}
-          style={{
-            position: 'absolute',
-            top: 45,
-            left: 30,
-          }}>
-          <Image
-            source={MenuIcon}
+      <ScrollView>
+        <LinearGradient
+          colors={['#0000ff', '#00005f', '#191414']}
+          style={styles.container}>
+          <TouchableOpacity
+            onPress={onCloseModal}
             style={{
-              width: 15,
-              height: 15,
-              tintColor: '#fff',
-            }}
-          />
-        </TouchableOpacity>
-        <Text style={styles.mainText}>Playing from My Playlist</Text>
-        <Text style={[styles.mainText, {fontWeight: 'bold'}]}>
-          {selectedMusic.album}
-        </Text>
-        <Image
-          style={{width: 350, height: 350, marginVertical: 75}}
-          source={{uri: selectedMusic.artwork}}
-        />
-        <View style={{justifyContent: 'space-between', width: '100%'}}>
-          <View>
-            <Text style={styles.boldMainText}>{selectedMusic.title}</Text>
-            <Text style={styles.mainText}>{selectedMusic.artist}</Text>
-          </View>
-          <Text>Like</Text>
-        </View>
-
-        <Slider
-          tapToSeek={true}
-          minimumTrackTintColor="#fff"
-          onValueChange={e => {
-            onSeekTrack(Math.floor(e * selectedMusic.duration));
-          }}
-          style={{width: '100%', paddingHorizontal: 10}}
-          value={timestamp / selectedMusic.duration}
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-          <Text style={styles.mainText}>{secsToTimestamp(timestamp)}</Text>
-          <Text style={styles.mainText}>
-            {secsToTimestamp(selectedMusic.duration - timestamp)}
+              position: 'absolute',
+              top: 45,
+              left: 30,
+            }}>
+            <Image
+              source={MenuIcon}
+              style={{
+                width: 15,
+                height: 15,
+                tintColor: '#fff',
+              }}
+            />
+          </TouchableOpacity>
+          <Text style={styles.mainText}>Playing from My Playlist</Text>
+          <Text style={[styles.mainText, {fontWeight: 'bold'}]}>
+            {selectedMusic.album}
           </Text>
-        </View>
-        <View style={styles.timeStampHolder}>
-          <TouchableOpacity onPress={onClickShuffle}>
-            <Image
-              style={[
-                styles.iconWidth,
-                {tintColor: playbackMode === 'shuffle' ? '#1DB954' : '#fff'},
-              ]}
-              source={ShuffleIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onPressPrev}>
-            <Image style={styles.iconWidth} source={PrevIcon} />
-          </TouchableOpacity>
+          <Image
+            style={{width: 350, height: 350, marginVertical: 75}}
+            source={{uri: selectedMusic.artwork}}
+          />
+          <View style={{justifyContent: 'space-between', width: '100%'}}>
+            <View>
+              <Text style={styles.boldMainText}>{selectedMusic.title}</Text>
+              <Text style={styles.mainText}>{selectedMusic.artist}</Text>
+            </View>
+            <Text>Like</Text>
+          </View>
 
-          <TouchableOpacity onPress={playOrPause} style={styles.playButtonHolder}>
-            <Image
-              style={[styles.iconWidth, {tintColor: '#000'}]}
-              source={isPlaying ? PauseIcon : PlayIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onPressNext}>
-            <Image style={styles.iconWidth} source={NextIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onClickLoop}>
-            <Image
-              style={[
-                styles.iconWidth,
-                {tintColor: playbackMode === 'loop' ? '#1DB954' : '#fff'},
-              ]}
-              source={LoopIcon}
-            />
-          </TouchableOpacity>
-        </View>
-      </LinearGradient>
+          <Slider
+            tapToSeek={true}
+            minimumTrackTintColor="#fff"
+            onValueChange={e => {
+              onSeekTrack(Math.floor(e * selectedMusic.duration));
+            }}
+            style={{width: '100%', paddingHorizontal: 10}}
+            value={timestamp / selectedMusic.duration}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+            <Text style={styles.mainText}>{secsToTimestamp(timestamp)}</Text>
+            <Text style={styles.mainText}>
+              {secsToTimestamp(selectedMusic.duration - timestamp)}
+            </Text>
+          </View>
+          <View style={styles.timeStampHolder}>
+            <TouchableOpacity onPress={onClickShuffle}>
+              <Image
+                style={[
+                  styles.iconWidth,
+                  {tintColor: playbackMode === 'shuffle' ? '#1DB954' : '#fff'},
+                ]}
+                source={ShuffleIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onPressPrev}>
+              <Image style={styles.iconWidth} source={PrevIcon} />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={playOrPause} style={styles.playButtonHolder}>
+              <Image
+                style={[styles.iconWidth, {tintColor: '#000'}]}
+                source={isPlaying ? PauseIcon : PlayIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onPressNext}>
+              <Image style={styles.iconWidth} source={NextIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onClickLoop}>
+              <Image
+                style={[
+                  styles.iconWidth,
+                  {tintColor: playbackMode === 'loop' ? '#1DB954' : '#fff'},
+                ]}
+                source={LoopIcon}
+              />
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
+      </ScrollView>
     </Modal>
   );
 }

@@ -13,4 +13,8 @@ export default function MusicApp() {
   useEffect(() => {
     setup();
   }, []);
-  return < TrackListScreen />;}
+
+
+  return (< TrackListScreen />);
+
+}
