@@ -33,6 +33,7 @@ const UserUpdateScreen = ({props}) => {
   const [userWeight, setUserWeight] = useState('');
   const [loading, setLoading] = useState(true);
   const [errortext, setErrortext] = useState('');
+
   const [
     isRegistraionSuccess,
     setIsRegistraionSuccess
@@ -52,11 +53,13 @@ const UserUpdateScreen = ({props}) => {
   useEffect(() => {
 
     AsyncStorage.getItem('user_id').then((val) =>
-    value=val);
+    setUserId(val));
+
+
     async function fetchUser() {
       const response = await axios({
         method:"GET",
-        url: 'http://127.0.0.1:8080/api/mypage/members/cau123'
+        url: 'http://127.0.0.1:8080/api/mypage/members/'+userId
       });
       console.log(response.data);
       setUser('');

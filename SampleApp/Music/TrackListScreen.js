@@ -105,6 +105,9 @@ export default function TrackListScreen() {
     TrackPlayer.play();
   };
 
+  const setVolume = (volume)=>{
+    TrackPlayer.setVolume(volume);
+  }
   const onSeekTrack = newTimeStamp => {
     TrackPlayer.seekTo(newTimeStamp);
   };
@@ -159,6 +162,7 @@ export default function TrackListScreen() {
           onPressNext={onPressNext}
           onPressPrev={onPressPrev}
           playbackMode={mode}
+          setVolume = {setVolume}
           onClickLoop={() =>
             mode === 'loop' ? setMode('loop') : setMode('off')
           }

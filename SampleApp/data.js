@@ -1,4 +1,4 @@
-export const musiclibrary = [
+export var musiclibrary = [
   {
     url: require('./Music/asdf123/music/iL.wav'),
     title: 'iL (Cytus II v2.1)',
@@ -7,7 +7,7 @@ export const musiclibrary = [
     genre: 'Electronic',
     date: '2022-05-28T08:15:28+15:30', // RFC 3339
     artwork: 'https://www.bensound.com/bensound-img/happyrock.jpg', // Load artwork from the network
-    duration: 105, // Duration in seconds
+    duration: 184, // Duration in seconds
   },
   {
     url: 'https://www.bensound.com/bensound-music/bensound-anewbeginning.mp3',
@@ -80,3 +80,4 @@ export const musiclibrary = [
     duration: 177, // Duration in seconds
   },
 ];
+

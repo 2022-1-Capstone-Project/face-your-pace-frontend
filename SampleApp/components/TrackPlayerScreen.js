@@ -24,6 +24,7 @@ export default function TrackPlayerScreen({
   onPressPrev,
   playbackMode,
   onClickShuffle,
+  setVolume,
   onClickLoop,
 }) {
   
@@ -79,6 +80,16 @@ export default function TrackPlayerScreen({
             style={{width: '100%', paddingHorizontal: 10}}
             value={timestamp / selectedMusic.duration}
           />
+          <Slider
+            tapToSeek={true}
+            minimumTrackTintColor="#fff"
+            onValueChange={e => {
+              setVolume(e);
+            }}
+            value={1}
+            style={{width: '100%', paddingHorizontal: 10}}
+          />
+         
           <View
             style={{
               flexDirection: 'row',
