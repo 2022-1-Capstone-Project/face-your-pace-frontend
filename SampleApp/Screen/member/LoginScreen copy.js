@@ -144,15 +144,10 @@ const LoginScreen = ({navigation}) => {
     axios.post('http://127.0.0.1:8080/auth/login', formBody)
     .then( function(response){
       setLoading(false);
-      if (response.data!=false) {
-        console.log("asdfasdfsaf");
-        console.log(response.data);
+      if (response.data==true) {
         AsyncStorage.setItem('user_id', userId);
-        AsyncStorage.setItem('user_number',response.data);
-        console.log("asdfasdf");
         alert("로그인에 성공하였습니다.");
-       
-        navigation.replace('TabNavigationRoutes',{params:{user_id:userId,user_number:response.data}});
+        navigation.replace('TabNavigationRoutes',{params:{user_id:userId}});
       }
       else{
         alert('아이디와 비밀번호를 확인해주시기 바랍니다!');
@@ -270,7 +265,6 @@ const LoginScreen = ({navigation}) => {
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
             }
-    
           
 
     

@@ -19,11 +19,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../Components/Loader';
 import axios from 'axios';
 
-const UserUpdateScreen = ({props}) => {
+const UserUpdateScreen = (props) => {
+
+
 
   const [user,setUser] = useState('');
   
-  const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userAge, setUserAge] = useState('');
@@ -48,20 +49,16 @@ const UserUpdateScreen = ({props}) => {
   const addressInputRef = createRef();
   const passwordInputRef = createRef();
 
-  var value = "";
 
   useEffect(() => {
 
-    AsyncStorage.getItem('user_id').then((val) =>
-    setUserId(val));
-
-
     async function fetchUser() {
+      const userId = props.route.params.user_id
+      console.log(userId);
       const response = await axios({
         method:"GET",
         url: 'http://127.0.0.1:8080/api/mypage/members/'+userId
       });
-      console.log(response.data);
       setUser('');
       setUser(response.data);
       setUserId(response.data.userId);
@@ -73,7 +70,9 @@ const UserUpdateScreen = ({props}) => {
       setUserWeight(response.data.userWeight);
       setLoading(false);
     }
-    fetchUser();
+    fetchUser().catch(val=>{
+      setLoading(false)
+    });
   }, []);
 
  

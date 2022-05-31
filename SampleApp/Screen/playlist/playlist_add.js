@@ -34,6 +34,14 @@ const PlayListAddScreen = ({navigation}) => {
   const [animating, setAnimating] = useState(true);
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [userNumber, setUserNumber] = useState('');
+
+  AsyncStorage.getItem('user_id').then((val) =>
+  setUserId(val));
+
+  AsyncStorage.getItem('user_number').then((val) =>
+  setUserNumber(val));
 
   const handleSubmit=()=>{
     if (!name) {
@@ -43,7 +51,9 @@ const PlayListAddScreen = ({navigation}) => {
     //alert(formBody);
     //현재는 3000 포트 번호로 되어 있는데 로컬에서 구동하는 백엔드 서버의 포트 번호에 따라 3000값을 바꾸시면 됩니다.
    
-    let dataToSend = {musicName: name};
+    let dataToSend = {name: name,userId:userId};
+    console.log(name);
+    console.log(userId);
     var formBody = [];
     for (var key in dataToSend) {
       var value = dataToSend[key];
@@ -53,19 +63,15 @@ const PlayListAddScreen = ({navigation}) => {
     alert(formBody);
     axios({
       method:"POST",
-      url: 'http://127.0.0.1:8080/api/music/add',
+      url: 'http://127.0.0.1:8080/api/music/playlist/add',
       data:formBody,
   }).then((res)=>{
     if (res.data==true) {
-      alert("음악 추가에 성공하였습니다.");
-        AsyncStorage.getItem('user_id').then((value) =>
-        navigation.replace(
-          'TabNavigationRoutes',{params:{user_id:value}}
-        ),
-      );
+      alert("플레이리스트 추가에 성공하였습니다.");
+      navigation.replace('playListScreenStack',{params:{user_id:userId,user_number:userNumber}});
     }
     else{
-      alert('음악 추가에 실패했습니다.');
+      alert('플레이리스트 추가에 실패했습니다.');
     }
   }).catch(error=>{
       console.log(error);
@@ -73,6 +79,10 @@ const PlayListAddScreen = ({navigation}) => {
   });
   
   }
+
+
+  
+
 
 
 
@@ -105,7 +115,7 @@ const PlayListAddScreen = ({navigation}) => {
             placeholderTextColor="#8b9cb5"
             returnKeyType="next"
             maxLength={20}
-            onPress={handleSubmit}
+ 
             onSubmitEditing={() =>
               nameInputRef.current &&
               nameInputRef.current.focus()
@@ -118,6 +128,7 @@ const PlayListAddScreen = ({navigation}) => {
         <TouchableOpacity
           style={styles.buttonStyle}
           activeOpacity={0.5}
+          onPress={handleSubmit}
           >
           <Text style={styles.buttonTextStyle}>저장</Text>
         </TouchableOpacity>

@@ -31,14 +31,15 @@ const HomeScreen = ({navigation}) => {
   value=val);
 
   useEffect(() => {
+    
     async function fetchMusic() {
       const response = await axios({
         method:"GET",
         url: 'http://127.0.0.1:8080/api/music/list',
       });
       console.log(response.data);
-      setLoading(false);
       setMusic(response.data);
+      setLoading(false);
     }
     fetchMusic();
   }, []);
@@ -50,7 +51,7 @@ const HomeScreen = ({navigation}) => {
   
     const imgUrl= require('../../Image/playlist/music2.png')
 
-    if(music!=[]||music!=null){
+    if(music!=undefined&&music!=[]&&music!=null){
       return music.map((item) => {
           return (
             <View key = {item.id} style={styles.SectionStyle}>
@@ -88,6 +89,7 @@ const HomeScreen = ({navigation}) => {
       return(
 
         <SafeAreaView style={{flex: 1}}>
+            <Loader loading={loading} />
         <ScrollView style={{backgroundColor:'white'}}>
         <View style={{flex: 1,backgroundColor:'white'}}>
           <View

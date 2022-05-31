@@ -40,7 +40,7 @@ const MusicAddScreenMain = ({navigation}) => {
   AsyncStorage.getItem('user_id').then((val) =>
   setUserId(val));
 
-  console.log(userId);
+  //console.log(userId);
   const handleSubmitPress = ()=>{
     var value = "";
     AsyncStorage.getItem('user_id').then((val) =>
@@ -61,7 +61,7 @@ const MusicAddScreenMain = ({navigation}) => {
     .catch(error => {
         //setErrortext('Error:'+ error.message);
         alert("음악 다운로드에 실패하였습니다..");
-        AsyncStorage.clear();
+        //AsyncStorage.clear();
      
     });
 

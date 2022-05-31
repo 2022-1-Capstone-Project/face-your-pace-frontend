@@ -18,13 +18,14 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import Loader from '../Components/Loader';
+import { useNavigation } from '@react-navigation/native';
 
 
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = (props) => {
   const [music,setMusic] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const navigation = props.navigation;
 
   var value = "";
   AsyncStorage.getItem('user_id').then((val) =>

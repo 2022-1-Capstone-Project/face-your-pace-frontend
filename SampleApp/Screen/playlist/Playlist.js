@@ -24,69 +24,71 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useIsFocused } from "@react-navigation/native";
 
 
 
-
-
-
-
-const renderPlaylists=(initialArr)=> {
-
-  const navigation = useNavigation();
-  
-
-    return initialArr.map((item) => {
-        return (
-          <View key = {item.id} style={styles.SectionStyle}>
-            <TouchableOpacity  activeOpacity={0.5}
-              onPress={()=>navigation.navigate("PlayListMusicScreen",{
-                playlist_id: item.id,
-                playlist_title:item.title
-              })}
-            >
-              <Image
-                    source={item.imgUrl}
-                    style={styles.imgStyle}
-              />
-              <Text style={styles.playlistTextStyle}>
-                    {item.title}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        );
-    });
-  
-};
-
-
-
-
-const fetchPlayListData= ()=>{
-  var userId = 4;
-  let dataToSend = {userId: userId};
-  var formBody = [];
-  for (var key in dataToSend) {
-    var value = dataToSend[key];
-    formBody.push(key + '=' + value);
-  }
-  formBody = formBody.join('&');
-
-  
-
-
-  };
-
-
-
-const PlayListScreen = ({navigation}) => {
+const PlayListScreen = (props) => {
+  const navigation = props.navigation;
   //fetchPlayListData();
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
-  const value = "";
-  AsyncStorage.getItem('user_id').then((val) =>
-  value=val);
 
+  const [userNumber,setUserNumber] = useState('');
+  const [playlist,setPlaylist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [userId,setUserId] = useState('');
+
+
+
+  useEffect(() => {
+
+    var data = "";
+    const number = props.route.params.user_number;
+   // setUserNumber(val);
+    
+
+    async function fetchPlayList() {
+      const response = await axios({
+        method:"GET",
+        url: 'http://127.0.0.1:8080/api/mypage/playlist/'+number
+      }).catch(error=>{
+        setLoading(false);
+        alert("플레이리스트 로딩에 오류가 발생했습니다.");
+      });
+      
+      setPlaylist(response.data);
+      setLoading(false);
+    }
+    fetchPlayList();
+  }, []);
+
+  const renderPlaylists=(playlist)=> {
+
+    //const navigation = useNavigation();
+    
+  
+      return playlist.map((item) => {
+          return (
+            <View key = {item.id} style={styles.SectionStyle}>
+              <TouchableOpacity  activeOpacity={0.5}
+                onPress={()=>navigation.navigate("PlayListMusicScreen",{
+                  playlist_title:item.name
+                })}
+              >
+                <Image
+                      source={require('../../Image/playlist/music-playlist.jpg')}
+                      style={styles.imgStyle}
+                />
+                <Text style={styles.playlistTextStyle}>
+                      {item.name}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          );
+      });
+    
+  };
 
 
   /*axios.post('http://127.0.0.1:8080/api/mypage/playlist', formBody)
@@ -107,48 +109,11 @@ const PlayListScreen = ({navigation}) => {
       NaverLogin.logout();
       setNaverToken("");
   });*/
-
-  const initialArr = [
-    {
-      id:1,
-      imgUrl: require('../../Image/common/logo.png'),
-      title: "플레이리스트1"
-    },
-    {
-      id:2,
-      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
-      title: "플레이리스트2"
-    },
-    {
-      id:3,
-      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
-      title: "플레이리스트3"
-    },
-    {
-      id:4,
-      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
-      title: "플레이리스트4"
-    },
-    {
-      id:5,
-      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
-      title: "플레이리스트5"
-    },
-    {
-      id:6,
-      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
-      title: "플레이리스트6"
-    },
-    {
-      id:7,
-      imgUrl: require('../../Image/playlist/music-playlist.jpg'),
-      title: "플레이리스트7"
-    },
-  ];
+  //   imgUrl: require('../../Image/playlist/music-playlist.jpg'),
 
   const handleSubmit=()=>{
     navigation.navigate(
-      'PlayListAddScreen',{params:{user_id:value}}
+      'PlayListAddScreen',{params:{user_id:userId}}
     )
     
   }
@@ -157,12 +122,18 @@ const PlayListScreen = ({navigation}) => {
       //else send to Home Screen
  
 
-
+  if (loading) {
+        return (
+          <View>
+            <Loader loading={loading} />
+          </View>
+          )
+  }
+  else{
   return (
-      <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
-      enabled style={styles.mainBody} >
 
         <View style={styles.body}>
+        <Loader loading={loading} />
           <ScrollView style={{ width:'100%',flex:1}}>
 
                 <View style={styles.SectionStyle}>
@@ -180,7 +151,7 @@ const PlayListScreen = ({navigation}) => {
                 </View>
                 {
 
-                  renderPlaylists(initialArr)
+                  renderPlaylists(playlist)
                 }
 
                
@@ -190,8 +161,8 @@ const PlayListScreen = ({navigation}) => {
         </View>
 
 
-    </KeyboardAvoidingView>
   );
+              }
 };
 
 export default PlayListScreen;

@@ -7,6 +7,7 @@ import React from 'react';
 // Import Navigators from React Navigation
 import {createStackNavigator} from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 // Import Screens
 import HomeScreen from './TabScreens/HomeScreen';
 import PlayListScreen from './playlist/Playlist';
@@ -30,12 +31,18 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
-const homeScreenStack = ({navigation}) => {
+const homeScreenStack = (props) => {
+  const userInfo = props.route.params;
+  console.log(userInfo);
+  const myName = userInfo.user_id;
+  props.name = myName;
+  const number = userInfo.user_number;
   return (
     <Stack.Navigator initialRouteName="HomeScreen">
 
     <Stack.Screen
         name="MusicAddScreenMain"
+        initialParams={{user_number: number,user_id:myName}}
         component={MusicAddScreenMain}
         options={{
           title: 'music', //Set Header Title
@@ -54,7 +61,7 @@ const homeScreenStack = ({navigation}) => {
 
       <Stack.Screen
         name="HomeScreen"
-        
+        initialParams={{user_number: number,user_id:myName}}
         component={HomeScreen}
   
         options={{
@@ -82,11 +89,17 @@ const homeScreenStack = ({navigation}) => {
 };
 
 
-const playListScreenStack = ({navigation}) => {
+const playListScreenStack = (props) => {
+  const userInfo = props.route.params;
+  console.log(userInfo);
+  const myName = userInfo.user_id;
+  props.name = myName;
+  const number = userInfo.user_number;
   return (
     <Stack.Navigator initialRouteName="PlayListScreen">
       <Stack.Screen
         name="PlayListScreen"
+        initialParams={{user_number: number,user_id:myName}}
         component={PlayListScreen}
         options={{
           title: 'playlist', //Set Header Title
@@ -105,6 +118,7 @@ const playListScreenStack = ({navigation}) => {
 
 <Stack.Screen
         name="PlayListMusicScreen"
+        initialParams={{user_number: number,user_id:myName}}
         component={PlayListMusicScreen}
         options={{
           title: 'music', //Set Header Title
@@ -123,6 +137,7 @@ const playListScreenStack = ({navigation}) => {
 
     <Stack.Screen
         name="PlayListAddScreen"
+        initialParams={{user_number: number,user_id:myName}}
         component={PlayListAddScreen}
         options={{
           title: 'music', //Set Header Title
@@ -141,6 +156,7 @@ const playListScreenStack = ({navigation}) => {
 
 <Stack.Screen
         name="MusicAddScreen"
+        initialParams={{user_number: number,user_id:myName}}
         component={MusicAddScreen}
         options={{
           title: 'music', //Set Header Title
@@ -159,6 +175,7 @@ const playListScreenStack = ({navigation}) => {
 
 <Stack.Screen
         name="Config_screen1"
+        initialParams={{user_number: number,user_id:myName}}
         component={Config_screen1}
         options={{
           title: 'music', //Set Header Title
@@ -178,6 +195,7 @@ const playListScreenStack = ({navigation}) => {
       
     <Stack.Screen
         name="Config_screen2"
+        initialParams={{user_number: number,user_id:myName}}
         component={Config_screen2}
         options={{
           title: 'music', //Set Header Title
@@ -198,7 +216,7 @@ const playListScreenStack = ({navigation}) => {
   );
 };
 
-const settingScreenStack = ({navigation}) => {
+const settingScreenStack = (props) => {
   return (
     <Stack.Navigator
       initialRouteName="SettingsScreen"
@@ -225,10 +243,16 @@ const settingScreenStack = ({navigation}) => {
 };
 
 
-const UserUpdateScreenStack = ({navigation}) => {
+const UserUpdateScreenStack = (props) => {
+  const userInfo = props.route.params;
+  console.log(userInfo);
+  const myName = userInfo.user_id;
+  props.name = myName;
+  const number = userInfo.user_number;
   return (
     <Stack.Navigator
       initialRouteName="UserUpdateScreen"
+      initialParams={{user_number: number,user_id:myName}}
       screenOptions={{
         headerStyle: {
           backgroundColor: '#ffffff', //Set Header color
@@ -242,6 +266,7 @@ const UserUpdateScreenStack = ({navigation}) => {
       }}>
       <Stack.Screen
         name="UserUpdateScreen"
+        initialParams={{user_number: number,user_id:myName}}
         component={UserUpdateScreen}
         options={{
           title: '유저 정보 조회', //Set Header Title
@@ -258,6 +283,8 @@ const TabNavigationRoutes = (props) => {
   console.log(userInfo);
   const myName = userInfo.params.user_id;
   props.name = myName;
+  const number = userInfo.params.user_number;
+
 
   return (
     <Tab.Navigator
@@ -290,10 +317,18 @@ const TabNavigationRoutes = (props) => {
       tabBarInactiveTintColor: 'gray',
     })}
     >
-      <Tab.Screen name="homeScreenStack" component={homeScreenStack} />
-      <Tab.Screen name="playListScreenStack" component={playListScreenStack} />
-      <Tab.Screen name="UserUpdateScreenStack" component={UserUpdateScreenStack} />
-      <Tab.Screen name="MusicApp" component={MusicApp} />
+      <Tab.Screen name="homeScreenStack" 
+      initialParams={{user_number: number,user_id:myName}}
+      component={homeScreenStack} />
+      <Tab.Screen name="playListScreenStack" 
+       initialParams={{user_number: number,user_id:myName}}
+      component={playListScreenStack} />
+      <Tab.Screen name="UserUpdateScreenStack" 
+       initialParams={{user_number: number,user_id:myName}}
+      component={UserUpdateScreenStack} />
+      <Tab.Screen name="MusicApp" 
+       initialParams={{user_number: number,user_id:myName}}
+      component={MusicApp} />
     </Tab.Navigator>
   );
 };
