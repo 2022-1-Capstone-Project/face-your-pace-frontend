@@ -57,7 +57,7 @@ const UserUpdateScreen = (props) => {
       console.log(userId);
       const response = await axios({
         method:"GET",
-        url: 'http://127.0.0.1:8080/api/mypage/members/'+userId
+        url: 'http://52.41.225.196:8081/api/mypage/members/'+userId
       });
       setUser('');
       setUser(response.data);

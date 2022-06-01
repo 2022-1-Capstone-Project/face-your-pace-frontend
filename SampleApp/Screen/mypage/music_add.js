@@ -40,25 +40,25 @@ const MusicAddScreenMain = ({navigation}) => {
   AsyncStorage.getItem('user_id').then((val) =>
   setUserId(val));
 
-  //console.log(userId);
+  console.log(userId);
   const handleSubmitPress = ()=>{
-    var value = "";
-    AsyncStorage.getItem('user_id').then((val) =>
-    setUserId(val));
-    let dataToSend = {userId: userId, music_url: url};
+    let dataToSend = { music_url: url,userId:userId };
     var formBody = [];
     for (var key in dataToSend) {
       var value = dataToSend[key];
       formBody.push(key + '=' + value);
     }
     formBody = formBody.join('&');
-    
-    axios.post('http://127.0.0.1:8080/api/music/add', formBody)
-    .then( function(response){
-      navigation.replace('TabNavigationRoutes',{params:{user_id:userId}});
+    setLoading(true);
+    axios.post('http://52.41.225.196:8081/api/music/add'+userId, formBody)
+    .then(function(response){
+      setLoading(false);
+      alert("음악 추가에 성공했습니다!");
+      navigation.replace('TabNavigationRoutes',{params:{user_id:userId,}});
     }
       )
     .catch(error => {
+      setLoading(false);
         //setErrortext('Error:'+ error.message);
         alert("음악 다운로드에 실패하였습니다..");
         //AsyncStorage.clear();

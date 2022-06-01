@@ -57,19 +57,6 @@ const renderPlaylists=(initialArr)=> {
   });
 };
 
-const fetchPlayListData= ()=>{
-
-
-  userID = AsyncStorage.get('userID');
-
-  axios.get('http://127.0.0.1:3000/api/mypage/playlist',{userID}).then((Response)=>{
-    return Response.data;
-}).catch((Error)=>{
-    console.log(Error);
-})
-
-
-};
 
 
 

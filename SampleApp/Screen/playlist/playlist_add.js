@@ -63,12 +63,12 @@ const PlayListAddScreen = ({navigation}) => {
     alert(formBody);
     axios({
       method:"POST",
-      url: 'http://127.0.0.1:8080/api/music/playlist/add',
+      url: 'http://52.41.225.196:8081/api/music/playlist/add',
       data:formBody,
   }).then((res)=>{
     if (res.data==true) {
       alert("플레이리스트 추가에 성공하였습니다.");
-      navigation.replace('playListScreenStack',{params:{user_id:userId,user_number:userNumber}});
+      navigation.replace('PlayListScreen',{params:{user_id:userId,user_number:userNumber}});
     }
     else{
       alert('플레이리스트 추가에 실패했습니다.');

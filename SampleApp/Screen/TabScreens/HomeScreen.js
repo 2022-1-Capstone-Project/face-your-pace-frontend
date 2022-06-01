@@ -26,16 +26,24 @@ const HomeScreen = (props) => {
   const [music,setMusic] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = props.navigation;
-
+  const userId = props.route.params.user_id
   var value = "";
   AsyncStorage.getItem('user_id').then((val) =>
   value=val);
-
+  let dataToSend = {userId:userId};
+    var formBody = [];
+    for (var key in dataToSend) {
+      var value = dataToSend[key];
+      formBody.push(key + '=' + value);
+    }
+    formBody = formBody.join('&');
+  
   useEffect(() => {
     async function fetchMusic() {
       const response = await axios({
         method:"GET",
-        url: 'http://127.0.0.1:8080/api/music/list',
+        url: 'http://52.41.225.196:8081//api/music/list/all',
+        data : formBody
       });
       console.log(response.data);
       setLoading(false);

@@ -45,59 +45,6 @@ const Config_screen1 = ({route,navigation}) => {
     const finish_m_Ref = createRef();
     const finish_s_Ref = createRef();
     const repeat_Ref = createRef();
-
-    
-    const handleSubmit=()=>{
-
-      var start_minute;
-      var start_second;
-
-      var finish_minute;
-      var finish_second;
-      if(start_m>=0&&start_m<=9){
-        start_minute = "0"+start_minute;
-      }
-      if(start_s>=0&&start_s<=9){
-        start_second = "0"+start_second;
-      }
-
-      if(finish_m>=0&&finish_m<=9){
-        finish_minute = "0"+starfinish_minutet_minute;
-      }
-      if(finish_s>=0&&finish_s<=9){
-        finish_second = "0"+finish_second;
-      }
-      //alert(formBody);
-      //현재는 3000 포트 번호로 되어 있는데 로컬에서 구동하는 백엔드 서버의 포트 번호에 따라 3000값을 바꾸시면 됩니다.
-     
-      let dataToSend = {musicStart: start_minute+':'+start_second,
-      musicEnd:finish_minute+':'+finish_second,target_bpm:bpm,
-      musicRepeat:repeat};
-
-      var formBody = [];
-      for (var key in dataToSend) {
-        var value = dataToSend[key];
-        formBody.push(key + '=' + value);
-      }
-      formBody = formBody.join('&');
-      axios({
-        method:"POST",
-        url: 'http://52.41.225.196:8081/api/music/{musicId}/edit',
-        data:formBody,
-    }).then((res)=>{
-      if (res.data==true) {
-        alert("음악 설정 변경에 성공했습니다..");
-        navigation.replace('TabNavigationRoutes',{params:{user_id:userId,user_number:userNumber}});
-      }
-      else{
-        alert('음악설정 변경에 실패했습니다.');
-      }
-    }).catch(error=>{
-        console.log(error);
-        throw new Error(error);
-    });
-    
-    }
   //initialArr = fetchPlayListData();
   return (
       <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
@@ -229,7 +176,6 @@ const Config_screen1 = ({route,navigation}) => {
             <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
-            onPress={handleSubmit}
             >
             <Text style={styles.buttonTextStyle}>저장하기</Text>
           </TouchableOpacity>

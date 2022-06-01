@@ -23,7 +23,7 @@ import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
