@@ -39,8 +39,6 @@ const MusicAddScreenMain = ({navigation}) => {
   var value = "";
   AsyncStorage.getItem('user_id').then((val) =>
   setUserId(val));
-
-  console.log(userId);
   const handleSubmitPress = ()=>{
     let dataToSend = { music_url: url,userId:userId };
     var formBody = [];
@@ -50,7 +48,7 @@ const MusicAddScreenMain = ({navigation}) => {
     }
     formBody = formBody.join('&');
     setLoading(true);
-    axios.post('http://52.41.225.196:8081/api/music/add'+userId, formBody)
+    axios.post('http://52.41.225.196:8081/api/music/add', formBody)
     .then(function(response){
       setLoading(false);
       alert("음악 추가에 성공했습니다!");

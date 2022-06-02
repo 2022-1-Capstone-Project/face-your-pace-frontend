@@ -70,6 +70,7 @@ const RegisterScreen_personal_info = (props) => {
   const [userAge, setUserAge] = useState(18);
   const [userHeight, setUserHeight] = useState(165);
   const [userWeight, setUserWeight] = useState(50);
+  const [userGender, setUserGender] = useState('m');
 
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
@@ -118,7 +119,7 @@ const RegisterScreen_personal_info = (props) => {
       //회원가입이 이미 되어 있다면?
       console.log(response);
       console.log(userInfo);
-      if(response.data==true){
+      if(!isNaN(response.data)&&response.data!=false){
         alert(userInfo.userName+"님의 회원가입에 성공하였습니다! 로그인 화면으로 이동합니다.");
         //AsyncStorage.setItem('user_email', response.data.email);
         navigation.replace('LoginScreen');
@@ -178,7 +179,12 @@ const RegisterScreen_personal_info = (props) => {
         <Text style={{marginLeft:40, color:'black'}}>나이, 키, 몸무게 입력은 선택입니다.</Text>
         <View style={styles.SectionStyle}>
             <TextInput
-              label="나이"
+              label={
+                <Text>
+                     나이
+                     <Text style={{color: 'red'}}> *</Text>
+                </Text>
+              }
               style={styles.inputStyle}
               onChangeText={(UserAge) => setUserAge(UserAge)}
               underlineColorAndroid="#f000"
@@ -196,13 +202,18 @@ const RegisterScreen_personal_info = (props) => {
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
-              label="키"
+                label={
+                  <Text>
+                       키
+                       <Text style={{color: 'red'}}> *</Text>
+                  </Text>
+                }
               style={styles.inputStyle}
               onChangeText={(UserHeight) =>
                 setUserHeight(UserHeight)
               }
               underlineColorAndroid="#f000"
-              placeholder="키를 입력해 주세요. 단위(cm)"
+              placeholder="gracias키를 입력해 주세요. 단위(cm)"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               ref={heightInputRef}
@@ -215,7 +226,12 @@ const RegisterScreen_personal_info = (props) => {
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
-              label="몸무게"
+                label={
+                  <Text>
+                       몸무게
+                       <Text style={{color: 'red'}}> *</Text>
+                  </Text>
+                }
               style={styles.inputStyle}
               onChangeText={(UserWeight) =>
                 setUserWeight(UserWeight)
@@ -228,6 +244,27 @@ const RegisterScreen_personal_info = (props) => {
               ref={weightInputRef}
               returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}
+              blurOnSubmit={false}
+            />
+          </View>
+
+          <View style={styles.SectionStyle}>
+            <TextInput
+                label={
+                  <Text>
+                       성별
+                       <Text style={{color: 'red'}}> *</Text>
+                  </Text>
+                }
+              style={styles.inputStyle}
+              onChangeText={(gender) =>
+                setUserGender(gender)
+              }
+              underlineColorAndroid="#f000"
+              placeholder="성별을 입력해 주세요."
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              returnKeyType="next"
               blurOnSubmit={false}
             />
           </View>

@@ -208,7 +208,7 @@ const Config_screen1 = ({route,navigation}) => {
 
             
             <View style={styles.SectionStyle}>
-                <Text style={{fontSize:20}}>현재 BPM : </Text>
+                <Text style={{fontSize:20}}>목표 BPM : </Text>
 
                 <TextInput style={styles.inputStyle}
                   label="minute"

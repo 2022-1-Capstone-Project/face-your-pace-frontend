@@ -54,7 +54,7 @@ const FastScreen = ({route,navigation}) => {
               fontSize:20,
               top:20,
               left:60,
-            }}> 현재 체형에 적합한 BPM보다 낮은 BPM을 설정하셨습니다. 추천 BPM으로 설정할까요?</Text>
+            }}> 현재 체형에 적합한 BPM보다 빠른 BPM을 설정하셨습니다. 추천 BPM으로 설정할까요?</Text>
             <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
             <TouchableOpacity
               style={styles.buttonStyle1}

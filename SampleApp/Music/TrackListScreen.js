@@ -86,7 +86,6 @@ export default function TrackListScreen() {
     playOrPause();
   };
 
-  TrackPlayer;
 
   const playOrPause = async isCurrentTrack => {
     const state = await TrackPlayer.getState();
@@ -197,7 +196,7 @@ export default function TrackListScreen() {
             <Pressable onPress={() => playOrPause(true)}>
               <Image
                 source={isPlaying ? PauseIcon : PlayIcon}
-                style={{height: 30, tintColor: '#fff', width: 30}}
+                style={{height: 30, tintColor: '#fff', width: 30, right:50,}}
               />
             </Pressable>
           </View>

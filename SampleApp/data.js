@@ -10,7 +10,7 @@ export var musiclibrary = [
     duration: 184, // Duration in seconds
   },
   {
-    url: 'https://www.bensound.com/bensound-music/bensound-anewbeginning.mp3',
+    url: 'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/%EB%B3%BC%EB%B9%A8%EA%B0%84%EC%82%AC%EC%B6%98%EA%B8%B0(BOL4)-%EC%8B%AC%EC%88%A0.wav',
     title: 'Punky',
     artist: 'Benjamin Tissot',
     album: "Bensound's rock",

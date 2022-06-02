@@ -19,6 +19,11 @@ import RegisterScreen_nickname from './Screen/member/RegisterScreen_nickname';
 import RegisterScreen_pw from './Screen/member/RegisterScreen_pw';
 import RegisterScreen_personal_info from './Screen/member/RegisterScreen_personal_info';
 
+import FastScreen from './Screen/playlist/modal_fast';
+
+import SlowScreen from './Screen/playlist/modal_slow';
+
+
 import TabNavigationRoutes from './Screen/TabNavigationRoutes';
 import MainLoginScreen from './Screen/member/MainLoginScreen';
 
@@ -128,7 +133,6 @@ const App = () => {
           // Hiding header for Splash Screen
           options={{headerShown: false}}
         />
-
 
         {/* Auth Navigator: Include Login and Signup */}
         <Stack.Screen
