@@ -28,7 +28,7 @@ const SplashScreen = ({navigation}) => {
         value===null?'Auth':'TabNavigationRoutes',{params:{user_id:value}}
         ),
       );
-    }, 3000);
+    }, 500);
   }, []);
 
   return (

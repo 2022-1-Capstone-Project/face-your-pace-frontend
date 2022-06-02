@@ -42,7 +42,8 @@ const HomeScreen = (props) => {
     async function fetchMusic() {
       const response = await axios({
         method:"GET",
-        url: 'http://52.41.225.196:8081//api/music/list/all',
+        //url: 'http://52.41.225.196:8081//api/music/list/all',
+        url: 'http://127.0.0.1:8080//api/music/list/all',
         data : formBody
       });
       console.log(response.data);

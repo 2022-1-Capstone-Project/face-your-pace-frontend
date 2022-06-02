@@ -103,7 +103,8 @@ const RegisterScreen_personal_info = (props) => {
     }
     formBody = formBody.join('&');
     setLoading(true);
-    axios.post('http://52.41.225.196:8081/auth/signup', formBody)
+    //axios.post('http://52.41.225.196:8081/auth/signup', formBody)
+    axios.post('http://127.0.0.1:8080/auth/signup', formBody)
     .then(function(response){
       setLoading(false);
       /*if (response.status === 'success') {

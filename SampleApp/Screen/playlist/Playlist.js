@@ -52,6 +52,7 @@ const PlayListScreen = (props) => {
       const response = await axios({
         method:"GET",
         url: 'http://127.0.0.1:8080/api/mypage/playlist/'+number
+       // url: 'http://52.41.225.196:8081/api/mypage/playlist/'+number
       }).catch(error=>{
         setLoading(false);
         alert("플레이리스트 로딩에 오류가 발생했습니다.");

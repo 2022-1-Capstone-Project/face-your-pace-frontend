@@ -30,38 +30,47 @@ import { ScrollView } from 'react-native-gesture-handler';
 const FastScreen = ({route,navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
-  const {playlist_id,music_title} = route.params;
+ // const {playlist_id,music_title} = route.params;
 
-
-
-    const [start_m, setStart_m] = useState('');
-    const [start_s, setStart_s] = useState('');
-    const [finish_m, setFinish_m] = useState('');
-    const [finish_s, setFinish_s] = useState('');
-    const [repeat, setRepeat] = useState('');
-    const [bpm, setBpm] = useState('');
-  
-    const start_s_Ref = createRef();
-    const finish_m_Ref = createRef();
-    const finish_s_Ref = createRef();
-    const repeat_Ref = createRef();
   //initialArr = fetchPlayListData();
   return (
       <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
       enabled style={styles.mainBody} >
-          <ScrollView style={{ width:'100%',flex:1}}>
 
+          <View style = {{justifyContent:'center',flex:1}}>
           <Image
-                source={require('../../Image/common/logo.png')}
+                source={require('../../Image/music/fast.jpg')}
                 style={{
-                  width: '60%',
-                  height: 200,
+                  width: '100%',
+                  height: 300,
+                  left:0,
                   resizeMode: 'contain',
             
                 }}
           />
-          <Text> 현재 체형에 적합한 BPM보다 낮은 BPM을 설정하셨습니다. 추천BPM으로 설정할까요?</Text>
-          </ScrollView>
+          <Text
+            style={{
+              width:'80%',  
+              fontSize:20,
+              top:20,
+              left:60,
+            }}> 현재 체형에 적합한 BPM보다 낮은 BPM을 설정하셨습니다. 추천 BPM으로 설정할까요?</Text>
+            <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
+            <TouchableOpacity
+              style={styles.buttonStyle1}
+              activeOpacity={0.5}
+              >
+              <Text style={styles.buttonTextStyle}>예</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle2}
+              activeOpacity={0.5}
+              >
+              <Text style={styles.buttonTextStyle}>아니오</Text>
+            </TouchableOpacity>
+            </View>
+          </View>
+
 
 
     </KeyboardAvoidingView>
@@ -108,32 +117,31 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent: 'center', alignItems: 'center'
   },
-  buttonStyle: {
+  buttonStyle1: {
     backgroundColor: '#7DE24E',
     borderWidth: 0,
     color: '#FFFFFF',
+    width:'40%',
+    marginTop:50,
     borderColor: '#7DE24E',
     height: 40,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
+
   },
   buttonStyle2: {
-    backgroundColor: '#03C75A',
+    backgroundColor: '#ff0000',
     borderWidth: 0,
     color: '#FFFFFF',
-    borderColor: '#dadae8',
+    width:'40%',
+    marginTop:50,
+    borderColor: '#7DE24E',
     height: 40,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginBottom: 25,
-    borderWidth: 1,
+
   },
+
   buttonTextStyle: {
     color: '#000000',
     paddingVertical: 10,

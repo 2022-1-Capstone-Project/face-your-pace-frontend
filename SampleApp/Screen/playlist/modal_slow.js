@@ -27,166 +27,57 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
-const Config_screen1 = ({route,navigation}) => {
+const FastScreen = ({route,navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
-  const {playlist_id,music_title} = route.params;
+ // const {playlist_id,music_title} = route.params;
 
-
-
-    const [start_m, setStart_m] = useState('');
-    const [start_s, setStart_s] = useState('');
-    const [finish_m, setFinish_m] = useState('');
-    const [finish_s, setFinish_s] = useState('');
-    const [repeat, setRepeat] = useState('');
-    const [bpm, setBpm] = useState('');
-  
-    const start_s_Ref = createRef();
-    const finish_m_Ref = createRef();
-    const finish_s_Ref = createRef();
-    const repeat_Ref = createRef();
   //initialArr = fetchPlayListData();
   return (
       <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
       enabled style={styles.mainBody} >
-        <View style={styles.header}>
-          
 
-        <Text style={styles.headerTextStyle}> 노래제목 : {music_title}</Text>
-        </View>
-          <ScrollView style={{ width:'100%',flex:1}}>
-            <Text style={styles.bodyText1}>음악 재생 구간 설정</Text>
-
-          
-            <View style={styles.SectionStyle}>
-                <Text style={{fontSize:20}}>시작 지점 : </Text>
-
-                <TextInput style={styles.inputStyle}
-                  label="minute"
-                    onChangeText={(start_m) => setStart_m(start_m)}
-                    underlineColorAndroid="#f000"
-                    keyboardType="numeric"
-                    returnKeyType="next"
-                    maxlength={3}
-                    onSubmitEditing={() =>
-                      start_s_Ref.current &&
-                      start_s_Ref.current.focus()
-                    }
-                    blurOnSubmit={false}
-                  />
-                <Text style={{fontSize:20, left : 180,top:-70}}> 분 </Text>
-
-                <TextInput style={styles.inputStyle2}
-                  label="second"
-                    onChangeText={(start_s) => setStart_s(start_s)}
-                    underlineColorAndroid="#f000"
-                    keyboardType="numeric"
-                    returnKeyType="next"
-                    ref={start_s_Ref}
-                    maxlength={2}
-                    onSubmitEditing={() =>
-                      finish_m_Ref.current &&
-                      finish_m_Ref.current.focus()
-                    }
-                    blurOnSubmit={false}
-                  />
-                <Text style={{fontSize:20, left : 280,top:-135}}> 초 </Text>
-          
-            </View> 
-
-            <View style={styles.SectionStyle}>
-                <Text style={{fontSize:20}}>종료 지점 : </Text>
-
-                <TextInput style={styles.inputStyle}
-                  label="minute"
-                    onChangeText={(finish_m) => setFinish_m(finish_m)}
-                    underlineColorAndroid="#f000"
-                    keyboardType="numeric"
-                    returnKeyType="next"
-                    ref={finish_m_Ref}
-                    maxlength={3}
-                    onSubmitEditing={() =>
-                      finish_s_Ref.current &&
-                      finish_s_Ref.current.focus()
-                    }
-                    blurOnSubmit={false}
-                  />
-                <Text style={{fontSize:20, left : 180,top:-70}}> 분 </Text>
-
-                <TextInput style={styles.inputStyle2}
-                  label="second"
-                    onChangeText={(finish_s) => setFinish_s(finish_s)}
-                    underlineColorAndroid="#f000"
-                    keyboardType="numeric"
-                    returnKeyType="next"
-                    maxlength={2}
-                    ref={finish_s_Ref}
-                    onSubmitEditing={() =>
-                      repeat_Ref.current &&
-                      repeat_Ref.current.focus()
-                    }
-                    blurOnSubmit={false}
-                  />
-                <Text style={{fontSize:20, left : 280,top:-135}}> 초 </Text>
-          
-            </View> 
-
+          <View style = {{justifyContent:'center',flex:1}}>
+          <Image
+                source={require('../../Image/music/slow.jpg')}
+                style={{
+                  width: '100%',
+                  height: 300,
+                  left:0,
+                  resizeMode: 'contain',
             
-            <View style={styles.SectionStyle}>
-                <Text style={{fontSize:20}}>재생 횟수 : </Text>
-
-                <TextInput style={styles.inputStyle}
-                  label="repeat"
-                    onChangeText={(start_m) => setStart_m(start_m)}
-                    underlineColorAndroid="#f000"
-                    keyboardType="numeric"
-                    returnKeyType="next"
-                    maxlength={2}
-                    ref={repeat_Ref}
-                    onSubmitEditing={() =>
-                      start_s_Ref.current &&
-                      start_s_Ref.current.focus()
-                    }
-                    blurOnSubmit={false}
-                  />
-                <Text style={{fontSize:20, left : 180,top:-70}}> 회 </Text>
-          
-            </View> 
-
-            
-            <View style={styles.SectionStyle}>
-                <Text style={{fontSize:20}}>현재 BPM : </Text>
-
-                <TextInput style={styles.inputStyle}
-                  label="minute"
-                    onChangeText={(start_m) => setStart_m(start_m)}
-                    underlineColorAndroid="#f000"
-                    keyboardType="numeric"
-                    returnKeyType="next"
-                    maxlength={3}
-                    onSubmitEditing={() =>
-                      start_s_Ref.current &&
-                      start_s_Ref.current.focus()
-                    }
-                    blurOnSubmit={false}
-                  />
-                <Text style={{fontSize:20, left : 180,top:-70}}> BPM </Text>
-            </View> 
-
+                }}
+          />
+          <Text
+            style={{
+              width:'80%',  
+              fontSize:20,
+              top:20,
+              left:60,
+            }}> 현재 체형에 적합한 BPM보다 낮은 BPM을 설정하셨습니다. 추천 BPM으로 설정할까요?</Text>
+            <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
             <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            >
-            <Text style={styles.buttonTextStyle}>저장하기</Text>
-          </TouchableOpacity>
-          </ScrollView>
+              style={styles.buttonStyle1}
+              activeOpacity={0.5}
+              >
+              <Text style={styles.buttonTextStyle}>예</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle2}
+              activeOpacity={0.5}
+              >
+              <Text style={styles.buttonTextStyle}>아니오</Text>
+            </TouchableOpacity>
+            </View>
+          </View>
+
 
 
     </KeyboardAvoidingView>
   );
 };
 
-export default Config_screen1;
+export default FastScreen;
 
 const styles = StyleSheet.create({
   mainBody: {
@@ -226,32 +117,31 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent: 'center', alignItems: 'center'
   },
-  buttonStyle: {
+  buttonStyle1: {
     backgroundColor: '#7DE24E',
     borderWidth: 0,
     color: '#FFFFFF',
+    width:'40%',
+    marginTop:50,
     borderColor: '#7DE24E',
     height: 40,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
+
   },
   buttonStyle2: {
-    backgroundColor: '#03C75A',
+    backgroundColor: '#ff0000',
     borderWidth: 0,
     color: '#FFFFFF',
-    borderColor: '#dadae8',
+    width:'40%',
+    marginTop:50,
+    borderColor: '#7DE24E',
     height: 40,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginBottom: 25,
-    borderWidth: 1,
+
   },
+
   buttonTextStyle: {
     color: '#000000',
     paddingVertical: 10,
