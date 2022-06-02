@@ -22,8 +22,6 @@ import RegisterScreen_personal_info from './Screen/member/RegisterScreen_persona
 import TabNavigationRoutes from './Screen/TabNavigationRoutes';
 import MainLoginScreen from './Screen/member/MainLoginScreen';
 
-import FastScreen from './Screen/playlist/modal_fast';
-import SlowScreen from './Screen/playlist/modal_slow';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 
 console.disableYellowBox = true;
@@ -122,7 +120,7 @@ const Register = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SlowScreen">
+      <Stack.Navigator initialRouteName="SplashScreen">
         {/* SplashScreen which will come once for 5 Seconds */}
         <Stack.Screen
           name="SplashScreen"
@@ -130,18 +128,8 @@ const App = () => {
           // Hiding header for Splash Screen
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="FastScreen"
-          component={FastScreen}
-          // Hiding header for Splash Screen
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="SlowScreen"
-          component={SlowScreen}
-          // Hiding header for Splash Screen
-          options={{headerShown: false}}
-        />
+
+
         {/* Auth Navigator: Include Login and Signup */}
         <Stack.Screen
           name="Auth"
