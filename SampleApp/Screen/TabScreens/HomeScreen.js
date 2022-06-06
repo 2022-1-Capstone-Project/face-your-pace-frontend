@@ -24,16 +24,17 @@ import TrackPlayer, {
   useProgress,
   RepeatMode,
 } from 'react-native-track-player';
+
 import PlayIcon from '../../Image/music/play.png';
 import PauseIcon from '../../Image/music/pause.png';
-
+import {musiclibrary} from '../../data';
 import PlayerModal from '../../components/TrackPlayerScreen';
+import LinearGradient from 'react-native-linear-gradient';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import Loader from '../Components/Loader';
 import { useNavigation } from '@react-navigation/native';
-import { SCOPABLE_TYPES } from '@babel/types';
 
 
 const events = [
@@ -58,8 +59,33 @@ const HomeScreen = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [timestamp, setTimestamp] = useState(0);
   const [mode, setMode] = useState('shuffle');
+
   const {position} = useProgress();
 
+  /*const setup = async () => {
+    await TrackPlayer.setupPlayer({});
+    await TrackPlayer.add(musiclibrary);
+  };
+  useEffect(() => {
+    setup();
+  }, []);
+*/
+useEffect(
+  () =>
+    mode === 'off'
+      ? TrackPlayer.setRepeatMode(RepeatMode.Queue)
+      : TrackPlayer.setRepeatMode(RepeatMode.Off),
+  [mode],
+);
+
+
+const setup = async () => {
+  await TrackPlayer.setupPlayer({});
+  await TrackPlayer.add(musiclibrary);
+};
+useEffect(() => {
+  setup();
+}, []);
 
   useEffect(() => {
     console.log("aaaaa");
@@ -71,7 +97,8 @@ const HomeScreen = (props) => {
         //url: 'http://127.0.0.1:8080//api/music/list/all',
         //data : formBody
       });
-     
+      
+      console.log(response.data);
       setMusic(response.data);
       setLoading(false);
   
@@ -87,22 +114,8 @@ const HomeScreen = (props) => {
 
 
   
-  const setup = async () => {
-    await TrackPlayer.setupPlayer({});
-    await TrackPlayer.add(music);
-  };
-  useEffect(() => {
-    setup();
-  }, []);
 
 
-  useEffect(
-    () =>
-      mode === 'off'
-        ? TrackPlayer.setRepeatMode(RepeatMode.Queue)
-        : TrackPlayer.setRepeatMode(RepeatMode.Off),
-    [mode],
-  );
 
   useTrackPlayerEvents(events, event => {
     if (event.type === Event.PlaybackError) {
@@ -120,32 +133,14 @@ const HomeScreen = (props) => {
   });
 
   const onSelectTrack = async (selectedTrack, index) => {
-    console.log(selectedTrack);
-
-    /*axios.post('http://52.41.225.196:8081/api/music/s3'+selectedTrack.id,[])
-    //axios.post('http://127.0.0.1:8080/auth/login', formBody)
-    .then( function(response){
-      console.log("reponse의 데이터는??");
-      console.log(response.data);
-      selectedTrack["s3Title"] = response.data;
-      selectedTrack["url"] = "https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/"+response.data;
-    }
-      )
-    .catch(error => {
-      console.log(selectedTRack.id);
-      console.log(selectedTrack.url);
-        //setErrortext('Error:'+ error.message);
-        alert("음악 재생에 실패했습니다.");
-    });*/
-   
     setSelectedMusic(selectedTrack);
-    console.log(selectedTrack);
     setTimestamp(0);
     setSelectedMusicIndex(index);
     TrackPlayer.skip(index);
     playOrPause();
   };
 
+  TrackPlayer;
 
   const playOrPause = async isCurrentTrack => {
     const state = await TrackPlayer.getState();
@@ -173,7 +168,7 @@ const HomeScreen = (props) => {
 
   const onPressNext = () => {
     setSelectedMusic(
-      music[(selectedMusicIndex + 1) % music.length],
+      musiclibrary[(selectedMusicIndex + 1) % musiclibrary.length],
     );
     setSelectedMusicIndex(selectedMusicIndex + 1);
     TrackPlayer.skipToNext();
@@ -185,11 +180,25 @@ const HomeScreen = (props) => {
       return;
     }
     setSelectedMusic(
-      music[(selectedMusicIndex - 1) % music.length],
+      musiclibrary[(selectedMusicIndex - 1) % musiclibrary.length],
     );
     setSelectedMusicIndex(selectedMusicIndex - 1);
     TrackPlayer.skipToPrevious();
     playOrPause();
+  };
+
+  const renderSingleMusic = ({item, index}) => {
+    return (
+      <>
+        {index === 0 && <PlaylistImageView />}
+        <TouchableOpacity onPress={() => onSelectTrack(item, index)}>
+          <View>
+            <Text style={styles.musicTitle}>{item.title}</Text>
+            <Text style={styles.artisteTitle}>{item.artist}</Text>
+          </View>
+        </TouchableOpacity>
+      </>
+    );
   };
 
 
@@ -220,7 +229,7 @@ const HomeScreen = (props) => {
     if(music!=[]||music!=null){
       return music.map((item,index) => {
           return (
-            <TouchableOpacity key = {item.url}
+            <TouchableOpacity
             onPress={() => onSelectTrack(item, index)}>
               <View  style={styles.SectionStyle}>
                 <View>
@@ -243,7 +252,7 @@ const HomeScreen = (props) => {
 
   const handleSubmit=()=>{
     navigation.navigate(
-      'MusicAddScreenMain',{params:{user_id:value}}
+      'MusicAddScreenMain',{params:{user_id:userId}}
     )
     
   }
@@ -310,6 +319,7 @@ const HomeScreen = (props) => {
                         <Text style={styles.addTextStyle}>
                               음악 추가하기
                         </Text>
+                  
               </TouchableOpacity>
 
               
@@ -324,7 +334,7 @@ const HomeScreen = (props) => {
                 <View style={{flexDirection: 'row'}}>
                   <Image
                     resizeMode="cover"
-                    source={{uri: selectedMusic.musicImg_url}}
+                    source={{uri: selectedMusic.artwork}}
                     style={styles.widgetImageStyle}
                   />
                   <View>
@@ -366,6 +376,15 @@ imgStyle2:{
   height:'100%',
   width:100,
   left:20,
+  resizeMode: 'contain',
+},
+imgStyle3:{
+
+  flex: 1,
+  height:'100%',
+  width:100,
+  top:-40,
+  left:170,
   resizeMode: 'contain',
 },
 SectionStyle: {

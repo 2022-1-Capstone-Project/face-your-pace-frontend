@@ -21,10 +21,11 @@ import SettingsScreen from './TabScreens/SettingsScreen';
 import UserUpdateScreen from './TabScreens/UserUpdate';
 import MusicApp from '../Music/MusicApp';
 
-
 import Ionicons  from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons  from 'react-native-vector-icons/SimpleLineIcons';
+import BPMRecommendScreen from './TabScreens/BPMRecommendScreen';
 
 
 const Stack = createStackNavigator();
@@ -272,6 +273,16 @@ const UserUpdateScreenStack = (props) => {
           title: '유저 정보 조회', //Set Header Title
         }}
       />
+
+
+      <Stack.Screen
+        name="BPMRecommendScreen"
+        initialParams={{user_number: number,user_id:myName}}
+        component={BPMRecommendScreen}
+        options={{
+          title: '유저 정보 조회', //Set Header Title
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -308,6 +319,9 @@ const TabNavigationRoutes = (props) => {
         }else if (route.name === 'MusicApp') {
           iconName = focused ? 'musical-notes' : 'musical-notes-outline';
           return <Ionicons name={iconName} size={size} color={color} />;
+        }else if (route.name === 'BPMRecommendScreen') {
+          iconName = 'thumbs-up';
+          return <Ionicons name={iconName} size={size} color={color} />;
         }
 
         // You can return any component that you like here!
@@ -326,9 +340,10 @@ const TabNavigationRoutes = (props) => {
       <Tab.Screen name="UserUpdateScreenStack" 
        initialParams={{user_number: number,user_id:myName}}
       component={UserUpdateScreenStack} />
-      <Tab.Screen name="MusicApp" 
+       <Tab.Screen name="BPMRecommendScreen" 
        initialParams={{user_number: number,user_id:myName}}
-      component={MusicApp} />
+      component={BPMRecommendScreen} />
+
     </Tab.Navigator>
   );
 };

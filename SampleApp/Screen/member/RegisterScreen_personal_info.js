@@ -97,6 +97,17 @@ const RegisterScreen_personal_info = (props) => {
     var weight = "userWeight";
     userInfo[weight] = userWeight;
 
+    var pace = "target_pace";
+    userInfo[pace] = 0;
+    var stride = "stride";
+    userInfo[stride] = 0;
+    var workout_level = "workout_level";
+    userInfo[workout_level] = 1;
+
+    var gender = "gender";
+    userInfo[gender] = userGender;
+
+
     var formBody = [];
     for (var key in userInfo) {
       var value = userInfo[key];
@@ -104,8 +115,8 @@ const RegisterScreen_personal_info = (props) => {
     }
     formBody = formBody.join('&');
     setLoading(true);
-    //axios.post('http://52.41.225.196:8081/auth/signup', formBody)
-    axios.post('http://127.0.0.1:8080/auth/signup', formBody)
+    axios.post('http://52.41.225.196:8081/auth/signup', formBody)
+    //axios.post('http://127.0.0.1:8080/auth/signup', formBody)
     .then(function(response){
       setLoading(false);
       /*if (response.status === 'success') {
@@ -176,7 +187,7 @@ const RegisterScreen_personal_info = (props) => {
         </View>   
         <KeyboardAvoidingView enabled>
 
-        <Text style={{marginLeft:40, color:'black'}}>나이, 키, 몸무게 입력은 선택입니다.</Text>
+        <Text style={{marginLeft:40, color:'black'}}>나이, 키, 몸무게 입력은 필수입니다.</Text>
         <View style={styles.SectionStyle}>
             <TextInput
               label={

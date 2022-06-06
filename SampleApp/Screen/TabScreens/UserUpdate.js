@@ -28,7 +28,7 @@ const UserUpdateScreen = (props) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userAge, setUserAge] = useState('');
-
+  const [Gender,setGender] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [userHeight, setUserHeight] = useState('');
   const [userWeight, setUserWeight] = useState('');
@@ -69,6 +69,13 @@ const UserUpdateScreen = (props) => {
       setUserAge(response.data.userAge);
       setUserHeight(response.data.userHeight);
       setUserWeight(response.data.userWeight);
+      var gender = '남';
+      if(response.data.gender=='m'){
+        gender = '남';
+      }else if(response.data.gender=='f'){
+        gender = '여';
+      }
+      setGender(response.data.gender);
       setLoading(false);
     }
     fetchUser().catch(val=>{
@@ -105,6 +112,10 @@ const UserUpdateScreen = (props) => {
         </View>
         <View style={styles.SectionStyle}>
         <Text style={{fontSize:20}}> 몸무게 : {item.userWeight}</Text>
+          
+        </View>
+        <View style={styles.SectionStyle}>
+        <Text style={{fontSize:20}}> 성별 : {item.gender}</Text>
           
         </View>
       </KeyboardAvoidingView>

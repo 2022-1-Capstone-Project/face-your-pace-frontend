@@ -1,83 +1,45 @@
 export var musiclibrary = [
   {
-    url: require('./Music/asdf123/music/iL.wav'),
-    title: 'iL (Cytus II v2.1)',
-    artist: 'Ice',
-    album: "Bensound's rock",
-    genre: 'Electronic',
-    date: '2022-05-28T08:15:28+15:30', // RFC 3339
-    artwork: 'https://www.bensound.com/bensound-img/happyrock.jpg', // Load artwork from the network
-    duration: 184, // Duration in seconds
+    url: 'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/home.wav',
+    title: 'home',
+    artist: '',
+    album: "",
+    genre: '',
+    date: '2014-05-20T07:00:00+00:00', // RFC 3339
+    artwork: 'https://i1.sndcdn.com/artworks-000139237588-r2uu4l-large.jpg',
+    duration: 168, // Duration in seconds
+    c:'d',
   },
   {
-    url: 'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/%EB%B3%BC%EB%B9%A8%EA%B0%84%EC%82%AC%EC%B6%98%EA%B8%B0(BOL4)-%EC%8B%AC%EC%88%A0.wav',
-    title: 'Punky',
-    artist: 'Benjamin Tissot',
-    album: "Bensound's rock",
-    genre: 'Rock',
+    url: 'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/Goldie.wav',
+    title: 'Goldie',
+    artist: '',
+    album: "",
     date: '2014-05-20T07:00:00+00:00', // RFC 3339
-    artwork: 'https://www.bensound.com/bensound-img/punky.jpg', 
-    duration: 126, // Duration in seconds
+    artwork: 'https://i1.sndcdn.com/artworks-000021932090-6tpir8-large.jpg',
+    duration: 168, // Duration in seconds
+    a:'b',
   },
   {
-    url: 'https://www.bensound.com/bensound-music/bensound-actionable.mp3',
-    title: 'Actionable',
-    artist: 'Benjamin Tissot',
-    album: "Bensound's rock",
-    genre: 'Rock',
+    url: 'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/Monday.wav',
+    title: 'Monday',
+    artist: '',
+    album: "",
+    genre: '',
     date: '2014-05-20T07:00:00+00:00', // RFC 3339
-    artwork: 'https://www.bensound.com/bensound-img/actionable.jpg',
-    duration: 122, // Duration in seconds
+    artwork: 'https://i1.sndcdn.com/artworks-BO5CSiGlgxU4pcPA-yv6DUQ-large.jpg',
+    duration: 168, // Duration in seconds
   },
   {
-    url: 'https://www.bensound.com/bensound-music/bensound-romantic.mp3',
-    title: 'Romantic',
-    artist: 'Benjamin Tissot',
-    album: "Bensound's Jazz",
-    genre: 'Jazz',
-    date: '2014-05-20T07:00:00+00:00', // RFC 3339
-    artwork: 'https://www.bensound.com/bensound-img/romantic.jpg', 
-    duration: 236, // Duration in seconds
+    url: 'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/Marigold.wav',
+    title: 'Marigold',
+    artist: '',
+    album: "",
+    genre: '',
+    date: '', // RFC 3339
+    artwork: 'https://i1.sndcdn.com/artworks-000249024893-72v74f-large.jpg',
+    duration: 153, // Duration in seconds
   },
-  {
-    url: 'https://www.bensound.com/bensound-music/bensound-allthat.mp3',
-    title: 'All That',
-    artist: 'Benjamin Tissot',
-    album: "Bensound's Jazz",
-    genre: 'Jazz',
-    date: '2014-05-20T07:00:00+00:00', // RFC 3339
-    artwork: 'https://www.bensound.com/bensound-img/allthat.jpg',
-    duration: 146, // Duration in seconds
-  },
-  {
-    url: 'https://www.bensound.com/bensound-music/bensound-love.mp3',
-    title: 'Love',
-    artist: 'Benjamin Tissot',
-    album: "Bensound's Jazz",
-    genre: 'Jazz',
-    date: '2014-05-20T07:00:00+00:00', // RFC 3339
-    artwork: 'https://www.bensound.com/bensound-img/love.jpg',
-    duration: 335, // Duration in seconds
-  },
-  {
-    url: 'https://www.bensound.com/bensound-music/bensound-dreams.mp3',
-    title: 'Dreams',
-    artist: 'Benjamin Tissot',
-    album: "Bensound's Electronica",
-    genre: 'Electronica',
-    date: '2014-05-20T07:00:00+00:00', // RFC 3339
-    artwork: 'https://www.bensound.com/bensound-img/dreams.jpg',
-    duration: 310, // Duration in seconds
-  },
-  {
-    url: 'https://www.bensound.com/bensound-music/bensound-dance.mp3',
-    title: 'Love',
-    artist: 'Benjamin Tissot',
-    album: "Bensound's Electronica",
-    genre: 'Electronica',
-    date: '2014-05-20T07:00:00+00:00', // RFC 3339
-    artwork: 'https://www.bensound.com/bensound-img/dance.jpg',
-    duration: 177, // Duration in seconds
-  },
+
 ];
 

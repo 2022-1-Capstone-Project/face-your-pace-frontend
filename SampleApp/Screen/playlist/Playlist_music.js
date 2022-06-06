@@ -25,93 +25,80 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const renderPlaylists=(initialArr)=> {
-
-  const navigation = useNavigation();
-  return initialArr.map((item) => {
-      return (
-        <View key = {item.id} style={styles.SectionStyle}>
-          <View>
-            <Image
-                  source={item.imgUrl}
-                  style={styles.imgStyle}
-            />
-            <Text style={styles.playlistTextStyle}>
-                  {item.title}
-            </Text>
-
-            <TouchableOpacity
-             onPress={()=>navigation.navigate("Config_screen1",{
-              playlist_id: item.id,
-              music_title:item.title
-            })}>
-
-              <Image
-                    source={item.configUrl}
-                    style={styles.imgStyle2}
-              />
-            </TouchableOpacity>
-          </View>
-         </View>
-      );
-  });
-};
 
 
 
 
-const PlayListMusicScreen = ({navigation}) => {
+const PlayListMusicScreen = ({route,navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
-  const musicInfo= navigation.params;
-  console.log(musicInfo);
-
+  const playlist_title = route.params.playlist_title;
+  const userId = route.params.user_id;
+  const [music,setMusic] = useState('');
+  const [loading,setLoading] = useState(true);
   //initialArr = fetchPlayListData();
 
-  initialArr = [
-    {
-      id:1,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악1"
-    },
-    {
-      id:2,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악2"
-    },
-    {
-      id:3,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악3"
-    },
-    {
-      id:4,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악4"
-    },
-    {
-      id:5,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악5"
-    },
-    {
-      id:6,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악6"
-    },
-    {
-      id:7,
-      imgUrl: require('../../Image/playlist/music2.png'),
-      configUrl: require('../../Image/playlist/settings.png'),
-      title: "음악7"
-    },
-  ];
+  console.log(playlist_title);
+
+
+  useEffect(() => {
+
+    async function fetchMusic() {
+      const response = await axios({
+        method:"GET",
+        url: 'http://52.41.225.196:8081/api/music/list/'+userId+'/'+playlist_title,
+        //url: 'http://127.0.0.1:8080//api/music/list/all',
+        //data : formBody
+      });
+      console.log("asdfasdfsa");
+      console.log(response.data);
+      setMusic(response.data);
+      setLoading(false);
+  
+    }
+    fetchMusic().catch(error=>{
+      setLoading(false);
+      alert("에러가 발생했습니다.");
+    });
+
+
+    
+  }, []);
+
+
+  const renderPlaylists=(initialArr)=> {
+
+    if(music!=[]||music!=null){
+      return initialArr.map((item) => {
+          return (
+            <View key = {item.id} style={styles.SectionStyle}>
+              <View>
+                <Image
+                      source={require('../../Image/playlist/music2.png')}
+                      style={styles.imgStyle}
+                />
+                <Text style={styles.playlistTextStyle}>
+                      {item.title}
+                </Text>
+    
+                <TouchableOpacity
+                onPress={()=>navigation.navigate("Config_screen1",{
+                  music_id: item.id,
+                  music_title:item.title
+                })}>
+    
+                  <Image
+                        source={item.configUrl}
+                        style={styles.imgStyle2}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          );
+      });
+  }
+  };
+  
 
   const handleSubmit=()=>{
     AsyncStorage.getItem('user_id').then((value) =>
@@ -161,39 +148,48 @@ const PlayListMusicScreen = ({navigation}) => {
           console.error(error);
         });*/
 
- 
+        if (loading) {
+          return (
+            <View>
+              <Loader loading={loading} />
+            </View>
+            )
+        }
+
+  else{
 
 
-  return (
-      <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
-      enabled style={styles.mainBody} >
+    return (
+        <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
+        enabled style={styles.mainBody} >
 
-      <ScrollView style={{ width:'100%',flex:1}}>
-        <View style={styles.SectionStyle}>
-                    <TouchableOpacity  activeOpacity={0.5}
-                     onPress={handleSubmit}
-                    >
-                      <Image
-                            source={require('../../Image/playlist/add.png')}
-                            style={styles.imgStyle3}
-                      />
-                      <Text style={styles.addTextStyle}>
-                            음악 추가하기
-                      </Text>
-                  </TouchableOpacity>
-          </View>
-      
-            {
+        <ScrollView style={{ width:'100%',flex:1}}>
+          <View style={styles.SectionStyle}>
+                      <TouchableOpacity  activeOpacity={0.5}
+                      onPress={handleSubmit}
+                      >
+                        <Image
+                              source={require('../../Image/playlist/add.png')}
+                              style={styles.imgStyle3}
+                        />
+                        <Text style={styles.addTextStyle}>
+                              음악 추가하기
+                        </Text>
+                    </TouchableOpacity>
+            </View>
+        
+              {
 
-                  renderPlaylists(initialArr)
+                    renderPlaylists(music)
+              }
+              
+            </ScrollView>
+        
+
+
+      </KeyboardAvoidingView>
+    );
             }
-            
-          </ScrollView>
-       
-
-
-    </KeyboardAvoidingView>
-  );
 };
 
 export default PlayListMusicScreen;

@@ -26,62 +26,98 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
-const MusicAddScreen = ({navigation}) => {
+const MusicAddScreen = ({route,navigation}) => {
   //fetchPlayListData();
   //State for ActivityIndicator animation
 
 
   const [animating, setAnimating] = useState(true);
   const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
-  return (
-    <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-    <Loader loading={loading} />
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{
-        justifyContent: 'center',
-        alignContent: 'center',
-        flex:1,
-      }}>
-      <View style={{alignItems: 'center'}}>
-      <Text style={{fontSize:20}}>들으실 음악의 사운드 클라우드 url을 입력하세요. </Text>
+  const [loading, setLoading] = useState(true);
+  const userId = route.params.user_id;
+
+
+  useEffect(() => {
+    console.log("aaaaa");
+    console.log(userId);
+    async function fetchMusic() {
+      const response = await axios({
+        method:"GET",
+        url: 'http://52.41.225.196:8081/api/music/list/'+userId,
+        //url: 'http://127.0.0.1:8080//api/music/list/all',
+        //data : formBody
+      });
+      
+      console.log(response.data);
+      setMusic(response.data);
+      setLoading(false);
+  
+    }
+    fetchMusic().catch(error=>{
+      setLoading(false);
+      alert("에러가 발생했습니다.");
+    });
+
+
+    
+  }, []);
+
+
+  const renderPlaylists=(initialArr)=> {
+    
+    const imgUrl= require('../../Image/playlist/music2.png')
+    if(music!=[]||music!=null){
+      return initialArr.map((item) => {
+          return (
+            <TouchableOpacity>
+           
+              <View  style={styles.SectionStyle}>
+                <View>
+                  <Image
+                        source={imgUrl}
+                        style={styles.imgStyle}
+                  />
+                  <Text style={styles.playlistTextStyle}>
+                        {item.title}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
+      });
+  }
+  };
+
+  
+  if (loading) {
+    return (
+      <View>
+        <Loader loading={loading} />
       </View>
-      <KeyboardAvoidingView enabled>
-      <View style={styles.SectionStyle}>
-          <TextInput color='black'
-            style={styles.inputStyle}
-            label={
-              <Text>
-                   music_url
-                   <Text style={{color: 'red'}}> *</Text>
-              </Text>
+      )
+  }
+
+  else{
+
+
+    return (
+      <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
+      enabled style={styles.mainBody} >
+
+      <ScrollView style={{ width:'100%',flex:1}}>
+      
+            {
+
+                  renderPlaylists(music)
             }
-            onChangeText={(UserId) => setUserId(UserId)}
-            underlineColorAndroid="#f000"
-            placeholder="들으실 음악의 url을 입력해 주세요."
-            placeholderTextColor="#8b9cb5"
-            returnKeyType="next"
-            maxLength={20}
-            onSubmitEditing={() =>
-              nameInputRef.current &&
-              nameInputRef.current.focus()
-            }
-            blurOnSubmit={false}
-          />
-        
-      </View>
-       
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          >
-          <Text style={styles.buttonTextStyle}>저장</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </ScrollView>
-  </View>
-  );
+            
+          </ScrollView>
+      
+
+
+    </KeyboardAvoidingView>
+    );
+          }
 };
 
 export default MusicAddScreen;
