@@ -150,7 +150,7 @@ useEffect(()=>{
 
   const onPressNext = () => {
     setSelectedMusic(
-      music[(selectedMusicIndex + 1) % music.length],
+      props.music[(selectedMusicIndex + 1) % props.music.length],
     );
     setSelectedMusicIndex(selectedMusicIndex + 1);
     TrackPlayer.skipToNext();
@@ -162,7 +162,7 @@ useEffect(()=>{
       return;
     }
     setSelectedMusic(
-      music[(selectedMusicIndex - 1) % music.length],
+      props.music[(selectedMusicIndex - 1) % props.music.length],
     );
     setSelectedMusicIndex(selectedMusicIndex - 1);
     TrackPlayer.skipToPrevious();
@@ -211,21 +211,37 @@ useEffect(()=>{
     if(music!=[]||music!=null){
       return music.map((item,index) => {
           return (
-            <TouchableOpacity key={item.id}
-            onPress={() => onSelectTrack(item, index)}>
-              <View  style={styles.SectionStyle}>
-                <View>
-                  <Image
-                        source={imgUrl}
-                        style={styles.imgStyle}
-                  />
-                  <Text style={styles.playlistTextStyle}>
-                        {item.title}
-                  </Text>
-      
+            <View>
+              <TouchableOpacity key={item.id}
+              onPress={() => onSelectTrack(item, index)}>
+                <View  style={styles.SectionStyle}>
+                  <View>
+                    <Image
+                          source={imgUrl}
+                          style={styles.imgStyle}
+                    />
+                    <Text style={styles.playlistTextStyle}>
+                          {item.title}
+                    </Text>
+                    
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={()=>navigation.navigate("Config_screen1",{
+                  music_id: item.id,
+                  music_title:item.title,
+                  music_length:item.duration
+                })}>
+    
+                  <Image
+                        source={require('../../Image/playlist/settings.png')}
+                        style={styles.imgStyle3}
+                  />
+              </TouchableOpacity>
+
+            </View>
+            
           );
         });
     
@@ -233,6 +249,7 @@ useEffect(()=>{
   };
 
   const handleSubmit=()=>{
+    TrackPlayer.pause();
     navigation.navigate(
       'MusicAddScreenMain',{params:{user_id:userId}}
     )
@@ -362,12 +379,12 @@ imgStyle2:{
 },
 imgStyle3:{
 
-  flex: 1,
-  height:'100%',
-  width:100,
-  top:-40,
-  left:170,
+  width: '30%',
+  height: 50,
   resizeMode: 'contain',
+  position: 'relative',
+  top:-80,
+  left:260
 },
 SectionStyle: {
   flexDirection: 'row',

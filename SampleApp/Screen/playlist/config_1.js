@@ -30,9 +30,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 const Config_screen1 = ({route,navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
-  const {playlist_id,music_title} = route.params;
-
-
+  const {music_id,music_title,music_length} = route.params;
+    console.log(music_length);
 
     const [start_m, setStart_m] = useState('');
     const [start_s, setStart_s] = useState('');
@@ -40,6 +39,7 @@ const Config_screen1 = ({route,navigation}) => {
     const [finish_s, setFinish_s] = useState('');
     const [repeat, setRepeat] = useState('');
     const [bpm, setBpm] = useState('');
+    const [loading, setLoading] = useState(false);
   
     const start_s_Ref = createRef();
     const finish_m_Ref = createRef();
@@ -54,25 +54,70 @@ const Config_screen1 = ({route,navigation}) => {
 
       var finish_minute;
       var finish_second;
-      if(start_m>=0&&start_m<=9){
-        start_minute = "0"+start_minute;
-      }
-      if(start_s>=0&&start_s<=9){
-        start_second = "0"+start_second;
+
+      if(start_s>=60||finish_s>=60||isNaN(start_s)||isNaN(finish_s)||isNaN(start_m)||isNaN(finish_m)){
+        alert("시작시간과 종료시간에 잘못된 값을 입력하셨습니다")
       }
 
+      if(start_m>=finish_m){
+        alert("시작 시간이 종료 시간보다 늦어선 안됩니다.");
+        return;
+      }
+
+      if(start_m==finish_m&&start_s>=finish_s){
+        alert("시작 시간이 종료 시간보다 늦어선 안됩니다.");
+        return;
+      }
+
+      var minute = Math.floor(music_length/60);
+      var second = music_length%60;
+
+      if(start_m>minute||finish_m>minute){
+        alert("음악의 재생 길이보다 더 긴 시간을 입력값으로 할 수 없습니다!");
+        return;
+      }
+
+      
+      if(start_m==minute&&start_s>second){
+        alert("음악의 재생 길이보다 더 긴 시간을 입력값으로 할 수 없습니다!");
+        return;
+      }
+
+
+      if(finish_m==minute&&finish_s>second){
+        alert("음악의 재생 길이보다 더 긴 시간을 입력값으로 할 수 없습니다!");
+        return;
+      }
+
+      if(start_m>=0&&start_m<=9){
+        start_minute = "0"+start_m;
+      }
+      else{
+        start_minute = start_m;
+      }
+      if(start_s>=0&&start_s<=9){
+        start_second = "0"+start_s;
+      }
+      else{
+        start_second = start_s;
+      }
       if(finish_m>=0&&finish_m<=9){
-        finish_minute = "0"+starfinish_minutet_minute;
+        finish_minute = "0"+finish_m;
+      }
+      else{
+        finish_minute = finish_m;
       }
       if(finish_s>=0&&finish_s<=9){
-        finish_second = "0"+finish_second;
+        finish_second = "0"+finish_s;
+      }
+      else{
+        finish_second = finish_s;
       }
       //alert(formBody);
       //현재는 3000 포트 번호로 되어 있는데 로컬에서 구동하는 백엔드 서버의 포트 번호에 따라 3000값을 바꾸시면 됩니다.
      
       let dataToSend = {musicStart: start_minute+':'+start_second,
-      musicEnd:finish_minute+':'+finish_second,target_bpm:bpm,
-      musicRepeat:repeat};
+      musicEnd:finish_minute+':'+finish_second,target_bpm:bpm};
 
       var formBody = [];
       for (var key in dataToSend) {
@@ -80,19 +125,25 @@ const Config_screen1 = ({route,navigation}) => {
         formBody.push(key + '=' + value);
       }
       formBody = formBody.join('&');
+
+      console.log(formBody);
+      setLoading(true);
       axios({
         method:"POST",
-        url: 'http://52.41.225.196:8081/api/music/{musicId}/edit',
+        url: 'http://52.41.225.196:8081/api/music/'+music_id+'/edit',
         data:formBody,
     }).then((res)=>{
       if (res.data==true) {
         alert("음악 설정 변경에 성공했습니다..");
-        navigation.replace('TabNavigationRoutes',{params:{user_id:userId,user_number:userNumber}});
+        setLoading(false);
+        navigation.replace('TopTracks',{params:{user_id:userId,user_number:userNumber}});
       }
       else{
+        setLoading(false);
         alert('음악설정 변경에 실패했습니다.');
       }
     }).catch(error=>{
+      setLoading(false);
         console.log(error);
         throw new Error(error);
     });
@@ -100,12 +151,16 @@ const Config_screen1 = ({route,navigation}) => {
     }
   //initialArr = fetchPlayListData();
   return (
+
+    
       <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
       enabled style={styles.mainBody} >
+        <Loader loading={loading} />
         <View style={styles.header}>
           
 
         <Text style={styles.headerTextStyle}> 노래제목 : {music_title}</Text>
+        <Text style={styles.headerTextStyle}> 음악 재생길이 : {Math.floor(music_length/60)} 분 {music_length%60}초</Text>
         </View>
           <ScrollView style={{ width:'100%',flex:1}}>
             <Text style={styles.bodyText1}>음악 재생 구간 설정</Text>
@@ -183,36 +238,13 @@ const Config_screen1 = ({route,navigation}) => {
                 <Text style={{fontSize:20, left : 280,top:-135}}> 초 </Text>
           
             </View> 
-
-            
-            <View style={styles.SectionStyle}>
-                <Text style={{fontSize:20}}>재생 횟수 : </Text>
-
-                <TextInput style={styles.inputStyle}
-                  label="repeat"
-                    onChangeText={(start_m) => setStart_m(start_m)}
-                    underlineColorAndroid="#f000"
-                    keyboardType="numeric"
-                    returnKeyType="next"
-                    maxlength={2}
-                    ref={repeat_Ref}
-                    onSubmitEditing={() =>
-                      start_s_Ref.current &&
-                      start_s_Ref.current.focus()
-                    }
-                    blurOnSubmit={false}
-                  />
-                <Text style={{fontSize:20, left : 180,top:-70}}> 회 </Text>
-          
-            </View> 
-
             
             <View style={styles.SectionStyle}>
                 <Text style={{fontSize:20}}>목표 BPM : </Text>
 
                 <TextInput style={styles.inputStyle}
                   label="minute"
-                    onChangeText={(start_m) => setStart_m(start_m)}
+                    onChangeText={(bpm) => setBpm(bpm)}
                     underlineColorAndroid="#f000"
                     keyboardType="numeric"
                     returnKeyType="next"

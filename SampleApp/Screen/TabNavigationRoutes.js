@@ -83,6 +83,31 @@ const homeScreenStack = (props) => {
         }
         }}
       />
+
+    <Stack.Screen
+        name="Config_screen1"
+        initialParams={{user_number: number,user_id:myName}}
+        component={Config_screen1}
+  
+        options={{
+          title: 'Home', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+            alignContent: 'center',
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+            textAlign:'center',
+            justifyContent: 'center',
+            alignContent: 'center',
+          },
+          defaultNavigationOptions: {
+            headerTitleAlign: 'center'
+        }
+        }}
+      />
+      
       <Stack.Screen
         name="TopTracks"
         initialParams={{user_number: number,user_id:myName}}
