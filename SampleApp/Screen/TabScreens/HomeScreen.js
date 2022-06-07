@@ -27,7 +27,6 @@ import TrackPlayer, {
 
 import PlayIcon from '../../Image/music/play.png';
 import PauseIcon from '../../Image/music/pause.png';
-import {musiclibrary} from '../../data';
 import PlayerModal from '../../components/TrackPlayerScreen';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -78,18 +77,8 @@ useEffect(
   [mode],
 );
 
-
-const setup = async () => {
-  await TrackPlayer.setupPlayer({});
-  await TrackPlayer.add(musiclibrary);
-};
-useEffect(() => {
-  setup();
-}, []);
-
   useEffect(() => {
-    console.log("aaaaa");
-    console.log(userId);
+
     async function fetchMusic() {
       const response = await axios({
         method:"GET",
@@ -97,16 +86,34 @@ useEffect(() => {
         //url: 'http://127.0.0.1:8080//api/music/list/all',
         //data : formBody
       });
+
+
       
-      console.log(response.data);
-      setMusic(response.data);
-      setLoading(false);
-  
+    response.data.map((item,index)=>{
+      item.url = "https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/"+item.s3Title;
+      item.artwork = item.musicImg_url;
+      item.duration = item.length;
+      item.artist = '';
+
+    });
+    setMusic(response.data);
+    setLoading(false);
+    console.log(response.data);
+
     }
     fetchMusic().catch(error=>{
       setLoading(false);
       alert("에러가 발생했습니다.");
     });
+
+    const setup = async () => {
+      await TrackPlayer.setupPlayer({});
+      await TrackPlayer.add(music);
+    };
+    setup().catch(error=>{
+      setLoading(false);
+      alert("에러가 발생했습니다.");
+    })
 
 
     
@@ -229,7 +236,7 @@ useEffect(() => {
     if(music!=[]||music!=null){
       return music.map((item,index) => {
           return (
-            <TouchableOpacity
+            <TouchableOpacity key={item.id}
             onPress={() => onSelectTrack(item, index)}>
               <View  style={styles.SectionStyle}>
                 <View>
