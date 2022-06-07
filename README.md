@@ -59,6 +59,7 @@ npm run ios
 ## 6. 어플리케이션 실행 조건
  1. javac, java 버전 모두 18이어야 합니다.
  2. Android SDK는 API 31, android 12.0 버전에서 구동되어야 합니다.
+ 3. NodeJs 버전은 16.14.2 버전을 사용해야 합니다.
 
  
   
