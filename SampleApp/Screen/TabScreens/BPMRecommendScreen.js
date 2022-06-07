@@ -104,6 +104,13 @@ const BPMRecommendScreen = ({route,navigation}) => {
             </View>
           </View>
 
+          <TouchableOpacity
+              style={styles.buttonStyle}
+              activeOpacity={0.5}
+              onPress={handleSubmitPress}>
+              <Text style={styles.buttonTextStyle}>로그인</Text>
+            </TouchableOpacity>
+
 
 
     </KeyboardAvoidingView>

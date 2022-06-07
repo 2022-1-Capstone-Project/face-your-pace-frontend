@@ -149,6 +149,10 @@ useEffect(()=>{
   };
 
   const onPressNext = () => {
+    if(selectedMusicIndex==(props.music.length-1)){
+      return;
+    }
+
     setSelectedMusic(
       props.music[(selectedMusicIndex + 1) % props.music.length],
     );

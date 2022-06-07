@@ -15,12 +15,13 @@ export default function TopTracks(props) {
           const url = 'http://52.41.225.196:8081/api/music/list/'+userId;
           const res = await axios.get(url);
           setMusic(
-            res.data.map((track) => ({
+            res.data.map((track,index) => ({
               duration: Number(track.length),
               title: track.title,
               artist: '',
               album: '',
               genre: '',
+              idx: index,
               date: '2014-05-20T07:00:00+00:00',
               id: track.id,
               url: 'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/'+track.s3Title, 
