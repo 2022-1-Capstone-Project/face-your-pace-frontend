@@ -16,7 +16,7 @@ import {
   ScrollView,
   Pressable
 } from 'react-native';
-
+import {musiclibrary} from '../../data';
 import TrackPlayer, {
   useTrackPlayerEvents,
   Event,
@@ -45,10 +45,10 @@ const events = [
 
 
 const HomeScreen = (props) => {
-  const [music,setMusic] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigation = props.navigation;
-  const userId = props.route.params.user_id
+  const userId = props.userId;
+  const [music,setMusic] = useState(props.music);
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
   var value = "";
 
 
@@ -77,47 +77,22 @@ useEffect(
   [mode],
 );
 
-  useEffect(() => {
 
-    async function fetchMusic() {
-      const response = await axios({
-        method:"GET",
-        url: 'http://52.41.225.196:8081/api/music/list/'+userId,
-        //url: 'http://127.0.0.1:8080//api/music/list/all',
-        //data : formBody
-      });
+async function setUp(music){
+  console.log(music);
+  await TrackPlayer.setupPlayer({});
+  await TrackPlayer.add(music);
+  
+}
 
+useEffect(()=>{
+    setUp(props.music).catch(error=>{
 
-      
-    response.data.map((item,index)=>{
-      item.url = "https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/"+item.s3Title;
-      item.artwork = item.musicImg_url;
-      item.duration = item.length;
-      item.artist = '';
-
+      console.log(error);
     });
-    setMusic(response.data);
-    setLoading(false);
-    console.log(response.data);
-
-    }
-    fetchMusic().catch(error=>{
-      setLoading(false);
-      alert("에러가 발생했습니다.");
-    });
-
-    const setup = async () => {
-      await TrackPlayer.setupPlayer({});
-      await TrackPlayer.add(music);
-    };
-    setup().catch(error=>{
-      setLoading(false);
-      alert("에러가 발생했습니다.");
-    })
+},[props.music]);
 
 
-    
-  }, []);
 
 
   
@@ -175,7 +150,7 @@ useEffect(
 
   const onPressNext = () => {
     setSelectedMusic(
-      musiclibrary[(selectedMusicIndex + 1) % musiclibrary.length],
+      music[(selectedMusicIndex + 1) % music.length],
     );
     setSelectedMusicIndex(selectedMusicIndex + 1);
     TrackPlayer.skipToNext();
@@ -187,7 +162,7 @@ useEffect(
       return;
     }
     setSelectedMusic(
-      musiclibrary[(selectedMusicIndex - 1) % musiclibrary.length],
+      music[(selectedMusicIndex - 1) % music.length],
     );
     setSelectedMusicIndex(selectedMusicIndex - 1);
     TrackPlayer.skipToPrevious();
@@ -307,7 +282,7 @@ useEffect(
             
   
             {
-              renderPlaylists(music)
+              renderPlaylists(props.music)
             }
            
 

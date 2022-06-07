@@ -1,6 +1,6 @@
 export var musiclibrary = [
   {
-    url: 'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/home.wav',
+    url:'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/Marigold.wav',
     title: 'home',
     artist: '',
     album: "",
@@ -39,6 +39,9 @@ export var musiclibrary = [
     date: '', // RFC 3339
     artwork: 'https://i1.sndcdn.com/artworks-000249024893-72v74f-large.jpg',
     duration: 153, // Duration in seconds
+    length:168,
+    music_url:'https://fyp-music.s3.ap-northeast-2.amazonaws.com/music/Marigold.wav',
+    absadfasfsadf: 'afdsafsadfsdaf'
   },
 
 ];

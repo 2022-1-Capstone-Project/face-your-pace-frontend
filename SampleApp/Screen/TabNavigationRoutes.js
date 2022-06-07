@@ -10,6 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Import Screens
 import HomeScreen from './TabScreens/HomeScreen';
+import TopTracks from './TabScreens/TopTracks';
 import PlayListScreen from './playlist/Playlist';
 import PlayListMusicScreen from './playlist/Playlist_music';
 import MusicAddScreenMain from './mypage/music_add';
@@ -39,7 +40,7 @@ const homeScreenStack = (props) => {
   props.name = myName;
   const number = userInfo.user_number;
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="TopTracks">
 
     <Stack.Screen
         name="MusicAddScreenMain"
@@ -59,11 +60,33 @@ const homeScreenStack = (props) => {
           },
         }}
       />
-
       <Stack.Screen
         name="HomeScreen"
         initialParams={{user_number: number,user_id:myName}}
-        component={HomeScreen}
+        component={TopTracks}
+  
+        options={{
+          title: 'Home', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+            alignContent: 'center',
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+            textAlign:'center',
+            justifyContent: 'center',
+            alignContent: 'center',
+          },
+          defaultNavigationOptions: {
+            headerTitleAlign: 'center'
+        }
+        }}
+      />
+      <Stack.Screen
+        name="TopTracks"
+        initialParams={{user_number: number,user_id:myName}}
+        component={TopTracks}
   
         options={{
           title: 'Home', //Set Header Title
