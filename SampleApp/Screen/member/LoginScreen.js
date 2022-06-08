@@ -32,7 +32,17 @@ function validateEmail(email) {
 
 
 const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
-
+const iosKeys = {
+  kConsumerKey: "kwchany",
+  kConsumerSecret: "kwchany1",
+  kServiceAppName: "테스트앱(iOS)",
+  kServiceAppUrlScheme: "testapp" // only for iOS
+};
+const androidKeys = {
+  kConsumerKey: "f2H9yNRsK3exdKOl2EHO",
+  kConsumerSecret: "h1Ql8ulzIM",
+  kServiceAppName: "FaceYourPace"
+};
 const LoginScreen = ({navigation}) => {
 
   const [userId, setUserId] = useState('');
