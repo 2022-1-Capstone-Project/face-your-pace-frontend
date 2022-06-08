@@ -17,6 +17,10 @@ https://dev-yakuza.posstree.com/ko/react-native/install-on-mac/ - 맥 버전
 위 링크를 참고해서 react-native 어플리케이션 실행을 위한 모든 
 세팅을 진행해야 합니다.
 
+ 1. javac, java 버전 모두 18이어야 합니다.
+ 2. Android SDK는 API 31, android 12.0 버전에서 구동되어야 합니다.
+ 3. NodeJs 버전은 LTS 버전을 사용해야 합니다. (최신 버전으로 설치하면 앱 자체가 구동이 안 될 수 있습니다.)
+
 ## 2. 자신의 가상환경에 진입해서 Git repo를 clone 한다
 
 git clone https://github.com/2022-1-Capstone-Project/face-your-pace-frontend.git .
@@ -55,11 +59,6 @@ npm run ios
  5.  에뮬레이터 이름은 가상 에뮬레이터의 이름을 의미하며 포트번호는 로컬에서 실행하는 백엔드 서버의 포트 번호를 의미합니다.
  6. 위 방법은 애플리케이션을 실행할 때마다 해당 명령어를 수행해야 한다는 단점이 있습니다.
  7. 로컬 서버가 아닌 외부 클라우드에서 여는 서버에 대해서는 해당 작업을 수행하지 않아도 됩니다.
-
-## 6. 어플리케이션 실행 조건
- 1. javac, java 버전 모두 18이어야 합니다.
- 2. Android SDK는 API 31, android 12.0 버전에서 구동되어야 합니다.
- 3. NodeJs 버전은 LTS 버전을 사용해야 합니다. (최신 버전으로 설치하면 앱 자체가 구동이 안 될 수 있습니다.)
 
  
   
