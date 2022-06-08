@@ -27,7 +27,7 @@ git clone https://github.com/2022-1-Capstone-Project/face-your-pace-frontend.git
 
 ## 3. frontend 디렉토리에 가서 리액트 패키지를 설치한다
 
-cd face-your-pace-frontend
+cd face-your-pace-frontend/SampleApp
 
 npm install
 
