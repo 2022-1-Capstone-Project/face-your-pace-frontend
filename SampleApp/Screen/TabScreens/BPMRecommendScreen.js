@@ -13,7 +13,8 @@ import {
   Button,
   KeyboardAvoidingView,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -65,6 +66,11 @@ const BPMRecommendScreen = ({route,navigation}) => {
 
   
 }, []);
+
+const handleSubmitPress = ()=>{
+
+  
+}
   //initialArr = fetchPlayListData();
   if (loading) {
     return (
@@ -107,8 +113,43 @@ const BPMRecommendScreen = ({route,navigation}) => {
           <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>로그인</Text>
+              onPress={() => {
+                Alert.alert(
+                  '로그아웃',
+                  '정말 로그아웃하시겠습니까?',
+                  [
+                    {
+                      text: 'Cancel',
+                      onPress: () => {
+                        return null;
+                      },
+                    },
+                    {
+                      text: 'Confirm',
+                      onPress: () => {
+                        //NaverLogin.logout();
+                        
+                        axios.post('http://127.0.0.1:8080/auth/logout',[])
+                        .then( function(response){
+                          AsyncStorage.clear();
+                          props.navigation.replace('Auth');
+                        }
+                          )
+                        .catch(error => {
+                            navigation.replace('Auth');
+                            //setErrortext('Error:'+ error.message);
+                            setNaverToken("");
+                            AsyncStorage.clear();
+                         
+                        });
+        
+                      },
+                    },
+                  ],
+                  {cancelable: false},
+                );
+              }}>
+              <Text style={styles.buttonTextStyle}>로그아웃</Text>
             </TouchableOpacity>
 
 
@@ -188,6 +229,8 @@ const styles = StyleSheet.create({
     color: '#000000',
     paddingVertical: 10,
     fontSize: 16,
+    left:175,
+    alignContent:'center'
   },
   inputStyle: {
     height:40,
