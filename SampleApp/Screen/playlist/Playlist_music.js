@@ -287,6 +287,10 @@ useEffect(()=>{
         />
       )}
         <ScrollView style={{backgroundColor:'white'}}>
+          <Text style={{
+            fontSize:30,
+            left: 150,
+          }}>{playlist_title}</Text>
         <View style={{flex: 1,backgroundColor:'white'}}>
           <View
             style={{

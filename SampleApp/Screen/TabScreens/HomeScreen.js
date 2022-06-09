@@ -84,19 +84,18 @@ useEffect(
 
 
 async function setUp(music){
-  console.log(music);
   await TrackPlayer.setupPlayer({});
   await TrackPlayer.add(music);
   
 }
 
 useEffect(()=>{
+  console.log(props.music);
     setUp(props.music).catch(error=>{
 
       console.log(error);
     });
 },[props.music]);
-
 
 
 
