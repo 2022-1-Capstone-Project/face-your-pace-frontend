@@ -13,6 +13,9 @@ import HomeScreen from './TabScreens/HomeScreen';
 import TopTracks from './TabScreens/TopTracks';
 import TopTracks2 from './TabScreens/TopTracks2';
 import TopTracks3 from './TabScreens/TopTracks3';
+import TopTracks4 from './TabScreens/TopTracks4';
+import TopTracks5 from './TabScreens/TopTracks5';
+
 import PlayListScreen from './playlist/Playlist';
 import PlayListMusicScreen from './playlist/Playlist_music';
 import MusicAddScreenMain from './mypage/music_add';
@@ -287,6 +290,43 @@ const playListScreenStack = (props) => {
         name="TopTracks3"
         initialParams={{user_number: number,user_id:myName}}
         component={TopTracks3}
+        options={{
+          title: 'music', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="TopTracks4"
+        initialParams={{user_number: number,user_id:myName}}
+        component={TopTracks4}
+        options={{
+          title: 'music', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
+
+<Stack.Screen
+        name="TopTracks5"
+        initialParams={{user_number: number,user_id:myName}}
+        component={TopTracks5}
         options={{
           title: 'music', //Set Header Title
           headerStyle: {

@@ -91,9 +91,10 @@ const onSubmitMusic = (id)=>{
       setLoading(false);
       if (response.data!=false) {
         console.log("asdfasdf");
+        console.log(userId);
+        console.log(playlist_title);
         alert("음악 추가에 성공하였습니다.");
-       
-        navigation.replace('PlayListScreen',{params:{user_id:userId,user_number:userNumber}});
+        navigation.replace('TopTracks5',{params:{user_id:userId,playlist_title:title,music:music}});
       }
 
     }

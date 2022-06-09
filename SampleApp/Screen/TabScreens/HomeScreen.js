@@ -3,6 +3,7 @@
 
 // Import React and Component
 import React, {useState, createRef, useEffect } from 'react';
+
 import {
   ActivityIndicator,
   View,
@@ -76,6 +77,10 @@ useEffect(
       : TrackPlayer.setRepeatMode(RepeatMode.Off),
   [mode],
 );
+
+
+
+
 
 
 async function setUp(music){
@@ -383,7 +388,7 @@ imgStyle2:{
 },
 imgStyle3:{
 
-  width: '30%',
+  width: '50%',
   height: 50,
   resizeMode: 'contain',
   position: 'relative',

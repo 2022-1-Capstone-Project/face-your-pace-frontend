@@ -27,7 +27,7 @@ import TrackPlayer, {
 
 import PlayIcon from '../../Image/music/play.png';
 import PauseIcon from '../../Image/music/pause.png';
-import PlayerModal from '../../components/TrackPlayerScreen';
+import PlayerModal from '../../components/TrackPlayerScreen3';
 import LinearGradient from 'react-native-linear-gradient';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -77,7 +77,7 @@ const handleSubmit=()=>{
     
   TrackPlayer.pause();
   navigation.navigate(
-    'TopTracks3',{params:{user_id:userId, playlist_title:playlist_title}}
+    'TopTracks4',{params:{user_id:userId, playlist_title:playlist_title}}
   )
   
 }
@@ -90,7 +90,7 @@ useEffect(
 );
 
 
-async function setUp(music){
+/*async function setUp(music){
   await TrackPlayer.setupPlayer({});
   await TrackPlayer.add(music);
   
@@ -101,7 +101,7 @@ useEffect(()=>{
 
       console.log(error);
     });
-},[props.music]);
+},[props.music]);*/
 
 
 
@@ -163,9 +163,9 @@ useEffect(()=>{
     if(selectedMusicIndex==(props.music.length-1)){
       return;
     }
-
+    var idx =  props.music[(selectedMusicIndex + 1) % props.music.length].idx;
     setSelectedMusic(
-      props.music[(selectedMusicIndex + 1) % props.music.length],
+      idx
     );
     setSelectedMusicIndex(selectedMusicIndex + 1);
     TrackPlayer.skipToNext();
@@ -176,8 +176,10 @@ useEffect(()=>{
     if (selectedMusicIndex === 0) {
       return;
     }
+    var idx =  props.music[(selectedMusicIndex-1) % props.music.length].idx;
     setSelectedMusic(
-      props.music[(selectedMusicIndex - 1) % props.music.length],
+     // props.music[(selectedMusicIndex - 1) % props.music.length],
+     props.music[idx]
     );
     setSelectedMusicIndex(selectedMusicIndex - 1);
     TrackPlayer.skipToPrevious();
@@ -188,7 +190,7 @@ useEffect(()=>{
     return (
       <>
         {index === 0 && <PlaylistImageView />}
-        <TouchableOpacity onPress={() => onSelectTrack(item, index)}>
+        <TouchableOpacity onPress={() => onSelectTrack(item, item.idx)}>
           <View>
             <Text style={styles.musicTitle}>{item.title}</Text>
             <Text style={styles.artisteTitle}>{item.artist}</Text>
@@ -228,7 +230,7 @@ useEffect(()=>{
           return (
             <View>
               <TouchableOpacity key={item.id}
-              onPress={() => onSelectTrack(item, index)}>
+              onPress={() => onSelectTrack(item, item.idx)}>
                 <View  style={styles.SectionStyle}>
                   <View>
                     <Image

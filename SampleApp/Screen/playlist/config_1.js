@@ -135,8 +135,10 @@ const Config_screen1 = ({route,navigation}) => {
     }).then((res)=>{
       if (res.data==true) {
         alert("음악 설정 변경에 성공했습니다..");
+        
         setLoading(false);
         navigation.replace('TopTracks',{params:{user_id:userId,user_number:userNumber}});
+       
       }
       else{
         setLoading(false);
