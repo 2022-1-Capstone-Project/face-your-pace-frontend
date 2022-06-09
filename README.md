@@ -1,10 +1,6 @@
 # face-your-pace-frontend
 
 
-
-실행 UI 화면은 Screens 폴더에 있습니다.
-
-
 # 설치 방법
 
 ## 1. 선행조건
