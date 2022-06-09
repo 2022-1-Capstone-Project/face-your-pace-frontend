@@ -2,339 +2,493 @@
 // https://aboutreact.com/react-native-login-and-signup/
 
 // Import React and Component
-import React, {useState, useEffect} from 'react';
-
-import axios from 'axios';
+import React, {useState, createRef, useEffect } from 'react';
 import {
   ActivityIndicator,
   View,
   StyleSheet,
   Image,
   Button,
+  Text,
   KeyboardAvoidingView,
-  TouchableOpacity
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+  Pressable
 } from 'react-native';
+import {musiclibrary} from '../../data';
+import TrackPlayer, {
+  useTrackPlayerEvents,
+  Event,
+  State,
+  useProgress,
+  RepeatMode,
+} from 'react-native-track-player';
 
-import { useNavigation } from '@react-navigation/native';
-import { Searchbar,Text,TextInput } from 'react-native-paper';
-import {LinesLoader} from 'react-native-indicator';
+import PlayIcon from '../../Image/music/play.png';
+import PauseIcon from '../../Image/music/pause.png';
+import PlayerModal from '../../components/TrackPlayerScreen';
+import LinearGradient from 'react-native-linear-gradient';
+
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 import Loader from '../Components/Loader';
+import { useNavigation } from '@react-navigation/native';
 
-import Icon from 'react-native-vector-icons/Ionicons';
-import Ionicons from 'react-native-vector-icons/dist/Ionicons';
-import { ScrollView } from 'react-native-gesture-handler';
-
-
-
-
-
-const PlayListMusicScreen = ({route,navigation}) => {
-  //State for ActivityIndicator animation
-  const [animating, setAnimating] = useState(true);
-  const playlist_title = route.params.playlist_title;
-  const userId = route.params.user_id;
-  const [music,setMusic] = useState('');
-  const [loading,setLoading] = useState(true);
-  //initialArr = fetchPlayListData();
-
-  console.log(playlist_title);
+const events = [
+  Event.PlaybackState,
+  Event.PlaybackError,
+  Event.RemotePlay,
+  Event.RemotePause,
+];
 
 
+const PlayListMusicScreen = (props) => {
+  const userId = props.userId;
+  const playlist_title = props.playlist_title;
+  const [music,setMusic] = useState(props.music);
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
+  var value = "";
+
+
+
+  const [selectedMusic, setSelectedMusic] = useState(null);
+  const [selectedMusicIndex, setSelectedMusicIndex] = useState(null);
+  const [isPlayerModalVisible, setisPlayerModalVisible] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [timestamp, setTimestamp] = useState(0);
+  const [mode, setMode] = useState('shuffle');
+
+  const {position} = useProgress();
+  AsyncStorage.setItem("playlist_title",playlist_title);
+  /*const setup = async () => {
+    await TrackPlayer.setupPlayer({});
+    await TrackPlayer.add(musiclibrary);
+  };
   useEffect(() => {
-
-    async function fetchMusic() {
-      const response = await axios({
-        method:"GET",
-        url: 'http://52.41.225.196:8081/api/music/list/'+userId+'/'+playlist_title,
-        //url: 'http://127.0.0.1:8080//api/music/list/all',
-        //data : formBody
-      });
-      console.log("asdfasdfsa");
-      console.log(response.data);
-      setMusic(response.data);
-      setLoading(false);
-  
-    }
-    fetchMusic().catch(error=>{
-      setLoading(false);
-      alert("에러가 발생했습니다.");
-    });
-
-
-    
+    setup();
   }, []);
+*/
 
 
-  const renderPlaylists=(initialArr)=> {
+
+const handleSubmit=()=>{
+    
+  TrackPlayer.pause();
+  navigation.navigate(
+    'TopTracks3',{params:{user_id:userId, playlist_title:playlist_title}}
+  )
+  
+}
+useEffect(
+  () =>
+    mode === 'off'
+      ? TrackPlayer.setRepeatMode(RepeatMode.Queue)
+      : TrackPlayer.setRepeatMode(RepeatMode.Off),
+  [mode],
+);
+
+
+async function setUp(music){
+  await TrackPlayer.setupPlayer({});
+  await TrackPlayer.add(music);
+  
+}
+
+useEffect(()=>{
+    setUp(props.music).catch(error=>{
+
+      console.log(error);
+    });
+},[props.music]);
+
+
+
+
+  
+
+
+
+  useTrackPlayerEvents(events, event => {
+    if (event.type === Event.PlaybackError) {
+      console.warn('An error occured while playing the current track.');
+    }
+    if (event.type === Event.PlaybackState) {
+      console.log(event.type);
+    }
+    if (event.type === Event.RemotePlay) {
+      console.log('event.type');
+    }
+    if (event.type === Event.RemotePause) {
+      console.log(event.type);
+    }
+  });
+
+  const onSelectTrack = async (selectedTrack, index) => {
+    setSelectedMusic(selectedTrack);
+    setTimestamp(0);
+    setSelectedMusicIndex(index);
+    TrackPlayer.skip(index);
+    playOrPause();
+  };
+
+  TrackPlayer;
+
+  const playOrPause = async isCurrentTrack => {
+    const state = await TrackPlayer.getState();
+    if (state === State.Paused && isCurrentTrack) {
+      setIsPlaying(!isPlaying);
+      TrackPlayer.play();
+      return;
+    }
+
+    if (state === State.Playing && isCurrentTrack) {
+      setIsPlaying(!isPlaying);
+      TrackPlayer.pause();
+      return;
+    }
+    setIsPlaying(true);
+    TrackPlayer.play();
+  };
+
+  const setVolume = (volume)=>{
+    TrackPlayer.setVolume(volume);
+  }
+  const onSeekTrack = newTimeStamp => {
+    TrackPlayer.seekTo(newTimeStamp);
+  };
+
+  const onPressNext = () => {
+    if(selectedMusicIndex==(props.music.length-1)){
+      return;
+    }
+
+    setSelectedMusic(
+      props.music[(selectedMusicIndex + 1) % props.music.length],
+    );
+    setSelectedMusicIndex(selectedMusicIndex + 1);
+    TrackPlayer.skipToNext();
+    playOrPause();
+  };
+
+  const onPressPrev = () => {
+    if (selectedMusicIndex === 0) {
+      return;
+    }
+    setSelectedMusic(
+      props.music[(selectedMusicIndex - 1) % props.music.length],
+    );
+    setSelectedMusicIndex(selectedMusicIndex - 1);
+    TrackPlayer.skipToPrevious();
+    playOrPause();
+  };
+
+  const renderSingleMusic = ({item, index}) => {
+    return (
+      <>
+        {index === 0 && <PlaylistImageView />}
+        <TouchableOpacity onPress={() => onSelectTrack(item, index)}>
+          <View>
+            <Text style={styles.musicTitle}>{item.title}</Text>
+            <Text style={styles.artisteTitle}>{item.artist}</Text>
+          </View>
+        </TouchableOpacity>
+      </>
+    );
+  };
+
+
+  
+
+  //AsyncStorage.getItem('user_id').then((val) =>
+ // value=val);
+  /*let dataToSend = {userId:userId};
+    var formBody = [];
+    for (var key in dataToSend) {
+      var value = dataToSend[key];
+      formBody.push(key + '=' + value);
+    }
+    formBody = formBody.join('&');*/
+  
+
+
+
+  
+
+
+
+  const renderPlaylists=(music)=> {
+
+  
+    const imgUrl= require('../../Image/playlist/music2.png')
 
     if(music!=[]||music!=null){
-      return initialArr.map((item) => {
-          return (
-            <View key = {item.id} style={styles.SectionStyle}>
-              <View>
-                <Image
-                      source={require('../../Image/playlist/music2.png')}
-                      style={styles.imgStyle}
-                />
-                <Text style={styles.playlistTextStyle}>
-                      {item.title}
-                </Text>
-    
-                <TouchableOpacity
-                onPress={()=>navigation.navigate("Config_screen1",{
-                  music_id: item.id,
-                  music_title:item.title
-                })}>
-    
-                  <Image
-                        source={item.configUrl}
-                        style={styles.imgStyle2}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
-      });
-  }
-  };
-  
-
-  const handleSubmit=()=>{
-    AsyncStorage.getItem('user_id').then((value) =>
-        navigation.navigate(
-          'MusicAddScreen',{params:{user_id:value}}
-        ),
-      );
-    
-  }
-  const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = query => setSearchQuery(query);
-
-
-
-
-      //Check if user_id is set or not
-      //If not then send for Authentication
-      //else send to Home Screen
-
-      /*fetch('http://127.0.0.1:8080/mypage/playlist', {
-        method: 'POST',
-        body: formBody,
-        headers: {
-          //Header Defination
-          'Content-Type':
-          'application/x-www-form-urlencoded;charset=UTF-8',
-        },
-      })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          //Hide Loader
-          setLoading(false);
-          console.log(responseJson);
-          // If server response message same as Data Matched
-          if (responseJson.status === 'success') {
-            AsyncStorage.setItem('user_id', responseJson.data.email);
-            console.log(responseJson.data.email);
-            navigation.replace('DrawerNavigationRoutes');
-          } else {
-            setErrortext(responseJson.msg);
-            console.log('이메일 ID와 비밀번호를 확인해주시기 바랍니다!');
-          }
-        })
-        .catch((error) => {
-          //Hide Loader
-          setLoading(false);
-          console.error(error);
-        });*/
-
-        if (loading) {
+      return music.map((item,index) => {
           return (
             <View>
-              <Loader loading={loading} />
+              <TouchableOpacity key={item.id}
+              onPress={() => onSelectTrack(item, index)}>
+                <View  style={styles.SectionStyle}>
+                  <View>
+                    <Image
+                          source={imgUrl}
+                          style={styles.imgStyle}
+                    />
+                    <Text style={styles.playlistTextStyle}>
+                          {item.title}
+                    </Text>
+                    
+                  </View>
+                </View>
+              </TouchableOpacity>
+             
             </View>
-            )
-        }
+            
+          );
+        });
+    
+    }
+  };
 
-  else{
 
 
-    return (
-        <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} 
-        enabled style={styles.mainBody} >
 
-        <ScrollView style={{ width:'100%',flex:1}}>
-          <View style={styles.SectionStyle}>
-                      <TouchableOpacity  activeOpacity={0.5}
-                      onPress={handleSubmit}
+    if (loading) {
+      return (
+        <View>
+          <Loader loading={loading} />
+        </View>
+        )
+    }
+    else{
+      return(
+
+        <SafeAreaView style={{flex: 1}}>
+
+{selectedMusic && (
+        <PlayerModal
+          onCloseModal={() => setisPlayerModalVisible(false)}
+          isVisible={isPlayerModalVisible}
+          isPlaying={isPlaying}
+          playOrPause={playOrPause}
+          selectedMusic={selectedMusic}
+          onSeekTrack={onSeekTrack}
+          timestamp={Math.round(position)}
+          onPressNext={onPressNext}
+          onPressPrev={onPressPrev}
+          playbackMode={mode}
+          setVolume = {setVolume}
+          onClickLoop={() =>
+            mode === 'loop' ? setMode('loop') : setMode('off')
+          }
+        />
+      )}
+        <ScrollView style={{backgroundColor:'white'}}>
+        <View style={{flex: 1,backgroundColor:'white'}}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'flex-start',
+              justifyContent:'center',
+            }}>
+            
+  
+            {
+              renderPlaylists(props.music)
+            }
+           
+
+
+       
+  
+  
+         
+            <TouchableOpacity  activeOpacity={0.5} style={{height:100}}
+                       onPress={handleSubmit}
                       >
                         <Image
                               source={require('../../Image/playlist/add.png')}
-                              style={styles.imgStyle3}
+                              style={styles.imgStyle2}
                         />
                         <Text style={styles.addTextStyle}>
                               음악 추가하기
                         </Text>
-                    </TouchableOpacity>
-            </View>
-        
-              {
+                  
+              </TouchableOpacity>
 
-                    renderPlaylists(music)
-              }
               
-            </ScrollView>
+          </View>
+         
+        </View>
+        </ScrollView>
         
-
-
-      </KeyboardAvoidingView>
+        {selectedMusic && (
+            <Pressable onPress={() => setisPlayerModalVisible(true)}>
+              <View style={[styles.widgetContainer, {}]}>
+                <View style={{flexDirection: 'row'}}>
+                  <Image
+                    resizeMode="cover"
+                    source={{uri: selectedMusic.artwork}}
+                    style={styles.widgetImageStyle}
+                  />
+                  <View>
+                    <Text style={styles.widgetMusicTitle}>
+                      {selectedMusic.title}
+                    </Text>
+                  </View>
+                </View>
+                <Pressable onPress={() => playOrPause(true)}>
+                  <Image
+                    source={isPlaying ? PauseIcon : PlayIcon}
+                    style={{height: 30, tintColor: '#fff', width: 30, right:50,}}
+                  />
+                </Pressable>
+              </View>
+            </Pressable>
+           )}
+      </SafeAreaView>
     );
-            }
+
+    }
+
 };
 
-export default PlayListMusicScreen;
 
 const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
 
-  header:{
-    height: 40,
-    marginTop: 20,
-    marginBottom: 40,
-    marginHorizontal:20,
-  },
-  SectionStyle: {
-    flex:1,
-    flexdirection: 'row',
-    justifyContent:'space-between',
-    alignContent: 'center',
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    height: 100,
-  },
+imgStyle:{
 
-  body:{
-    flex:1,
-  },
-  buttonStyle: {
-    backgroundColor: '#fffff',
-    borderWidth: 0,
-    color: '#FFFFFF',
-    borderColor: '#dadae8',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop:20,
-    marginBottom: 25,
-    borderWidth: 1,
-  },
-  buttonStyle2: {
-    backgroundColor: '#03C75A',
-    borderWidth: 0,
-    color: '#FFFFFF',
-    borderColor: '#dadae8',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginBottom: 25,
-    borderWidth: 1,
-  },
-  buttonTextStyle: {
-    color: '#000000',
-    paddingVertical: 10,
-    fontSize: 16,
-  },
-  inputStyle: {
-    flex: 1,
-    color: 'black',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 30,
-    borderColor: '#dadae8',
-  },
+  flex: 1,
+  height:'100%',
+  width:100,
+  left:20,
+  resizeMode: 'contain',
+},
+imgStyle2:{
 
-  registerTextStyle: {
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  registerTextStyle1: {
-    color: '#000000',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 14,
-    alignSelf: 'center',
-    padding: 30,
-  },
-  registerTextStyle2:{
-    color: '#1AE162',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 14,
-    alignSelf: 'center',
-    padding: 30,
-
-  },
-
-
- imgStyle:{
-
-      width: '30%',
-      height: 100,
-      borderWidth: 5,
-      resizeMode: 'contain',
-      borderColor: '#dadae8',
-      position: 'absolute',
-      left:0
- },
- imgStyle2:{
+  flex: 1,
+  height:'100%',
+  width:100,
+  left:20,
+  resizeMode: 'contain',
+},
+imgStyle3:{
 
   width: '30%',
   height: 50,
   resizeMode: 'contain',
   position: 'relative',
-  top:30,
+  top:-80,
   left:260
 },
-imgStyle3:{
-
-  width: '30%',
+SectionStyle: {
+  flexDirection: 'row',
   height: 100,
-  resizeMode: 'contain',
-  position: 'absolute',
-  left:0
-},
- playlistTextStyle:{
-    width: '50%',
-    height: 100,
-    position:'absolute',
-    top:45,
-    right:0
- },
-  errorTextStyle: {
-    color: 'red',
-    textAlign: 'center',
-    fontSize: 14,
-  },
-  registrationStyle: {
-    justifyContent:'center'
-  },
-  addTextStyle:{
-    width: '60%',
-    height: 100,
-    position:'absolute',
-    top:40,
-    fontSize:20,
-    right:10
-  },
 
-  
+},
+addTextStyle:{
+  width: '60%',
+  position:'absolute',
+  top:30,
+  left:150,
+  fontSize:20,
+},
+textStyle1:{
+  width: '100%',
+  height: 100,
+  fontSize:20,
+},
+
+
+playlistTextStyle:{
+width: '100%',
+width:250,
+height: 100,
+position:'absolute',
+top:20,
+fontSize:20,
+left:100,
+},
+errorTextStyle: {
+color: 'red',
+textAlign: 'center',
+fontSize: 14,
+},
+registrationStyle: {
+justifyContent:'center'
+},
+
+container: {
+  flex: 1,
+  backgroundColor: '#191414',
+},
+musicTitle: {
+  fontSize: 22,
+  color: '#fff',
+  fontWeight: '500',
+  marginTop: 12,
+  marginHorizontal: 20,
+  marginBottom: 1,
+},
+artisteTitle: {
+  fontSize: 16,
+  color: '#fff',
+  opacity: 0.8,
+  marginHorizontal: 20,
+  marginBottom: 12,
+  marginTop: 1,
+},
+widgetContainer: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  paddingHorizontal: 0,
+  height: 60,
+  width: '100%',
+  backgroundColor: '#5E5A5A',
+},
+widgetMusicTitle: {
+  fontSize: 18,
+  color: '#fff',
+  fontWeight: '500',
+  marginTop: 12,
+  marginHorizontal: 10,
+  marginBottom: 1,
+},
+widgetArtisteTitle: {
+  fontSize: 14,
+  color: '#fff',
+  opacity: 0.8,
+  marginHorizontal: 10,
+  marginBottom: 12,
+  marginTop: 1,
+},
+widgetImageStyle: {
+  width: 55,
+  height: 60,
+  marginTop: 3,
+},
+linearGradient: {
+  width: '100%',
+  height: 250,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+shuffleButton: {
+  color: '#fff',
+  fontSize: 24,
+  fontWeight: 'bold',
+},
+shuffleButtonContainer: {
+  paddingVertical: 15,
+  paddingHorizontal: 35,
+  borderRadius: 40,
+  alignSelf: 'center',
+  backgroundColor: '#1DB954',
+},
+
+
+
 });
+export default PlayListMusicScreen;

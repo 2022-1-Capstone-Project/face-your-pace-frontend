@@ -40,12 +40,11 @@ const PlayListScreen = (props) => {
   const [userId,setUserId] = useState('');
 
 
-
   useEffect(() => {
 
     var data = "";
     const number = props.route.params.user_number;
-    const userId = props.route.params.userId
+    const userId = props.route.params.user_id
     setUserId(userId);
    // setUserNumber(val);
     
@@ -75,8 +74,8 @@ const PlayListScreen = (props) => {
           return (
             <View key = {item.id} style={styles.SectionStyle}>
               <TouchableOpacity  activeOpacity={0.5}
-                onPress={()=>navigation.navigate("PlayListMusicScreen",{
-                  playlist_title:item.name, user_id:userId
+                onPress={()=>navigation.navigate("TopTracks2",{
+                  playlist_title:item.name, user_id:props.route.params.user_id
                 })}
               >
                 <Image

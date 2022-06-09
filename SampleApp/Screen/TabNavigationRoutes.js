@@ -12,6 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './TabScreens/HomeScreen';
 import TopTracks from './TabScreens/TopTracks';
 import TopTracks2 from './TabScreens/TopTracks2';
+import TopTracks3 from './TabScreens/TopTracks3';
 import PlayListScreen from './playlist/Playlist';
 import PlayListMusicScreen from './playlist/Playlist_music';
 import MusicAddScreenMain from './mypage/music_add';
@@ -281,6 +282,25 @@ const playListScreenStack = (props) => {
           },
         }}
       />
+
+<Stack.Screen
+        name="TopTracks3"
+        initialParams={{user_number: number,user_id:myName}}
+        component={TopTracks3}
+        options={{
+          title: 'music', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ffffff', //Set Header color
+          },
+          headerTintColor: '#000', //Set Header text color
+          headerTitleStyle: {
+            justifyContent: 'center',
+            alignContent: 'center',
+            textAlign:'center',
+            fontWeight: 'bold' //Set Header text style
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -402,13 +422,16 @@ const TabNavigationRoutes = (props) => {
       <Tab.Screen name="homeScreenStack" 
       initialParams={{user_number: number,user_id:myName}}
       component={homeScreenStack} />
+         <Tab.Screen name="playListScreenStack" 
+       initialParams={{user_number: number,user_id:myName}}
+      component={playListScreenStack} />
       <Tab.Screen name="UserUpdateScreenStack" 
        initialParams={{user_number: number,user_id:myName}}
       component={UserUpdateScreenStack} />
        <Tab.Screen name="BPMRecommendScreen" 
        initialParams={{user_number: number,user_id:myName}}
       component={BPMRecommendScreen} />
-
+    
     </Tab.Navigator>
   );
 };

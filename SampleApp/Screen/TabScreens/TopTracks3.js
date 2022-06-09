@@ -1,18 +1,16 @@
 
-import HomeScreen from './HomeScreen';
-import PlayListMusicScreen  from '../playlist/Playlist_music';
-import TrackPlayer from 'react-native-track-player';
 import React, {useState, createRef, useEffect } from 'react';
 import axios from 'axios';
 import  {musiclibrary} from '../../data';
-export default function TopTracks2(props) {
+import MusicAddScreen from '../playlist/music_add';
+export default function TopTracks3(props) {
     const [music, setMusic] = useState([]);
     const userId = props.route.params.user_id;
     const playlist_title = props.route.params.playlist_title;
     useEffect(() => {
       const loadData = async () => {
         try {
-          const url = 'http://52.41.225.196:8081/api/music/list/'+userId+'/'+playlist_title;
+          const url = 'http://52.41.225.196:8081/api/music/list/'+userId;
           const res = await axios.get(url);
           setMusic(
             res.data.map((track,index) => ({
@@ -39,5 +37,5 @@ export default function TopTracks2(props) {
 
     }, []);
   
-    return <PlayListMusicScreen music={music} userId = {userId} playlist_title = {playlist_title}/>;
+    return <MusicAddScreen music={music} userId = {userId} playlist_title = {playlist_title}/>;
   }
