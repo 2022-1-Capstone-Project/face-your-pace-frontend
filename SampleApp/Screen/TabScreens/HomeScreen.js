@@ -219,7 +219,7 @@ useEffect(()=>{
     if(music!=[]||music!=null){
       return music.map((item,index) => {
           return (
-            <View>
+            <View style={{flex:1}}>
               <TouchableOpacity key={item.id}
               onPress={() => onSelectTrack(item, index)}>
                 <View  style={styles.SectionStyle}>
@@ -387,12 +387,12 @@ imgStyle2:{
 },
 imgStyle3:{
 
-  width: '50%',
+  width: '100%',
   height: 50,
   resizeMode: 'contain',
   position: 'relative',
-  top:-80,
-  left:260
+  top:0,
+  left:150
 },
 SectionStyle: {
   flexDirection: 'row',
